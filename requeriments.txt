@@ -1,0 +1,9 @@
+django==3.2
+django-ckeditor
+Pillow==9.0.0
+pylint==2.12.2
+pylint-django==2.5.0
+pylint-celery==0.3
+psycopg2==2.9.1
+gunicorn==19.10
+

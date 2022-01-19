@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  dbadmin:
+    image: postgres:14
+    environment:
+     - POSTGRES_PASSWORD=""
+    volumes:
+      - ./db_admin:/var/lib/postgresql/data
+
+  admin: #el que se definió en /nginx/local.conf
+    build: .
+    volumes:
+      - ./admin/static:/static
+      - .:/code
+    depends_on:
+      - dbadmin
+
+  nginx:
+    image: nginx:1.21
+    ports:
+      - 8000:80 #el 80 es del contenedor, el 8000 es de la maquina física
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d #ubicacion local:ubicacion contenedor
+      - ./admin/static:/static
+    depends_on:
+      - dbadmin
+
+volumes:
+  .:
+  db_admin:
+  static:
