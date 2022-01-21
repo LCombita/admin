@@ -9,12 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-x^1kp$sy_n!2$r(kqkz02%#=65v!+#ghyf7yoz_d@*3=!m&7!!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -55,7 +53,7 @@ ROOT_URLCONF = 'admin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #hacer los templates en un directorio fuera de la 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #asignar el User de la app registration como predeterminado para control de ingresos
 AUTH_USER_MODEL = 'registration.User'
+
+#redireccionar la página al inciar la sesión en login
+LOGIN_REDIRECT_URL = 'registration:home'
