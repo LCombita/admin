@@ -35,6 +35,9 @@
                 </div>
               </div>
             </div>
+            {% if form.non_field_errors %}
+              <p style="color:red" class="login-box-msg">Usuario o contraseña incorrectos, intente nuevamente.</p>
+            {% endif %}
             <div class="row">
               <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block">iniciar sesión</button>
