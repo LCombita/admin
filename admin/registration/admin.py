@@ -22,7 +22,7 @@ class UserAdmin(BaseUserAdmin):
             'fields':('username', 'email', 'password1', 'password2')
          }),
     )
-    list_display = ('email', 'first_name', 'last_name2')
+    list_display = ('email', 'first_name', 'last_name2','es_administrador')
     list_filter = ('is_staff','is_active',)
     search_fields = ('first_name', 'email',)
     orderin = ('first_name',)

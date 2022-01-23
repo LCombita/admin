@@ -55,8 +55,9 @@
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo, menú vertical PANEL principal -->
         <a href="{% url 'registration:home' %}" class="brand-link">
-          <img src="{% static 'registration/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-          <span class="brand-text font-weight-light"><h4>AdmIN|Notaria 3</h4></span>
+          <img src="{% static 'registration/dist/img/logo.png' %}" class="brand-image">
+          <!-- <img src="{% static 'registration/dist/img/logo-ok2.png' %}" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+          <span class="brand-text font-weight-light"><h5>Notaría3Medellín</h5></span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar">
@@ -64,7 +65,7 @@
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             {% if user.is_authenticated %}
               <div class="image">
-                <img src="{% static 'registration/dist/img/user.png' %}" class="img-circle elevation-2" alt="User Image">
+                <img src="{% static 'registration/dist/img/login.png' %}" class="img-circle elevation-2" alt="User Image">
               </div>
               <div class="info">
                 <a href="#" class="d-block">|{{user.username}}|</a>
@@ -74,7 +75,7 @@
               </div>
               {% else %}
                 <div class="image">
-                  <img src="{% static 'registration/dist/img/nouser.png' %}" class="img-circle elevation-2" alt="User Image">
+                  <img src="{% static 'registration/dist/img/no-login.png' %}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                   <a href="{% url 'login' %}" class="d-block"><h4>Iniciar Sesión<h4></a>
@@ -127,7 +128,7 @@
                   </li>
                 </ul>
               </li>
-              {% if request.user.group == 'administrador' %}
+              {% if user.es_administrador%}
                 <li class="nav-header">GESTIÓN DE USUARIOS</li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">

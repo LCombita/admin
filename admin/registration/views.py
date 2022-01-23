@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 
 """El login es gestionado por el sistema de autenticación predeterminado de django, para esta
@@ -8,3 +7,5 @@ el  predeterminado de django, en este caso solo se pasa la url 'logout' en el te
 class HomePageView(TemplateView):
     """procesa el template 'registration/home.html' que representa el inicio del proyecto AdmIN"""
     template_name = 'registration/home.html'
+
+    
