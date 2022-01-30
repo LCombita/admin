@@ -169,20 +169,9 @@
             <!-- Main row -->
             <div class="row">
               <section class="col-lg-12 connectedSortable" >
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title"> 
-                      {% block titlecontent %}{% endblock titlecontent %} 
-                    </h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="tab-content p-0">
-                      {% block content %}
-                      
-                      {% endblock content %}
-                    </div>
-                  </div>
-                </div>
+                {% block content %}
+                
+                {% endblock content %}
               </section>
             </div>
             <!-- /.Main Row -->

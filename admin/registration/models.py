@@ -19,7 +19,7 @@ class User(AbstractUser):
         max_length=100, blank=True, null=True,
         verbose_name='Segundo Apellido')
     identification = models.CharField(
-        max_length=15, unique=True,
+        max_length=15, unique=True, null=True,
         help_text='Debe ingresar una identificacion',
         verbose_name='Identificacion')
     
