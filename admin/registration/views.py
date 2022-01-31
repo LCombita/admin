@@ -1,4 +1,5 @@
-from django.views.generic import TemplateView, CreateView, UpdateView
+from pyexpat import model
+from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.urls import reverse_lazy
 from django import forms
 from .models import DataGrantor, Grantor
@@ -52,10 +53,15 @@ class DataGrantorView(UpdateView):
     template_name = 'registration/datagrantor_form.html'
     success_url = reverse_lazy('registration:home')
 
+
+class GrantorListView(ListView):
+    model = Grantor
+    paginate_by = 10
+
     """
     template_name_suffix = '_update_form'
     def get_object(self):
-        #recuperar el objete a editar
+        #recuperar el objeto a editar
         datagrantor, create = DataGrantor.objects.get_or_create(user=self.request.user)
         return datagrantor
         """
