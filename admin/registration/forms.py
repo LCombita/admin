@@ -1,10 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import  Grantor, DataGrantor
 
 
 class CreateGrantorForm(UserCreationForm):
-    
+
     class Meta:
         model = Grantor
         fields = [
@@ -12,7 +12,16 @@ class CreateGrantorForm(UserCreationForm):
             'first_name', 'last_name', 'last_name2', 'identification']
 
 
+class UpdateGrantorForm(UserChangeForm):
+
+    class Meta:
+        model = Grantor
+        fields = [
+            'username', 'email', 'password', 'first_name', 'last_name', 'last_name2', 'identification']
+
+
 class DataGrantorForm(forms.ModelForm):
+    
     class Meta:
         model = DataGrantor
         fields = ['phone', 'address']
