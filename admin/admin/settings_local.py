@@ -71,7 +71,8 @@ WSGI_APPLICATION = 'admin.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-DATABASES = {
+#TODO: DEVOLVER ESTO A POSTGRESS
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME':'db_admin',
@@ -80,7 +81,15 @@ DATABASES = {
         'HOST':'dbadmin',
         'PORT':'5432'
     }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'dbadmin',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -117,12 +126,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static/'
-#STATICFILES_DIRS = [ BASE_DIR / "static", ]
+#TODO: quitar comentarios a las siguientes
+#STATIC_ROOT = 'static/'
+STATICFILES_DIRS = [ BASE_DIR / "static", ]
                                             
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #asignar el User de la app registration como predeterminado para control de ingresos
