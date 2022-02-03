@@ -83,4 +83,4 @@ class DataGrantorView(UpdateView):
 #TODO: pendiente agregas las otras columnas a la vista
 class GrantorListView(ListView):
     model = Grantor
-    paginate_by = 10
+    #paginate_by = 10

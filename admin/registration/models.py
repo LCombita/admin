@@ -1,3 +1,4 @@
+import email
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
@@ -7,6 +8,7 @@ from django.db.models.signals import post_save
 class User(AbstractUser):
     """Esta clase extiende la clase User por defecto de django.
     Se intruducen nuevos campos que son necesarios según el modelo de negocio"""
+    
     email = models.EmailField(
         unique=True, max_length=150, 
         help_text='Debe introducir un email valido, este será usado para iniciar la sesión. Por ejemplo: miusuario@midominio.com.',
@@ -44,6 +46,7 @@ class Grantor(User):
     """Modelo proxi para personalizar el comportamiento de los usuarios que serán otorgantes.
     Se va a crear una señal, para que cuando se cree un usuario otorgante, automaticamente
     se cree una instancia en modelo DataGrantor, que son datos que solo llevarán los otorgantes"""
+    
     class Meta:
         proxy = True
         verbose_name = "Otorgante"
@@ -53,6 +56,7 @@ class Grantor(User):
 class DataGrantor(models.Model):
     """Modelo para agregar los campos que se requieren unicamente para los usuarios que
     actua como otorgantes"""
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(
         max_length=36, verbose_name='Teléfono',
@@ -69,12 +73,24 @@ class DataGrantor(models.Model):
 def user_in_groups(user, list_groups):
     """Validar sin un usuario pertenece a uno o más grupos, con el fin
     de establecer restricciones con respecto a los permisos de cada grupo"""
+    
     return True if user.groups.filter(name__in=list_groups) else False
 
 @receiver(post_save, sender=Grantor)
 def create_data_otorgante(sender, instance, **kwargs):
     """Señal para crear una instancia de Grantor en DataGrantor, para los datos
-    que corresponden solo a los otorgantes. Se comprueba con un test"""
+    que corresponden solo a los otorgantes. Además, al crear el otorgante, se veifica
+    que el grupo otorgante exista y se agrega el grupo al otorgante, si el grupo no existe,
+    se crea el grupo y luego se agrega al usuario. Se comprueba con los tests:
+    GrantorTestCase y GroupTestCase"""
+    
     if kwargs.get('created', False):
         DataGrantor.objects.get_or_create(user=instance)
-   
+        #crear y/o asignar grupo otorgate
+        existgroup = Group.objects.filter(name='otorgante').exists()
+        if existgroup:
+            grp =  Group.objects.get(name='otorgante')
+            instance.groups.add(grp)
+        else:
+            grp = Group.objects.create(name='otorgante')
+            instance.groups.add(grp)

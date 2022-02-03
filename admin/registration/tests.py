@@ -8,6 +8,7 @@ class GrantorTestCase(TestCase):
     """Verificar si al crear un Otorgante desde el proxy model Grantor,
     crea automaticamente el DataGrantor con la señál create_data_otorgante.
     Y al crear un usuario el DataGrantor no se crea"""
+    
     def setUp(self):
         Grantor.objects.create_user('test', 'test@test.com', 'test1234')
         #User.objects.create_user('test', 'test@test.com', 'test1234')
@@ -19,10 +20,19 @@ class GrantorTestCase(TestCase):
 
 
 class GroupTestCase(TestCase):
-    """Verificar la creación de un grupo"""
+    """Verificar el registro de un grupo nuevo, al registrar un usuario
+    y  asignarlo al al usuario creado"""
+
     def setUp(self):
         Group.objects.create(name='notario')
+        Grantor.objects.create_user('test', 'test@test.com', 'test1234')
     
     def test_create_group(self):
         exists = Group.objects.filter(name='notario').exists()
+        notario = Group.objects.get(name='notario')
+        user = Grantor.objects.get(username='test')
+        user.groups.add(notario)
+        print("test: grupo ", notario, " usuario ", user)
+        ingroup = user.groups.filter(name=notario)
+        print("test: en grupo notario? ", ingroup)
         self.assertEqual(exists, True)
