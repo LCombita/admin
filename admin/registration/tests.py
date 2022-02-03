@@ -1,6 +1,7 @@
 from genericpath import exists
 from django.test import TestCase
 from .models import User, Grantor, DataGrantor
+from django.contrib.auth.models import  Group
 
 
 class GrantorTestCase(TestCase):
@@ -16,3 +17,12 @@ class GrantorTestCase(TestCase):
         self.assertEqual(exists, True)
         #self.assertEqual(exists, False)
 
+
+class GroupTestCase(TestCase):
+    """Verificar la creación de un grupo"""
+    def setUp(self):
+        Group.objects.create(name='notario')
+    
+    def test_create_group(self):
+        exists = Group.objects.filter(name='notario').exists()
+        self.assertEqual(exists, True)
