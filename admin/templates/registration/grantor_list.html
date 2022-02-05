@@ -18,7 +18,6 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Id</th>
                 <th>Usuario</th>
                 <th>Email</th>
                 <th>Nombre</th>
@@ -28,7 +27,6 @@
             <tbody>
             {% for grantor in grantor_list %}
                 <tr>
-                    <td>{{ grantor.id }}</td>
                     <td>{{ grantor.username }}</td>
                     <td>{{ grantor.email }}</td>
                     <td>{{ grantor.name }} {{ grantor.first_name }} {{ grantor.last_name }}</td>
@@ -42,15 +40,15 @@
                 <li>No hay datos para mostrar.</li>
             {% endfor %}
             </tbody>
+            <!--
             <tfoot>
                 <tr>
-                    <th>Id</th>
                     <th>Usuario</th>
                     <th>Email</th>
                     <th>Nombre</th>
-                    <th>Acción</th>
                 </tr>
             </tfoot>
+            -->
         </table>
     </div>
 </div>

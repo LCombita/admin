@@ -80,7 +80,12 @@ class DataGrantorView(UpdateView):
     template_name = 'registration/datagrantor_form.html'
     success_url = reverse_lazy('registration:grantor-list') #TODO: revisar a donde debe redireccionar este
 
-#TODO: pendiente agregas las otras columnas a la vista
+#TODO: pendiente agregas las otras columnas al template
 class GrantorListView(ListView):
     model = Grantor
-    #paginate_by = 10
+    
+    def get_queryset(self):
+        """Se crea un filtro para que se muesten los usuarios que tienen el grupo 'otorgante'"""
+        qs = super().get_queryset()
+        print("desde GrantorAdmin, el qs", qs)
+        return qs.filter(groups__name='otorgante')

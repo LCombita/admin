@@ -69,6 +69,8 @@ class DataGrantor(models.Model):
         verbose_name_plural = "Datos Otorgantes"
 
 
+
+
 #FUNCIONES GLOBALES
 def user_in_groups(user, list_groups):
     """Validar sin un usuario pertenece a uno o más grupos, con el fin
