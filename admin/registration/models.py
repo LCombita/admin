@@ -1,4 +1,3 @@
-import email
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
@@ -47,6 +46,10 @@ class Grantor(User):
     Se va a crear una señal, para que cuando se cree un usuario otorgante, automaticamente
     se cree una instancia en modelo DataGrantor, que son datos que solo llevarán los otorgantes"""
     
+    def es_otorgante(self):
+        """Verificar si el usuario pertenece al grupo administrador"""
+        return True if user_in_groups(self, ['otorgante']) else False
+
     class Meta:
         proxy = True
         verbose_name = "Otorgante"
@@ -68,8 +71,7 @@ class DataGrantor(models.Model):
         verbose_name = "Datos Otorgante"
         verbose_name_plural = "Datos Otorgantes"
 
-
-
+#TODO: pendiente la configuración de los otros tipos de usuarios
 
 #FUNCIONES GLOBALES
 def user_in_groups(user, list_groups):

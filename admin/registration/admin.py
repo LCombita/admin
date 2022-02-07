@@ -47,7 +47,7 @@ class GrantorAdmin(BaseUserAdmin):
          }),
     )
     list_display = ('email', 'first_name', 'last_name2')
-    list_filter = ('is_staff','is_active')
+    list_filter = ('is_active',)
     search_fields = ('first_name', 'email')
     orderin = ('first_name',)
     filter_horizontal = ('groups', 'user_permissions')
@@ -57,6 +57,7 @@ class GrantorAdmin(BaseUserAdmin):
         qs = super().get_queryset(request)
         print("desde GrantorAdmin, el qs", qs)
         return qs.filter(groups__name='otorgante')
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Grantor, GrantorAdmin)
