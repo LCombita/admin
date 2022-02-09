@@ -2,7 +2,7 @@ from django.db import models
 from registration.models import User
 
 
-class ActoJuridio(models.Model):
+class ActoJuridico(models.Model):
     nombre_acto = models.CharField(max_length=100, unique=True, verbose_name='Acto Jurídico')
 
     class Meta:
@@ -40,14 +40,13 @@ class Proyecto(models.Model):
 
 
 class Reparto(models.Model):
+    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='Hoja Ruta')
     protocolista = models.ForeignKey(
         User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración')
     proyecto = models.ForeignKey(
         Proyecto, on_delete=models.CASCADE, db_index=True, verbose_name='Proyecto')
     acto_juridico = models.ManyToManyField(
-        ActoJuridio, related_name='acto_juridico', db_index=True, verbose_name='Acto Jurídico')
-    hoja_ruta = models.BigIntegerField(
-        unique=True, verbose_name='Hoja Ruta')
+        ActoJuridico, related_name='acto_juridico', db_index=True, verbose_name='Acto Jurídico')
     fecha_reparto = models.DateField(
         verbose_name='Fecha Reparto', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
     escritura = models.IntegerField(
@@ -91,7 +90,7 @@ class OtorganteReparto(models.Model):
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     otorgante = models.ForeignKey(
-        Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante')
+        User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante')
     factura = models.CharField(
         max_length=20, verbose_name='Número Factura')
     derechos_notariales = models.DecimalField(
@@ -133,8 +132,8 @@ class RepartoEtapa(models.Model):
         verbose_name='Fecha Final', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
 
     class Meta:
-        verbose_name = 'Etapa'
-        verbose_name_plural = 'Etapas'
+        verbose_name = 'Etapa Hoja Ruta'
+        verbose_name_plural = 'Etapas Hoja Ruta'
 
 
 class ObservacionEtapa(models.Model):
