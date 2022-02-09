@@ -50,9 +50,9 @@ class Reparto(models.Model):
     fecha_reparto = models.DateField(
         verbose_name='Fecha Reparto', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
     escritura = models.IntegerField(
-        verbose_name='Número Escritura') 
+        null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
-        verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        null=True, blank=True, verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
     canje = models.BooleanField(
         default=False, verbose_name='Para Canje')
     activo = models.BooleanField(
@@ -67,7 +67,7 @@ class Reparto(models.Model):
         verbose_name_plural = 'Hojas de Ruta'
 
     def __str__(self):
-        return self.hoja_ruta
+        return str(self.id)
 
 
 class Inmueble(models.Model):
