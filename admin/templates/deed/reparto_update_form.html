@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header">
+            <h3 class="card-title"> 
+                <a><b>Actualizar Reparto</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+        <div class="tab-content p-0">
+            <form action="" method="post">{% csrf_token %}
+                {{form.as_p}}
+                <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+            </form>
+        </div>
+        </div>
+    </div>
+
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+
+ {% block scripts_local %}  
+    <script>  
+        $(function () {  
+            $("#id_fecha_escritura").datetimepicker({  
+                format: 'd/m/Y',  
+                timepicker:false  
+            });  
+        });
+        $(function () {  
+            $("#id_fecha_reparto").datetimepicker({  
+                format: 'd/m/Y',  
+                timepicker:false  
+            });  
+        });  
+    </script>  
+ {% endblock scripts_local %}  
+{% endblock content %}

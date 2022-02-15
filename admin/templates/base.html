@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{% static 'registration/plugins/fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'registration/dist/css/adminlte.min.css' %}">
     <link rel="stylesheet" href="{% static 'registration/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+     <!-- XDSoft DateTimePicker -->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />  
 
   </head>
 
@@ -200,5 +202,10 @@
     <script src="{% static 'registration/dist/js/adminlte.js' %}"></script>
     <script src="{% static 'registration/dist/js/demo.js' %}"></script>
     <script src="{% static 'registration/dist/js/pages/dashboard.js' %}"></script>
+    <!-- .prueba calendario -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>  
+    {% block scripts_local %}  
+    {% endblock scripts_local %} 
+  
   </body>
 </html>
