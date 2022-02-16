@@ -24,6 +24,7 @@
 <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
 
  {% block scripts_local %}  
+    <!-- calendario -->
     <script>  
         $(function () {  
             $("#id_fecha_escritura").datetimepicker({  
@@ -37,6 +38,7 @@
                 timepicker:false  
             });  
         });  
-    </script>  
+    </script>
+    <!-- /calendario -->
  {% endblock scripts_local %}  
 {% endblock content %}
