@@ -6,12 +6,14 @@ class RepartoUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['proyecto'].widget.attrs.update({'class': 'form-control'})
-        self.fields['acto_juridico'].widget.attrs.update({'class': 'form-control'})
+        self.fields['acto_juridico'].widget.attrs.update({'class': 'form-control select2'})
         self.fields['fecha_reparto'].widget.attrs.update(
-            {'class': 'form-control', 'readonly':'True'})
-        self.fields['escritura'].widget.attrs.update({'class': 'form-control'})
+            {'class': 'form-control col-6', 'readonly':'True'})
+        self.fields['escritura'].widget.attrs.update({'class': 'form-control col-3'})
         self.fields['fecha_escritura'].widget.attrs.update(
-            {'class': 'form-control', 'readonly':'True'})
+            {'class': 'form-control col-6', 'readonly':'True'})
+        #self.fields['canje'].widget.attrs.update({'class':'icheck-danger'})
+        #self.fields['activo'].widget.attrs.update({'class':'icheck-primary d-inline'})
 
     class Meta:
         model = Reparto
@@ -28,7 +30,7 @@ class RepartoUpdateForm(forms.ModelForm):
             'fecha_reparto': 'Seleccione la fecha de registro de la Hoja de Ruta.',
             'escritura': 'Digite el número de la escritura.',
             'canje': ' Active esta casilla si la factura de la constructora es para canje.',
-            'activo': ' Active esta casilla si si es reparto se ha anulado.'
+            'activo': ' Active esta casilla si el reparto se anuló.'
             }
 
 

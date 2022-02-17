@@ -12,33 +12,42 @@
             </h3>
         </div>
         <div class="card-body">
-        <div class="tab-content p-0">
-            <form action="" method="post">{% csrf_token %}
-                {{form.as_p}}
-                <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
-            </form>
-        </div>
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.as_p}}
+                    <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                </label>
+                </form>
+            </div>
         </div>
     </div>
 
-<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
 
- {% block scripts_local %}  
-    <!-- calendario -->
-    <script>  
-        $(function () {  
-            $("#id_fecha_escritura").datetimepicker({  
+    {% block scripts_local %}  
+        <!-- calendario -->
+        <script> 
+            var fechaescritura = document.getElementById("id_fecha_escritura");
+            fechaescritura.addEventListener("click", function(){
+                $("#id_fecha_escritura").datetimepicker({  
                 format: 'd/m/Y',  
                 timepicker:false  
-            });  
-        });
-        $(function () {  
-            $("#id_fecha_reparto").datetimepicker({  
+                });  
+            })
+            var fechareparto = document.getElementById("id_fecha_reparto");
+            fechareparto.addEventListener("click", function(){
+                $("#id_fecha_reparto").datetimepicker({  
                 format: 'd/m/Y',  
                 timepicker:false  
-            });  
-        });  
-    </script>
-    <!-- /calendario -->
- {% endblock scripts_local %}  
+                }); 
+            })
+        </script>
+        <!-- select2 -->
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+    {% endblock scripts_local %}  
 {% endblock content %}
