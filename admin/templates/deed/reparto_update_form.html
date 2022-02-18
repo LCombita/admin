@@ -11,10 +11,62 @@
                 <a><b>Actualizar Reparto</b></a>
             </h3>
         </div>
+        <div class="btn-group">
+            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
+            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
+            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
+        </div>
         <div class="card-body">
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
-                    {{form.as_p}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.proyecto.errors }}
+                                {{ form.proyecto }}
+                                <p class="help">{{ form.proyecto.help_text|safe }}</p>
+                            </div>
+                            <div class="fieldWrapper">
+                                {{ form.fecha_reparto.errors }}
+                                {{ form.fecha_reparto }}
+                                <p class="help">{{ form.fecha_reparto.help_text|safe }}</p>
+                            </div>
+                        </div>        
+                        <div class="col-md-6">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.acto_juridico.errors }}
+                                {{ form.acto_juridico}}
+                                <p class="help">{{ form.acto_juridico.help_text|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.escritura.errors }}
+                                {{ form.escritura }}
+                                <p class="help">{{ form.escritura.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_escritura.errors }}
+                                {{ form.fecha_escritura }}
+                                <p class="help">{{ form.fecha_escritura.help_text|safe }}</p>
+                            </div>
+                        </div>        
+                        <div class="col-md-3">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.activo.errors }}
+                                {{ form.activo}}
+                                <p class="help">{{ form.activo.help_text|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
                     <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
                 </label>
                 </form>
