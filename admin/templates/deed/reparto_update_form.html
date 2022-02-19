@@ -14,7 +14,7 @@
         <div class="btn-group">
             <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
             <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
-            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
+            <a href="{% url 'deed:reparto-list' %}" class="btn btn-info btn-sm" ><b>regresar</b></a>
         </div>
         <div class="card-body">
             <div class="tab-content p-0">
@@ -34,7 +34,6 @@
                             </div>
                         </div>        
                         <div class="col-md-6">
-                            {{ form.non_field_errors }}
                             <div class="fieldWrapper">
                                 {{ form.acto_juridico.errors }}
                                 {{ form.acto_juridico}}
@@ -44,7 +43,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            {{ form.non_field_errors }}
                             <div class="fieldWrapper">
                                 {{ form.escritura.errors }}
                                 {{ form.escritura }}
@@ -59,7 +57,6 @@
                             </div>
                         </div>        
                         <div class="col-md-3">
-                            {{ form.non_field_errors }}
                             <div class="fieldWrapper">
                                 {{ form.activo.errors }}
                                 {{ form.activo}}
