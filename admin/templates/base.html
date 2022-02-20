@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />  
     <!-- select2 -->
     <link rel="stylesheet" href="{% static 'registration/plugins/select2/css/select2.min.css' %}">
-    <!-- iCheck for checkboxes 
-    <link rel="stylesheet" href="{% static 'registration/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}"> -->
+    <!-- css persolaliza -->
+    <link rel="stylesheet" href="{% static 'personalize/varios.css' %}"> 
 
   </head>
 
@@ -63,21 +63,21 @@
         <a href="{% url 'registration:home' %}" class="brand-link">
           <img src="{% static 'registration/dist/img/logo.png' %}" class="brand-image">
           <!-- <img src="{% static 'registration/dist/img/logo-ok2.png' %}" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-          <span class="brand-text font-weight-light"><h5><b>Notaría3Medellín</b></h5></span>
+          <span class="brand-text font-weight-light" style="color:#ffffff"><h5><b>Notaría3Medellín</b></h5></span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar">
-          <!-- Sidebar user panel (optional)-->
+          <!-- Sidebar user panel (optional) rojo:E0004D-->
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             {% if user.is_authenticated %}
               <div class="image">
                 <img src="{% static 'registration/dist/img/login.png' %}" class="img-circle elevation-2" alt="User Image">
               </div>
               <div class="info">
-                <a href="#" class="d-block">|{{user.username}}|</a>
+                <a href="#" class="d-block" style="color:#FFFFFF">|{{user.username}}|</a>
               </div>
               <div class="info">
-                <a href="{% url 'logout' %}" class="d-block">|Salir|</a>
+                <a href="{% url 'logout' %}" class="d-block" style="color:#FFFFFF">|Salir|</a>
               </div>
               {% else %}
                 <div class="image">
