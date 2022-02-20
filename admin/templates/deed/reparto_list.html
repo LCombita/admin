@@ -5,8 +5,9 @@
 {% block title %}ListaReparto{% endblock title %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'registration/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'registration/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+<!-- table -->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
 
 <div class="card card-success">
     <div class="card-header">
@@ -15,7 +16,7 @@
         </h3>
     </div>
     <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="replist" class="display" style="width:100%">
             <thead>
             <tr>
                 <th>Hoja Ruta</th>
@@ -23,6 +24,7 @@
                 <th>Proyecto</th>
                 <th># Escritura</th>
                 <th>Fecha Escritura</th>
+                <th>Acción  </th>
             </tr>
             </thead>
             <tbody>
@@ -48,25 +50,29 @@
 </div>
 
 <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
-<script src="{% static 'registration/plugins/jszip/jszip.min.js' %}"></script>
-<script src="{% static 'registration/plugins/pdfmake/pdfmake.min.js' %}"></script>
-<script src="{% static 'registration/plugins/pdfmake/vfs_fonts.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
-<script src="{% static 'registration/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- table -->
+<script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+
 
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });
+    $(document).ready(function() {
+        $('#replist').DataTable({
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu":     "Mostrar _MENU_ registros.",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
+        });
+    }); 
 </script>
+{% block scripts_local %}
+{% endblock scripts_local %} 
+
 {% endblock content %}
