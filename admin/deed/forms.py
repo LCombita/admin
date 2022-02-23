@@ -5,6 +5,8 @@ class RepartoUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['hoja_ruta'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
+        self.fields['anio_escritura'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
         self.fields['proyecto'].widget.attrs.update({'class': 'form-control'})
         self.fields['acto_juridico'].widget.attrs.update(
             {'class': 'form-control select2', 'data-placeholder':'Selecione los actos jurídicos.'})
@@ -13,16 +15,14 @@ class RepartoUpdateForm(forms.ModelForm):
         self.fields['escritura'].widget.attrs.update({'class': 'form-control'})
         self.fields['fecha_escritura'].widget.attrs.update(
             {'class': 'form-control', 'readonly':'True'})
-        #self.fields['canje'].widget.attrs.update({'class':'icheck-danger'})
-        #self.fields['activo'].widget.attrs.update({'class':'icheck-primary d-inline'})
 
     class Meta:
         model = Reparto
-        fields = ['proyecto', 'acto_juridico', 'fecha_reparto', 'escritura',
-                    'fecha_escritura', 'activo']
+        fields = ['hoja_ruta', 'anio_escritura', 'proyecto', 'acto_juridico',
+         'fecha_reparto', 'escritura', 'fecha_escritura', 'activo']
         labels = {
             'escritura':'', 'fecha_escritura':'', 'fecha_reparto':'',
-            'activo':'', 'proyecto':'', 'acto_juridico':''
+            'activo':'', 'proyecto':'', 'acto_juridico':'', 'hoja_ruta':'', 'anio_escritura':'' 
             }
         help_texts = {
             'proyecto': 'Seleccione el proyecto relacionado con el trámite.',
@@ -30,6 +30,8 @@ class RepartoUpdateForm(forms.ModelForm):
             'fecha_escritura': 'Seleccione la fecha de la escritura.',
             'fecha_reparto': 'Seleccione la fecha de registro de la Hoja de Ruta.',
             'escritura': 'Digite el número de la escritura.',
+            'hoja_ruta': 'Hoja de Ruta.',
+            'anio_escritura': 'Número de escritura.',
             'activo': ' Activo. Desmarque esta opción si se anula el reparto.'
             }
 

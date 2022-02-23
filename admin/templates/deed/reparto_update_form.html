@@ -23,6 +23,23 @@
                         <div class="col-md-6">
                             {{ form.non_field_errors }}
                             <div class="fieldWrapper">
+                                {{ form.hoja_ruta.errors }}
+                                {{ form.hoja_ruta }}
+                                <p class="help">{{ form.hoja_ruta.help_text|safe }}</p>
+                            </div> 
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fieldWrapper">
+                                {{ form.anio_escritura.errors }}
+                                {{ form.anio_escritura }}
+                                <p class="help">{{ form.anio_escritura.help_text|safe }}</p>
+                            </div>
+                        </div>
+                    </div>        
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
                                 {{ form.proyecto.errors }}
                                 {{ form.proyecto }}
                                 <p class="help">{{ form.proyecto.help_text|safe }}</p>

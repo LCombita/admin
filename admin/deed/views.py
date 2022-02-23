@@ -12,6 +12,7 @@ class RepartoUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('deed:reparto-update', args=[self.object.id])
+    #TODO: validar que no se repita anio_escritura
 
 
 class RepartoListView(ListView):

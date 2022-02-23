@@ -1,6 +1,9 @@
+from turtle import update
 from django.db import models
 from django.utils.timezone import now
 from registration.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class ActoJuridico(models.Model):
@@ -39,9 +42,22 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre_proyecto
 
+#funciones para reparto
+def HojaRuta():
+        """retorna el id para mostrarlo en el formulario como hoja de ruta"""
+        return str(Reparto.id)
 
+def AnioEscritura(self):
+        """concatena el año de la fecha de escritura con el número de la escritura"""
+        if self.fecha_escritura:
+            a = self.fecha_escritura.strftime('%Y')
+            ae = a + '-' + str(self.escritura)
+            return ae
+        else:
+            return None
+        
 class Reparto(models.Model):
-    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='Hoja Ruta')
+    id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     protocolista = models.ForeignKey(
         User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración')
     proyecto = models.ForeignKey(
@@ -54,19 +70,31 @@ class Reparto(models.Model):
         null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
         null=True, blank=True, verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
-    canje = models.BooleanField(
-        default=False, verbose_name='Para Canje')
+    hoja_ruta = models.CharField(max_length=20, null = True, blank=True)
+    anio_escritura = models.CharField(max_length=10, null = True, blank=True)
     activo = models.BooleanField(
         default=True,verbose_name='Reparto Activo')
     creado = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creación')
     editado = models.DateTimeField(auto_now=True, verbose_name='Fecha de Edicion')
-
+    #TODO: borrar esto
     #hacer un metodo para calcular el año de la escritura
+    #def hoja_ruta(self):
+        #retorna el id para mostrarlo en el formulario como hoja de ruta"""
+    #    return str(self.id)
+
+    #def anio_escritura(self):
+        #concatena el año de la fecha de escritura con el número de la escritura
+    """if self.fecha_escritura:
+            a = self.fecha_escritura.strftime('%Y')
+            ae = a + '-' + str(self.escritura)
+            return ae
+        else:
+            return None"""
 
     class Meta:
         verbose_name = 'Hoja de Ruta'
         verbose_name_plural = 'Hojas de Ruta'
-
+    
     def __str__(self):
         return str(self.id)
 
@@ -100,6 +128,9 @@ class OtorganteReparto(models.Model):
         max_digits=9, decimal_places=1, verbose_name='Registro')
     valor_rentas = models.DecimalField(
         max_digits=9, decimal_places=1, verbose_name='Rentas')
+    canje = models.BooleanField(
+        default=False, verbose_name='Para Canje')
+
     
     #pendiente metodo para calcular el total
 
@@ -184,6 +215,27 @@ class Impuesto(models.Model):
     class Meta:
         verbose_name = 'Impuesto'
         verbose_name_plural = 'Impuestos'
+
+
+#SEÑALES
+@receiver(post_save, sender=Reparto)
+def actualizar_hojaruta(sender, instance, **kwargs):
+    """Señal para actualizar el campo hoja_ruta con base al id."""
+    
+    if kwargs.get('created', False):
+        re = Reparto.objects.get(id=instance.id)
+        Reparto.objects.filter(id=instance.id).update(
+            hoja_ruta=re.fecha_reparto.strftime('%Y') + str(instance.id))
+
+@receiver(post_save, sender=Reparto)
+def actualizar_anioescritura(sender, instance, **kwargs):
+    """Señal para actualiar el campo anio_escritura, tomando en año de la fecha de la escritura,
+    se concatena con un - y luego el número de la escritura"""    
+    if not kwargs.get('created', False):
+        re = Reparto.objects.get(id=instance.id)
+        Reparto.objects.filter(id=instance.id).update(
+            anio_escritura=re.fecha_escritura.strftime('%Y') + '-' + str(re.escritura))
+
 
 #consultas
 #https://programmerclick.com/article/66081820135/
