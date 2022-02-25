@@ -12,7 +12,6 @@ class RepartoUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('deed:reparto-update', args=[self.object.id])
-    #TODO: validar que no se repita anio_escritura
 
 
 class RepartoListView(ListView):
@@ -22,5 +21,4 @@ class RepartoListView(ListView):
     def get_queryset(self):
         """Se crea un filtro para que se muestren solo los repartos activos"""
         qs = super().get_queryset()
-        print("desde GrantorAdmin, el qs", qs)
-        return qs.filter(activo='True')
+        return qs.filter(activo='True').order_by('-id')

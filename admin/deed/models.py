@@ -66,30 +66,16 @@ class Reparto(models.Model):
         ActoJuridico, related_name='acto_juridico', db_index=True, verbose_name='Acto Jurídico')
     fecha_reparto = models.DateField(
         verbose_name='Fecha Reparto', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
-    escritura = models.IntegerField(
-        null=True, blank=True, verbose_name='Número Escritura') 
+    escritura = models.CharField(
+        max_length=5, null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
         null=True, blank=True, verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
     hoja_ruta = models.CharField(max_length=20, null = True, blank=True)
-    anio_escritura = models.CharField(max_length=10, null = True, blank=True)
+    anio_escritura = models.CharField(max_length=10, unique=True, null = True, blank=True)
     activo = models.BooleanField(
         default=True,verbose_name='Reparto Activo')
     creado = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creación')
     editado = models.DateTimeField(auto_now=True, verbose_name='Fecha de Edicion')
-    #TODO: borrar esto
-    #hacer un metodo para calcular el año de la escritura
-    #def hoja_ruta(self):
-        #retorna el id para mostrarlo en el formulario como hoja de ruta"""
-    #    return str(self.id)
-
-    #def anio_escritura(self):
-        #concatena el año de la fecha de escritura con el número de la escritura
-    """if self.fecha_escritura:
-            a = self.fecha_escritura.strftime('%Y')
-            ae = a + '-' + str(self.escritura)
-            return ae
-        else:
-            return None"""
 
     class Meta:
         verbose_name = 'Hoja de Ruta'
@@ -166,6 +152,7 @@ class RepartoEtapa(models.Model):
     class Meta:
         verbose_name = 'Etapa Hoja Ruta'
         verbose_name_plural = 'Etapas Hoja Ruta'
+        ordering = ['-id']
 
 
 class ObservacionEtapa(models.Model):
@@ -220,7 +207,8 @@ class Impuesto(models.Model):
 #SEÑALES
 @receiver(post_save, sender=Reparto)
 def actualizar_hojaruta(sender, instance, **kwargs):
-    """Señal para actualizar el campo hoja_ruta con base al id."""
+    """Señal para actualizar el campo hoja_ruta, sancando el año de la fecha de reparto
+    concatenado con el id."""
     
     if kwargs.get('created', False):
         re = Reparto.objects.get(id=instance.id)
@@ -229,12 +217,12 @@ def actualizar_hojaruta(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Reparto)
 def actualizar_anioescritura(sender, instance, **kwargs):
-    """Señal para actualiar el campo anio_escritura, tomando en año de la fecha de la escritura,
-    se concatena con un - y luego el número de la escritura"""    
+    #Señal para actualiar el campo anio_escritura, tomando el año de la fecha de la escritura,
+    #se concatena con un - y el número de la escritura    
     if not kwargs.get('created', False):
         re = Reparto.objects.get(id=instance.id)
         Reparto.objects.filter(id=instance.id).update(
-            anio_escritura=re.fecha_escritura.strftime('%Y') + '-' + str(re.escritura))
+            anio_escritura=re.fecha_escritura.strftime('%Y') + '-' + re.escritura)
 
 
 #consultas

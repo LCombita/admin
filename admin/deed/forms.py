@@ -1,5 +1,6 @@
 from django import forms
 from .models import Reparto
+from django.http import HttpResponse
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -34,7 +35,13 @@ class RepartoUpdateForm(forms.ModelForm):
             'anio_escritura': 'Número de escritura.',
             'activo': ' Activo. Desmarque esta opción si se anula el reparto.'
             }
+ 
+    def clean(self):
+        """Validar que el anio_escritura generado NO exista en la base de datos"""
 
-
-
-        
+        cleaned_data = super().clean()
+        fecha_escritura = cleaned_data.get("fecha_escritura")
+        escritura = cleaned_data.get("escritura")
+        ae = fecha_escritura.strftime('%Y') + '-' + escritura
+        if Reparto.objects.filter(anio_escritura=ae).exists():
+            raise forms.ValidationError("La escritura ya existe, verificar el número.")

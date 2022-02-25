@@ -9,7 +9,7 @@ class RepartoAdmin(admin.ModelAdmin):
     list_display = ('id', 'hoja_ruta', 'fecha_reparto', 'anio_escritura', 'proyecto')
     list_filter = ('activo', 'proyecto')
     search_fields = ('id', 'hoja_ruta', 'anio_escritura')
-    orderin = ('id',)
+    ordering = ('-id',)
 
 
 admin.site.register(Reparto, RepartoAdmin)
