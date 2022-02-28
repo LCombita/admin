@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}num-esc{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Numerar Escritura</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.escritura.errors }}
+                                {{ form.escritura }}
+                                <p class="help">{{ form.escritura.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_escritura.errors }}
+                                {{ form.fecha_escritura }}
+                                <p class="help">{{ form.fecha_escritura.help_text|safe }}</p>
+                            </div>
+                        </div>    
+                        <div class="col-md-3">
+                                <div class="fieldWrapper">
+                                    {{ form.anio_escritura.errors }}
+                                    {{ form.anio_escritura }}
+                                    <p class="help">{{ form.anio_escritura.help_text|safe }}</p>
+                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <a href="{% url 'deed:reparto-update' object.id %}" class="btn btn-secondary btn-block" >volver</a>
+                            </div>
+                        </div>
+                    </div>
+                    <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.hoja_ruta }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_reparto }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.proyecto }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.activo}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">     
+                        <div class="col-md-12">
+                            <div class="fieldWrapper">
+                                {{ form.acto_juridico}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    
+    {% block scripts_local %}  
+        <!-- calendario -->
+        <script> 
+            var fechaescritura = document.getElementById("id_fecha_escritura");
+            fechaescritura.addEventListener("click", function(){
+                $("#id_fecha_escritura").datetimepicker({  
+                format: 'd/m/Y',  
+                timepicker:false  
+                });  
+            })
+        </script>
+    {% endblock scripts_local %}  
+{% endblock content %}
+

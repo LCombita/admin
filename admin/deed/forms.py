@@ -1,6 +1,5 @@
 from django import forms
 from .models import Reparto
-from django.http import HttpResponse
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -13,13 +12,15 @@ class RepartoUpdateForm(forms.ModelForm):
             {'class': 'form-control select2', 'data-placeholder':'Selecione los actos jurídicos.'})
         self.fields['fecha_reparto'].widget.attrs.update(
             {'class': 'form-control', 'readonly':'True'})
-        self.fields['escritura'].widget.attrs.update({'class': 'form-control'})
+        self.fields['escritura'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True'})
         self.fields['fecha_escritura'].widget.attrs.update(
             {'class': 'form-control', 'readonly':'True'})
+        self.fields['activo'].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = Reparto
-        fields = ['hoja_ruta', 'anio_escritura', 'proyecto', 'acto_juridico',
+        fields = ['id', 'hoja_ruta', 'anio_escritura', 'proyecto', 'acto_juridico',
          'fecha_reparto', 'escritura', 'fecha_escritura', 'activo']
         labels = {
             'escritura':'', 'fecha_escritura':'', 'fecha_reparto':'',
@@ -35,13 +36,47 @@ class RepartoUpdateForm(forms.ModelForm):
             'anio_escritura': 'Número de escritura.',
             'activo': ' Activo. Desmarque esta opción si se anula el reparto.'
             }
+
+
+class NumeroEscrituraUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['hoja_ruta'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True','hidden':'True'})
+        self.fields['anio_escritura'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
+        self.fields['proyecto'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True', 'hidden':'True'})
+        self.fields['acto_juridico'].widget.attrs.update(
+            {'class': 'form-control select2', 'data-placeholder':'Selecione los actos jurídicos.',
+                'readonly':'True', 'hidden':'True'})
+        self.fields['fecha_reparto'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True', 'readonly':'True', 'hidden':'True'})
+        self.fields['escritura'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_escritura'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True'})
+        self.fields['activo'].widget.attrs.update({'class': 'field-activo', 'readonly':'True', 'hidden':'True'})
+
+    class Meta:
+        model = Reparto
+        fields = ['id', 'hoja_ruta', 'anio_escritura', 'proyecto', 'acto_juridico',
+            'fecha_reparto', 'escritura', 'fecha_escritura', 'activo']
+        labels = {
+            'escritura':'', 'fecha_escritura':'', 'anio_escritura':'' 
+            }
+        help_texts = {
+            'fecha_escritura': 'Seleccione la fecha de la escritura.',
+            'escritura': 'Digite el número de la escritura.',
+            'anio_escritura': 'Número de escritura.',
+            }
  
     def clean(self):
         """Validar que el anio_escritura generado NO exista en la base de datos"""
-
+        #TODO: pendiente poder actualizar la fecha de escritura
         cleaned_data = super().clean()
         fecha_escritura = cleaned_data.get("fecha_escritura")
         escritura = cleaned_data.get("escritura")
-        ae = fecha_escritura.strftime('%Y') + '-' + escritura
-        if Reparto.objects.filter(anio_escritura=ae).exists():
-            raise forms.ValidationError("La escritura ya existe, verificar el número.")
+        if fecha_escritura and escritura:
+            ae = fecha_escritura.strftime('%Y') + '-' + escritura
+            if Reparto.objects.filter(anio_escritura=ae).exists():
+                raise forms.ValidationError("La escritura ya existe, verifique el número y la fecha.")

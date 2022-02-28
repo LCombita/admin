@@ -32,10 +32,10 @@
             {% for reparto in reparto_list %}
                 <tr>
                     <td>{{ reparto.hoja_ruta}}</td>
-                    <td>{{ reparto.fecha_reparto }}</td>
+                    <td>{{ reparto.fecha_reparto | date:'d/m/Y' }}</td>
                     <td>{{ reparto.proyecto }}</td>
                     <td>{{ reparto.escritura }}</td>
-                    <td>{{ reparto.fecha_escritura }}</td>
+                    <td>{{ reparto.fecha_escritura | date:'d/m/Y'}}</td>
                     <td>{{ reparto.anio_escritura }}</td>
                     <td>
                         <div class="btn-group">

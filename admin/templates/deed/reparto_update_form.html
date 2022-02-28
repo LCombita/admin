@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Inicio{% endblock title %}
+{% block title %}rep-upd{% endblock title %}
 
 {% block content %}
     <style>.errorlist{color:red;}</style>
@@ -12,6 +12,11 @@
             </h3>
         </div>
         <div class="btn-group">
+            <!-- boton modal           
+            <button onclick="modal_numesc('{% url 'deed:numero-escritura' object.id %}')"type="button" class="btn btn-secondary">
+                numerar escritura
+            </button>
+            -->
             <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
             <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
             <a href="{% url 'deed:reparto-list' %}" class="btn btn-info btn-sm" ><b>regresar</b></a>
@@ -20,7 +25,7 @@
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ form.non_field_errors }}
                             <div class="fieldWrapper">
                                 {{ form.hoja_ruta.errors }}
@@ -28,12 +33,15 @@
                                 <p class="help">{{ form.hoja_ruta.help_text|safe }}</p>
                             </div> 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="fieldWrapper">
                                 {{ form.anio_escritura.errors }}
                                 {{ form.anio_escritura }}
                                 <p class="help">{{ form.anio_escritura.help_text|safe }}</p>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'deed:numero-escritura' object.id %}" class="btn btn-secondary btn-block" ><b>numerar escritura</b></a>
                         </div>
                     </div>        
                     <div class="row">
@@ -81,15 +89,19 @@
                         </div>
                     </div>
                     <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
-                </label>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- cargar la modal numerar escritura 
+    <div class="modal fade" id="modal_numesc" role="dialog"> </div> -->
     <!-- para todas -->
     <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
-
+    <!-- para modal 
+    <script src="{% static 'registration/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
+    
+    
     {% block scripts_local %}  
         <!-- calendario -->
         <script> 
@@ -114,5 +126,19 @@
                 $('.select2').select2()
             })
         </script>
+        <!-- modal
+        <script>
+            function modal_numesc(url){
+                $('#modal_numesc').load(url, function(){
+                    $(this).modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                    //$(this).modal('show');
+                    });
+                return false;
+            }
+        </script>
+         ./modal -->
     {% endblock scripts_local %}  
 {% endblock content %}

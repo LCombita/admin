@@ -221,9 +221,13 @@ def actualizar_anioescritura(sender, instance, **kwargs):
     #se concatena con un - y el número de la escritura    
     if not kwargs.get('created', False):
         re = Reparto.objects.get(id=instance.id)
-        Reparto.objects.filter(id=instance.id).update(
-            anio_escritura=re.fecha_escritura.strftime('%Y') + '-' + re.escritura)
-
-
+        if re.fecha_escritura and re.escritura:
+            Reparto.objects.filter(id=instance.id).update(
+                anio_escritura=re.fecha_escritura.strftime('%Y') + '-' + re.escritura)
+        elif re.fecha_escritura or re.escritura:
+            Reparto.objects.filter(id=instance.id).update(
+                anio_escritura=None)
+        else:
+            pass
 #consultas
 #https://programmerclick.com/article/66081820135/

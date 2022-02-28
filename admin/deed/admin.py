@@ -6,7 +6,7 @@ from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 class RepartoAdmin(admin.ModelAdmin):
     """personaliza el admin de de escrituración, registrado todos los modelos correspondientes"""
 
-    list_display = ('id', 'hoja_ruta', 'fecha_reparto', 'anio_escritura', 'proyecto')
+    list_display = ('id', 'hoja_ruta', 'fecha_reparto', 'anio_escritura', 'proyecto', 'activo')
     list_filter = ('activo', 'proyecto')
     search_fields = ('id', 'hoja_ruta', 'anio_escritura')
     ordering = ('-id',)
