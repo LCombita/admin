@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from .models import Reparto
-from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm
+from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from django.urls import reverse_lazy
 
 class RepartoUpdateView(UpdateView):
@@ -32,3 +31,13 @@ class RepartoListView(ListView):
         """Se crea un filtro para que se muestren solo los repartos activos"""
         qs = super().get_queryset()
         return qs.filter(activo='True').order_by('-id')
+
+
+class RepartoCreateView(CreateView):
+    model = Reparto
+    form_class = RepartoCreateForm
+    template_name = 'deed/reparto_create_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('deed:reparto-update', args=[self.object.id])
+    

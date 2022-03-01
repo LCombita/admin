@@ -17,15 +17,15 @@
                 numerar escritura
             </button>
             -->
-            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
-            <a href="#" class="btn btn-warning btn-sm" ><b>actualizar</b></a>
-            <a href="{% url 'deed:reparto-list' %}" class="btn btn-info btn-sm" ><b>regresar</b></a>
+            <a href="#" class="btn btn-warning" ><b>actualizar</b></a>
+            <a href="#" class="btn btn-warning" ><b>actualizar</b></a>
+            <a href="{% url 'deed:reparto-list' %}" class="btn btn-secondary" ><b>regresar</b></a>
         </div>
         <div class="card-body">
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             {{ form.non_field_errors }}
                             <div class="fieldWrapper">
                                 {{ form.hoja_ruta.errors }}
@@ -33,58 +33,61 @@
                                 <p class="help">{{ form.hoja_ruta.help_text|safe }}</p>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.anio_escritura.errors }}
                                 {{ form.anio_escritura }}
                                 <p class="help">{{ form.anio_escritura.help_text|safe }}</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_escritura.errors }}
+                                {{ form.fecha_escritura }}
+                                <p class="help">{{ form.fecha_escritura.help_text|safe }}</p>
+                            </div>
+                        </div> 
+                        <div class="col-md-3">
                             <a href="{% url 'deed:numero-escritura' object.id %}" class="btn btn-secondary btn-block" ><b>numerar escritura</b></a>
                         </div>
                     </div>        
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="fieldWrapper">
-                                {{ form.proyecto.errors }}
-                                {{ form.proyecto }}
-                                <p class="help">{{ form.proyecto.help_text|safe }}</p>
-                            </div>
+                        <div class="col-md-4">
                             <div class="fieldWrapper">
                                 {{ form.fecha_reparto.errors }}
                                 {{ form.fecha_reparto }}
                                 <p class="help">{{ form.fecha_reparto.help_text|safe }}</p>
                             </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="fieldWrapper">
+                                {{ form.proyecto.errors }}
+                                {{ form.proyecto }}
+                                <p class="help">{{ form.proyecto.help_text|safe }}</p>
+                            </div>
                         </div>        
-                        <div class="col-md-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
                             <div class="fieldWrapper">
                                 {{ form.acto_juridico.errors }}
                                 {{ form.acto_juridico}}
                                 <p class="help">{{ form.acto_juridico.help_text|safe }}</p>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.activo.errors }}
+                                {{ form.activo}}
+                                <p class="help">{{ form.activo.help_text|safe }}</p>
+                            </div>
+                        </div>       
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.escritura.errors }}
                                 {{ form.escritura }}
-                                <p class="help">{{ form.escritura.help_text|safe }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="fieldWrapper">
-                                {{ form.fecha_escritura.errors }}
-                                {{ form.fecha_escritura }}
-                                <p class="help">{{ form.fecha_escritura.help_text|safe }}</p>
-                            </div>
-                        </div>        
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                {{ form.activo.errors }}
-                                {{ form.activo}}
-                                <p class="help">{{ form.activo.help_text|safe }}</p>
                             </div>
                         </div>
                     </div>
@@ -105,13 +108,6 @@
     {% block scripts_local %}  
         <!-- calendario -->
         <script> 
-            var fechaescritura = document.getElementById("id_fecha_escritura");
-            fechaescritura.addEventListener("click", function(){
-                $("#id_fecha_escritura").datetimepicker({  
-                format: 'd/m/Y',  
-                timepicker:false  
-                });  
-            })
             var fechareparto = document.getElementById("id_fecha_reparto");
             fechareparto.addEventListener("click", function(){
                 $("#id_fecha_reparto").datetimepicker({  
