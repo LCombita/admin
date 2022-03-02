@@ -12,34 +12,32 @@
 <div class="card card-info">
     <div class="card-header-gen">
         <h3 class="card-title"> 
-            <a style="color:#ffffff"><b>Hojas de Ruta</b></a>
+            <a style="color:#ffffff"><b>Proyectos</b></a>
         </h3>
     </div>
     <div class="card-body">
-        <table id="replist" class="display" style="width:100%">
+        <table id="prolist" class="display" style="width:100%">
             <thead>
             <tr>
-                <th>Hoja Ruta</th>
-                <th>Fecha Hoja Ruta</th>
                 <th>Proyecto</th>
-                <th># Escritura</th>
-                <th>Fecha Escritura</th>
-                <th>Escritura</th>
+                <th>Cliente</th>
+                <th>Tramitador</th>
                 <th>Acción  </th>
             </tr>
             </thead>
             <tbody>
-            {% for reparto in reparto_list %}
+            {% for proyecto in proyecto_list %}
                 <tr>
-                    <td>{{ reparto.hoja_ruta}}</td>
-                    <td>{{ reparto.fecha_reparto | date:'d/m/Y' }}</td>
-                    <td>{{ reparto.proyecto }}</td>
-                    <td>{{ reparto.escritura }}</td>
-                    <td>{{ reparto.fecha_escritura | date:'d/m/Y'}}</td>
-                    <td>{{ reparto.anio_escritura }}</td>
+                    <td>{{ proyecto.nombre_proyecto | safe}}</td>
+                    <td>{{ proyecto.cliente | safe }}</td>
+                    <td>
+                        {% for tramitador in proyecto.tramitador.all %}
+                            {{ tramitador }}
+                        {% endfor %}
+                    </td>
                     <td>
                         <div class="btn-group">
-                            <a href="{% url 'deed:reparto-update' reparto.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                            <a href="{% url 'deed:proyecto-create' %}" class="btn btn-warning btn-sm" >actualizar</a>
                         </div>
                     </td>
                 </tr>
@@ -58,7 +56,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#replist').DataTable({
+        $('#prolist').DataTable({
             "language": {
                 "search": "Buscar:",
                 "lengthMenu":     "Mostrar _MENU_ registros.",

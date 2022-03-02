@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reparto
+from .models import Reparto, Proyecto
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -120,5 +120,26 @@ class RepartoCreateForm(forms.ModelForm):
             'escritura': 'Digite el número de la escritura.',
             'hoja_ruta': 'Hoja de Ruta.',
             'anio_escritura': 'Número de escritura.',
-            'activo': ' Desmarque para anular.'
+            'activo': ' Activo.'
+            }
+
+
+class ProyectoCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cliente'].widget.attrs.update({'class': 'form-control'})
+        self.fields['tramitador'].widget.attrs.update(
+            {'class': 'form-control select2', 'data-placeholder':'Selecione los tramitadores'})
+        self.fields['nombre_proyecto'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Proyecto
+        fields = ['id', 'cliente', 'tramitador', 'nombre_proyecto']
+        labels = {
+            'cliente':'', 'tramitador':'', 'nombre_proyecto':''
+            }
+        help_texts = {
+            'cliente': 'Seleccione el cliente relacionado con el trámite.',
+            'tramitador': 'Seleccione tramitador de proyecto.',
+            'nombre_proyecto': 'Introduzca el nombre del proyecto.'
             }

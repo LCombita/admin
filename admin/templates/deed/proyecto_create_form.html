@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header">
+            <h3 class="card-title"> 
+                <a><b>Crear Proyecto</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.cliente.errors }}
+                                {{ form.cliente }}
+                                <p class="help">{{ form.cliente.help_text|safe }}</p>
+                            </div> 
+                        </div>
+                        <a href="#">
+                            <ion-icon name="bag-add"></ion-icon>
+                        </a>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ form.tramitador.errors }}
+                                {{ form.tramitador }}
+                                <p class="help">{{ form.tramitador.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <ion-icon name="person-add"></ion-icon>
+                        </a>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ form.nombre_proyecto.errors }}
+                                {{ form.nombre_proyecto}}
+                                <p class="help">{{ form.nombre_proyecto.help_text|safe }}</p>
+                            </div>
+                        </div>
+                    </div>        
+                    <p><input type="submit" class="btn btn-success btn-block" value="Guardar"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+
+    {% block scripts_local %}
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+    {% endblock scripts_local %}  
+{% endblock content %}

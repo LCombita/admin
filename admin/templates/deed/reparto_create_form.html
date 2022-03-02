@@ -16,27 +16,30 @@
                 <form action="" method="post">{% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.hoja_ruta.errors }}
                                 {{ form.hoja_ruta }}
                                 <p class="help">{{ form.hoja_ruta.help_text|safe }}</p>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.fecha_reparto.errors }}
                                 {{ form.fecha_reparto }}
                                 <p class="help">{{ form.fecha_reparto.help_text|safe }}</p>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="fieldWrapper">
                                 {{ form.protocolista.errors }}
                                 {{ form.protocolista}}
                                 <p class="help">{{ form.protocolista.help_text|safe }}</p>
                             </div>
                         </div>
+                        <a href="#">
+                            <ion-icon name="person-add"></ion-icon>
+                        </a>
                         <div class="col-md-4">
                             <div class="fieldWrapper">
                                 {{ form.anio_escritura }}
@@ -50,7 +53,10 @@
                                 {{ form.proyecto }}
                                 <p class="help">{{ form.proyecto.help_text|safe }}</p>
                             </div>
-                        </div>        
+                        </div>
+                        <a href="{% url 'deed:proyecto-create' %}">
+                            <ion-icon name="add-outline"></ion-icon>
+                        </a>        
                         <div class="col-md-6">
                             <div class="fieldWrapper">
                                 {{ form.acto_juridico.errors }}
@@ -58,7 +64,10 @@
                                 <p class="help">{{ form.acto_juridico.help_text|safe }}</p>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <a href="#">
+                            <ion-icon name="add-outline"></ion-icon>
+                        </a>     
+                        <div class="col-md-1">
                             <div class="fieldWrapper">
                                 {{ form.activo.errors }}
                                 {{ form.activo}}

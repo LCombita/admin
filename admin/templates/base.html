@@ -29,7 +29,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="{% url 'registration:home' %}" class="nav-link">Home</a>
+            <a href="{% url 'registration:home' %}" class="nav-link"><b>Inicio</b></a>
           </li>
         </ul>
         <!-- Right navbar links -->
@@ -112,6 +112,29 @@
                     <a href="{% url 'deed:reparto-list' %}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Listar Hojas de Ruta</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>
+                    PROYECTO
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'deed:proyecto-create' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Crear Proyecto</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'deed:proyecto-list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Listar Proyectos</p>
                     </a>
                   </li>
                 </ul>
@@ -201,15 +224,20 @@
       </footer>
     </div>
     <!-- ./wrapper -->
-    <!-- jQuery 
+    <!-- jQuery  
     <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script> -->
     <script src="{% static 'registration/dist/js/adminlte.js' %}"></script>
     <script src="{% static 'registration/dist/js/demo.js' %}"></script>
+    <!-- GENERA PROBLEMAS CON LAS TABLAS 
     <script src="{% static 'registration/dist/js/pages/dashboard.js' %}"></script>
+    -->
     <!-- select2 -->
     <script src="{% static 'registration/plugins/select2/js/select2.full.min.js' %}"></script>
         <!-- modal 
     <script src="{% static 'registration/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
+    <!-- iconos -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- calendario -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>  
       <!-- idioma -->

@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
-from .models import Reparto
+from .models import Reparto, Proyecto
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
+from .forms import ProyectoCreateForm
 from django.urls import reverse_lazy
 
 class RepartoUpdateView(UpdateView):
@@ -34,10 +35,29 @@ class RepartoListView(ListView):
 
 
 class RepartoCreateView(CreateView):
+
     model = Reparto
     form_class = RepartoCreateForm
     template_name = 'deed/reparto_create_form.html'
 
     def get_success_url(self):
         return reverse_lazy('deed:reparto-update', args=[self.object.id])
+
+
+class ProyectoCreateView(CreateView):
+    model = Proyecto
+    form_class = ProyectoCreateForm
+    template_name = 'deed/proyecto_create_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('deed:proyecto-create')
+
+
+class ProyectoListView(ListView):
+    """Gestiona la lista proyectos"""
+    model=Proyecto
+
+
+
+
     
