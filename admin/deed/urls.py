@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RepartoUpdateView, RepartoListView, NumeroEscrituraUpdateView
-from .views import RepartoCreateView, ProyectoCreateView, ProyectoListView
+from .views import RepartoCreateView
 
 deed_patterns = ([
     path('rep-cre', RepartoCreateView.as_view(), name='reparto-create'),
@@ -8,6 +8,6 @@ deed_patterns = ([
     path('num-esc/<int:pk>', NumeroEscrituraUpdateView.as_view(), name='numero-escritura'),
     path('rep-list', RepartoListView.as_view(), name='reparto-list'),
     #proyecto
-    path('pro-cre', ProyectoCreateView.as_view(), name='proyecto-create'),
-    path('pro-list', ProyectoListView.as_view(), name='proyecto-list'),
+    #path('pro-cre', ProyectoCreateView.as_view(), name='proyecto-create'),
+    #path('pro-list', ProyectoListView.as_view(), name='proyecto-list'),
 ], 'deed')
