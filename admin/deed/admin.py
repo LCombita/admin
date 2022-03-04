@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Reparto, Cliente, ActoJuridico, Proyecto, Inmueble, OtorganteReparto
-from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
+from .models import Reparto, ActoJuridico, Proyecto, Inmueble, OtorganteReparto
+#from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto, Cliente
 
 
 class RepartoAdmin(admin.ModelAdmin):
@@ -13,14 +13,14 @@ class RepartoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Reparto, RepartoAdmin)
-admin.site.register(Cliente)
+#admin.site.register(Cliente)
 admin.site.register(ActoJuridico)
 admin.site.register(Proyecto)
 admin.site.register(Inmueble)
 admin.site.register(OtorganteReparto)
-admin.site.register(Etapa)
-admin.site.register(RepartoEtapa)
-admin.site.register(ObservacionEtapa)
-admin.site.register(Revision)
-admin.site.register(Impuesto)
+#admin.site.register(Etapa)
+#admin.site.register(RepartoEtapa)
+#admin.site.register(ObservacionEtapa)
+#admin.site.register(Revision)
+#admin.site.register(Impuesto)
 
