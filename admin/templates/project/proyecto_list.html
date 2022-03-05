@@ -16,10 +16,6 @@
         </h3>
     </div>
     <div class="card-body">
-        <div class="col-md-3">
-            <a href="{% url 'project:proyecto-create' %}" class="btn btn-secondary" >nuevo</a>
-        </div>
-        <hr size="1px" width="100%" noshade="noshade" align="center" />
         <table id="prolist" class="display" style="width:100%">
             <thead>
             <tr>
@@ -36,12 +32,13 @@
                     <td>{{ proyecto.cliente | safe }}</td>
                     <td>
                         {% for tramitador in proyecto.tramitador.all %}
-                            {{ tramitador }}
+                            {{ tramitador }} {% if not forloop.last %} / {% endif %}
                         {% endfor %}
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a href="{% url 'project:proyecto-create' %}" class="btn btn-warning btn-sm" >actualizar</a>
+                            <a href="{% url 'project:proyecto-update' proyecto.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                            <a href="{% url 'project:proyecto-delete' proyecto.id %}" class="btn btn-danger btn-sm" >eliminar</a>
                         </div>
                     </td>
                 </tr>

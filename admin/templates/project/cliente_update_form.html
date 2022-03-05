@@ -15,7 +15,10 @@
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
                     {{ form.as_p}}  
-                    <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                        <p><a href="{% url 'project:cliente-list' %}" class="btn btn-secondary " >Regresar</a></p>
+                    </div>
                 </form>
             </div>
         </div>

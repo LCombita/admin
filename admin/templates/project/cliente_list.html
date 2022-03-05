@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}ListaReparto{% endblock title %}
+{% block title %}Clientes{% endblock title %}
 
 {% block content %}
 
@@ -30,6 +30,7 @@
                     <td>
                         <div class="btn-group">
                             <a href="{% url 'project:cliente-update' cliente.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                            <a href="{% url 'project:cliente-delete' cliente.id %}" class="btn btn-danger btn-sm" >eliminar</a>
                         </div>
                     </td>
                 </tr>
