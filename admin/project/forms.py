@@ -1,5 +1,5 @@
 from django import forms
-from .models import Proyecto
+from .models import Proyecto, Cliente
 
 class ProyectoCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -20,3 +20,27 @@ class ProyectoCreateForm(forms.ModelForm):
             'tramitador': 'Seleccione tramitador de proyecto.',
             'nombre_proyecto': 'Introduzca el nombre del proyecto.'
             }
+
+
+class ClienteCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre_cliente'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Cliente
+        fields = ['id', 'nombre_cliente']
+        labels = {'nombre_cliente':''}
+        help_texts = {'nombre_cliente': 'Introduzca el nombre del cliente corporativo.'}
+
+
+class ClienteUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre_cliente'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Cliente
+        fields = ['id', 'nombre_cliente']
+        labels = {'nombre_cliente':''}
+        help_texts = {'nombre_cliente': 'Introduzca el nombre del cliente corporativo.'}

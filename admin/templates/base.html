@@ -95,7 +95,7 @@
               <li class="nav-header"><b>ESCRITURACIÓN</b></li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i><ion-icon name="layers-sharp"></ion-icon></i>
                   <p>
                     REPARTO
                     <i class="fas fa-angle-left right"></i>
@@ -118,7 +118,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
+                  <i><ion-icon name="library-sharp"></ion-icon></i>
                   <p>
                     PROYECTO
                     <i class="fas fa-angle-left right"></i>
@@ -135,6 +135,18 @@
                     <a href="{% url 'project:proyecto-list' %}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Listar Proyectos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'project:cliente-create' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Crear Cliente</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'project:cliente-list' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Listar Clientes</p>
                     </a>
                   </li>
                 </ul>
@@ -161,7 +173,7 @@
                 <li class="nav-header"><b>GESTIÓN DE USUARIOS</b></li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-edit"></i>
+                    <i><ion-icon name="people-sharp"></ion-icon></i>
                     <p>
                       OTORGANTES
                       <i class="fas fa-angle-left right"></i>
