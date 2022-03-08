@@ -1,6 +1,8 @@
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView
-from .models import Reparto
+from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic.edit import DeleteView
+from .models import Reparto, ActoJuridico
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
+from .forms import ActoCreateForm, ActoUpdateForm
 from django.urls import reverse_lazy
 
 class RepartoUpdateView(UpdateView):
@@ -43,7 +45,32 @@ class RepartoCreateView(CreateView):
         return reverse_lazy('deed:reparto-update', args=[self.object.id])
 
 
+#ACTOS JURIDICOS
+class ActoCreateView(CreateView):
+
+    model = ActoJuridico
+    form_class = ActoCreateForm
+    template_name = 'deed/acto_create_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('deed:acto-list')
 
 
+class ActoUpdateView(UpdateView):
+    """Gestiona el formulario para actualizar los datos del modelo ActoJuridico"""
+    model = ActoJuridico
+    form_class = ActoUpdateForm
+    template_name = 'deed/acto_update_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('deed:acto-list')
 
     
+class ActoListView(ListView):
+    """Gestiona la lista de actos jurídicos"""
+    model=ActoJuridico
+
+
+class ActoDeleteView(DeleteView):
+    model = ActoJuridico
+    success_url = reverse_lazy('deed:acto-list')

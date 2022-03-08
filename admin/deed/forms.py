@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reparto, Proyecto
+from .models import Reparto, ActoJuridico
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -124,3 +124,26 @@ class RepartoCreateForm(forms.ModelForm):
             }
 
 
+#ACTOS JURIDICOS
+class ActoCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre_acto'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = ActoJuridico
+        fields = ['id', 'nombre_acto']
+        labels = { 'nombre_acto':''}
+        help_texts = {'nombre_acto': 'Introduzca el nombre del acto jurídico.'}
+
+
+class ActoUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre_acto'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = ActoJuridico
+        fields = ['id', 'nombre_acto']
+        labels = { 'nombre_acto':''}
+        help_texts = {'nombre_acto': 'Introduzca el nombre del acto jurídico.'}
