@@ -3,6 +3,21 @@ from deed.models import Reparto
 
 
 class Etapa(models.Model):
+    SELECCIONE = 'SEL'
+    RECEPCION = 'REC'
+    EXTENCION = 'EXT'
+    OTORGAMIENTO = 'OTO'
+    AUTORIZACION = 'AUT'
+    tipo_etapa_choices = [
+        (SELECCIONE, 'SELECCIONE'),
+        (RECEPCION, 'RECEPCION'),
+        (EXTENCION, 'EXTENCION'),
+        (OTORGAMIENTO, 'OTORGAMIENTO'),
+        (AUTORIZACION, 'AUTORIZACION'),
+    ]
+
+    tipo_etapa = models.CharField(
+            max_length=3, choices=tipo_etapa_choices, default=SELECCIONE)
     nombre_etapa = models.CharField(
         max_length=150, verbose_name='Etapa')
     activo = models.BooleanField(
