@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}rep-upd{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Actualizar Reparto</b></a>
+            </h3>
+        </div>
+        <div class="btn-group">
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                <h4>Hoja de Ruta: <h4>
+                                {{ reparto.hoja_ruta }}
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                <h4>Escritura: <h4>
+                                {{ reparto.anio_escritura }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ reparto.fecha_escritura }}
+                            </div>
+                        </div> 
+                    </div>        
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ reparto.fecha_reparto }}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="fieldWrapper">
+                                {{ reparto.proyecto }}
+                            </div>
+                        </div>        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="fieldWrapper">
+                                {{ reparto.acto_juridico}}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ reparto.activo}}
+                            </div>
+                        </div>       
+                    </div>
+                    <div class="btn-group">
+                        <p><a href="{% url 'deed:reparto-list' %}" class="btn btn-secondary" >regresar</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+   
+    {% block scripts_local %}  
+    {% endblock scripts_local %}
+
+{% endblock content %}
