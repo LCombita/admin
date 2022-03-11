@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}ListaReparto{% endblock title %}
+
+{% block content %}
+
+<!-- table -->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+
+<div class="card card-info">
+    <div class="card-header-gen">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Actos Jurídicos</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table id="replist" class="display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Acto Jurídico</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for acto in actojuridico_list %}
+                <tr>
+                    <td>{{ acto.nombre_acto}}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'deed:acto-update' acto.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                            <a href="{% url 'deed:acto-delete' acto.id %}" class="btn btn-danger btn-sm" >eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <li>No hay datos para mostrar.</li>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+ table -->
+<script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#replist').DataTable({
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu":     "Mostrar _MENU_ registros.",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
+        });
+    }); 
+</script>
+{% block scripts_local %}
+{% endblock scripts_local %} 
+
+{% endblock content %}

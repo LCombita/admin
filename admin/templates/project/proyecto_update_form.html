@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateProyecto{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Actualizar Proyecto</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{ form.as_p}} 
+                    <div class="btn-group">
+                    <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                    <p><a href="{% url 'project:proyecto-list' %}" class="btn btn-secondary " >Regresar</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+        {% block scripts_local %}
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+    {% endblock scripts_local %}  
+{% endblock content %}

@@ -1,0 +1,8 @@
+.card-header-gen {
+  padding:.75rem 1.25rem;
+  margin-bottom:0;
+  background-color:#00B388;
+  border-bottom:0 solid rgba(0,0,0,.125);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  }

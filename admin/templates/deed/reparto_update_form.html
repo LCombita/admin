@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}rep-upd{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Actualizar Reparto</b></a>
+            </h3>
+        </div>
+        <div class="btn-group">
+            <!-- boton modal           
+            <button onclick="modal_numesc('{% url 'deed:numero-escritura' object.id %}')"type="button" class="btn btn-secondary">
+                numerar escritura
+            </button>
+            -->
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.hoja_ruta.errors }}
+                                {{ form.hoja_ruta }}
+                                <p class="help">{{ form.hoja_ruta.help_text|safe }}</p>
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.anio_escritura.errors }}
+                                {{ form.anio_escritura }}
+                                <p class="help">{{ form.anio_escritura.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_escritura.errors }}
+                                {{ form.fecha_escritura }}
+                                <p class="help">{{ form.fecha_escritura.help_text|safe }}</p>
+                            </div>
+                        </div> 
+                        <div class="col-md-3">
+                            <a href="{% url 'deed:numero-escritura' object.id %}" class="btn btn-secondary btn-block" ><b>numerar escritura</b></a>
+                        </div>
+                    </div>        
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ form.fecha_reparto.errors }}
+                                {{ form.fecha_reparto }}
+                                <p class="help">{{ form.fecha_reparto.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="fieldWrapper">
+                                {{ form.proyecto.errors }}
+                                {{ form.proyecto }}
+                                <p class="help">{{ form.proyecto.help_text|safe }}</p>
+                            </div>
+                        </div>        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="fieldWrapper">
+                                {{ form.acto_juridico.errors }}
+                                {{ form.acto_juridico}}
+                                <p class="help">{{ form.acto_juridico.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.activo.errors }}
+                                {{ form.activo}}
+                                <p class="help">{{ form.activo.help_text|safe }}</p>
+                            </div>
+                        </div>       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.escritura.errors }}
+                                {{ form.escritura }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                        <p><a href="{% url 'deed:reparto-list' %}" class="btn btn-secondary" >regresar</a></p>
+                        <p><a href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" class="btn btn-warning" >inmuebles</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- cargar la modal numerar escritura 
+    <div class="modal fade" id="modal_numesc" role="dialog"> </div> -->
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- para modal 
+    <script src="{% static 'registration/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
+    
+    
+    {% block scripts_local %}  
+        <!-- calendario -->
+        <script> 
+            var fechareparto = document.getElementById("id_fecha_reparto");
+            fechareparto.addEventListener("click", function(){
+                $("#id_fecha_reparto").datetimepicker({  
+                format: 'd/m/Y',  
+                timepicker:false  
+                }); 
+            })
+        </script>
+        <!-- select2 -->
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+        <!-- modal
+        <script>
+            function modal_numesc(url){
+                $('#modal_numesc').load(url, function(){
+                    $(this).modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+                    //$(this).modal('show');
+                    });
+                return false;
+            }
+        </script>
+         ./modal -->
+    {% endblock scripts_local %}  
+{% endblock content %}

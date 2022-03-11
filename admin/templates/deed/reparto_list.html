@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}ListaReparto{% endblock title %}
+
+{% block content %}
+
+<!-- table -->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+
+<div class="card card-info">
+    <div class="card-header-gen">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Hojas de Ruta</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table id="replist" class="display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Hoja Ruta</th>
+                <th>Fecha Hoja Ruta</th>
+                <th>Proyecto</th>
+                <th># Escritura</th>
+                <th>Fecha Escritura</th>
+                <th>Escritura</th>
+                <th>Acción  </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reparto in reparto_list %}
+                <tr>
+                    <td>{{ reparto.hoja_ruta}}</td>
+                    <td>{{ reparto.fecha_reparto | date:'d/m/Y' }}</td>
+                    <td>{{ reparto.proyecto }}</td>
+                    <td>{{ reparto.escritura }}</td>
+                    <td>{{ reparto.fecha_escritura | date:'d/m/Y'}}</td>
+                    <td>{{ reparto.anio_escritura }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'deed:reparto-update' reparto.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <li>No hay datos para mostrar.</li>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+ table -->
+<script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#replist').DataTable({
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu":     "Mostrar _MENU_ registros.",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
+        });
+    }); 
+</script>
+{% block scripts_local %}
+{% endblock scripts_local %} 
+
+{% endblock content %}
