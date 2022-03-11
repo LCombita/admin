@@ -1,5 +1,7 @@
 from django import forms
-from .models import Reparto, ActoJuridico
+from .models import Reparto, ActoJuridico, Inmueble
+from django.forms import BaseInlineFormSet
+from django.forms import inlineformset_factory
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -147,3 +149,17 @@ class ActoUpdateForm(forms.ModelForm):
         fields = ['id', 'nombre_acto']
         labels = { 'nombre_acto':''}
         help_texts = {'nombre_acto': 'Introduzca el nombre del acto jurídico.'}
+
+
+#INMUEBLES
+"""
+class InmuebleInlineFormSet(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['reparto'].widget.attrs.update({'class': 'form-control'})
+        self.fields['inmueble'].widget.attrs.update({'class': 'form-control'})
+        self.fields['matricula'].widget.attrs.update({'class': 'form-control'})
+"""
+
+RepartoInmuebleFormSet = inlineformset_factory(
+    Reparto, Inmueble, fields=('reparto', 'inmueble', 'matricula',), max_num=2, extra=2)

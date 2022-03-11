@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RepartoUpdateView, RepartoListView, NumeroEscrituraUpdateView
-from .views import RepartoCreateView
+from .views import RepartoCreateView, RepartoInmuebleEditView
 from .views import ActoCreateView, ActoUpdateView, ActoListView, ActoDeleteView
 
 deed_patterns = ([
@@ -13,4 +13,6 @@ deed_patterns = ([
     path('act-upd/<int:pk>', ActoUpdateView.as_view(), name='acto-update'),
     path('act-del/<int:pk>', ActoDeleteView.as_view(), name='acto-delete'),
     path('act-list', ActoListView.as_view(), name='acto-list'),
+    #INMUEBLES
+    path('rep-inm/<int:pk>', RepartoInmuebleEditView.as_view(), name='reparto-inmueble-edit'),
 ], 'deed')

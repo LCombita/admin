@@ -3,6 +3,7 @@ from registration.models import User
 from project.models import Proyecto
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.urls import reverse_lazy
 
 
 class ActoJuridico(models.Model):
@@ -41,6 +42,9 @@ class Reparto(models.Model):
         verbose_name = 'Hoja de Ruta'
         verbose_name_plural = 'Hojas de Ruta'
     
+    #def get_absolute_url(self):
+    #    return reverse_lazy('deed:reparto-update', args=[self.object.id])
+
     def __str__(self):
         return str(self.id)
 

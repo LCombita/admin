@@ -1,9 +1,13 @@
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeleteView
 from .models import Reparto, ActoJuridico
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
+from .forms import RepartoInmuebleFormSet
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+
 
 class RepartoUpdateView(UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo reparto"""
@@ -74,3 +78,33 @@ class ActoListView(ListView):
 class ActoDeleteView(DeleteView):
     model = ActoJuridico
     success_url = reverse_lazy('deed:acto-list')
+
+
+#IMUEBLES
+class RepartoInmuebleEditView(SingleObjectMixin, FormView):
+
+    model = Reparto
+    template_name = 'deed/reparto_inmueble_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().post(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        return RepartoInmuebleFormSet(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        #messages.add_message(
+        #    self.request,
+        #    messages.SUCCESS,
+        #    'Changes were saved.'
+        #)
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse_lazy('deed:reparto-inmueble-edit', args=[self.object.id])
