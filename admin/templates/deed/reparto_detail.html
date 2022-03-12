@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}rep-upd{% endblock title %}
+{% block title %}rep-det{% endblock title %}
 
 {% block content %}
     <style>.errorlist{color:red;}</style>
     <div class="card card-success">     
         <div class="card-header-gen">
             <h3 class="card-title"> 
-                <a style="color:#ffffff"><b>Actualizar Reparto</b></a>
+                <a style="color:#ffffff"><b>Hoja de Ruta: {{ reparto.hoja_ruta }}</b></a>
             </h3>
         </div>
         <div class="btn-group">
@@ -17,50 +17,45 @@
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                <h4>Hoja de Ruta: <h4>
-                                {{ reparto.hoja_ruta }}
-                            </div> 
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                <h4>Escritura: <h4>
-                                {{ reparto.anio_escritura }}
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                {{ reparto.fecha_escritura }}
-                            </div>
-                        </div> 
-                    </div>        
-                    <div class="row">
                         <div class="col-md-4">
-                            <div class="fieldWrapper">
-                                {{ reparto.fecha_reparto }}
+                            <div class="row">
+                                <h5>Fecha Reparto: &nbsp <h5>
+                                <b>{{ reparto.fecha_reparto | date:'d/m/Y'}}</b>
+                            </div>
+                            <div class="row">
+                                <h5>Escritura: &nbsp <h5>
+                                {%if reparto.anio_escritura%}
+                                    <b>{{ reparto.anio_escritura }}</b>
+                                {%else%}
+                                    ---
+                                {% endif %}
+                            </div>
+                            <div class="row">    
+                                <h5>Fecha Escritura: &nbsp <h5>
+                                {% if reparto.fecha_escritura %}
+                                    <b>{{ reparto.fecha_escritura | date:'d/m/Y'}}</b>
+                                {% else %}
+                                    ---
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="fieldWrapper">
-                                {{ reparto.proyecto }}
+                            <div class="row">
+                                <h5>Proyecto: &nbsp <h5>
+                                <b>{{ reparto.proyecto }}</b>
                             </div>
-                        </div>        
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="fieldWrapper">
-                                {{ reparto.acto_juridico}}
+                            <div class="row">
+                                <h5>Acto Jurídico: &nbsp <h5>
+                                {% for acto in reparto.acto_juridico.all %}
+                                    <b>{{ acto }} {% if not forloop.last %} - {% endif %}</b>
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                {{ reparto.activo}}
-                            </div>
-                        </div>       
                     </div>
+                    <hr>
                     <div class="btn-group">
                         <p><a href="{% url 'deed:reparto-list' %}" class="btn btn-secondary" >regresar</a></p>
+                        <p><a href="{% url 'deed:reparto-update' reparto.id %}" class="btn btn-warning" >actualizar</a></p>
                     </div>
                 </form>
             </div>

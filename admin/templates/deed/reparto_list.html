@@ -22,10 +22,9 @@
                 <th>Hoja Ruta</th>
                 <th>Fecha Hoja Ruta</th>
                 <th>Proyecto</th>
-                <th># Escritura</th>
                 <th>Fecha Escritura</th>
                 <th>Escritura</th>
-                <th>Acción  </th>
+                <th>Detalle</th>
             </tr>
             </thead>
             <tbody>
@@ -34,12 +33,23 @@
                     <td>{{ reparto.hoja_ruta}}</td>
                     <td>{{ reparto.fecha_reparto | date:'d/m/Y' }}</td>
                     <td>{{ reparto.proyecto }}</td>
-                    <td>{{ reparto.escritura }}</td>
-                    <td>{{ reparto.fecha_escritura | date:'d/m/Y'}}</td>
-                    <td>{{ reparto.anio_escritura }}</td>
+                    <td>
+                    {% if reparto.fecha_escritura %}
+                        {{ reparto.fecha_escritura | date:'d/m/Y'}}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
+                    <td>
+                    {% if reparto.anio_escritura %}
+                        {{ reparto.anio_escritura }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
                     <td>
                         <div class="btn-group">
-                            <a href="{% url 'deed:reparto-detail' reparto.id %}" class="btn btn-warning btn-sm" >detalle</a>
+                            <a href="{% url 'deed:reparto-detail' reparto.id %}" class="btn btn-warning btn-sm" >&nbsp &nbsp &nbsp <b>ver</b> &nbsp &nbsp &nbsp</a>
                         </div>
                     </td>
                 </tr>

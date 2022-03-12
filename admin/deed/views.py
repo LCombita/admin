@@ -16,7 +16,7 @@ class RepartoUpdateView(UpdateView):
     template_name = 'deed/reparto_update_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('deed:reparto-update', args=[self.object.id])
+        return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
 
 class NumeroEscrituraUpdateView(UpdateView):
@@ -46,7 +46,7 @@ class RepartoCreateView(CreateView):
     template_name = 'deed/reparto_create_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('deed:reparto-update', args=[self.object.id])
+        return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
 class RepartoDetailView(DetailView):
     model = Reparto
