@@ -18,7 +18,7 @@
     <div class="card-body">
         <table id="replist" class="display" style="width:100%">
             <thead>
-            <tr>
+            <tr style="text-align: center;">
                 <th>Hoja Ruta</th>
                 <th>Fecha Hoja Ruta</th>
                 <th>Proyecto</th>
@@ -29,7 +29,7 @@
             </thead>
             <tbody>
             {% for reparto in reparto_list %}
-                <tr>
+                <tr style="text-align: center;">
                     <td>{{ reparto.hoja_ruta}}</td>
                     <td>{{ reparto.fecha_reparto | date:'d/m/Y' }}</td>
                     <td>{{ reparto.proyecto }}</td>

@@ -1,12 +1,13 @@
 from django.views.generic import CreateView, UpdateView, ListView, FormView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeleteView
-from .models import Reparto, ActoJuridico
+from .models import Reparto, ActoJuridico, Inmueble
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
-from .forms import RepartoInmuebleFormSet
+from .forms import InmuebleInlineFormSet
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.forms import inlineformset_factory
 
 
 class RepartoUpdateView(UpdateView):
@@ -96,8 +97,12 @@ class RepartoInmuebleEditView(SingleObjectMixin, FormView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Reparto.objects.all())
         return super().post(request, *args, **kwargs)
-
-    def get_form(self, form_class=None):
+    
+    def get_form(self):
+        form_class = InmuebleInlineFormSet
+        RepartoInmuebleFormSet = inlineformset_factory(
+            Reparto, Inmueble, fields=('reparto', 'inmueble', 'matricula',),
+            form=form_class, max_num=Inmueble.objects.filter(reparto=self.object).count()+1)
         return RepartoInmuebleFormSet(**self.get_form_kwargs(), instance=self.object)
 
     def form_valid(self, form):
