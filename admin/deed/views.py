@@ -52,6 +52,10 @@ class RepartoCreateView(CreateView):
 class RepartoDetailView(DetailView):
     model = Reparto
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inmueble'] = Inmueble.objects.filter(reparto=self.object.id)
+        return context
 
 #ACTOS JURIDICOS
 class ActoCreateView(CreateView):
@@ -116,3 +120,4 @@ class RepartoInmuebleEditView(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         return reverse_lazy('deed:reparto-inmueble-edit', args=[self.object.id])
+
