@@ -114,5 +114,6 @@ def actualizar_anioescritura(sender, instance, **kwargs):
                 anio_escritura=None)
         else:
             pass
+
 #consultas
 #https://programmerclick.com/article/66081820135/

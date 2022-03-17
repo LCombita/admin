@@ -2,6 +2,7 @@ from django.views.generic import CreateView, UpdateView, ListView, FormView, Det
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeleteView
 from .models import Reparto, ActoJuridico, Inmueble
+from stage.models import RepartoEtapa
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
 from .forms import InmuebleInlineFormSet
@@ -49,12 +50,14 @@ class RepartoCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
+
 class RepartoDetailView(DetailView):
     model = Reparto
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['inmueble'] = Inmueble.objects.filter(reparto=self.object.id)
+        context['etapas'] = RepartoEtapa.objects.filter(reparto=self.object.id)
         return context
 
 #ACTOS JURIDICOS

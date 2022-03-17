@@ -1,5 +1,7 @@
 from django.db import models
 from deed.models import Reparto
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Etapa(models.Model):
@@ -37,14 +39,14 @@ class RepartoEtapa(models.Model):
     etapa = models.ForeignKey(
         Etapa, on_delete=models.CASCADE, db_index=True, verbose_name='Etapa')
     fecha_inicio = models.DateField(
-        verbose_name='Fecha Inicio', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Inicio', null=True, blank=True)
     fecha_final = models.DateField(
-        verbose_name='Fecha Final', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Final', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Etapa Hoja Ruta'
         verbose_name_plural = 'Etapas Hoja Ruta'
-        ordering = ['-id']
+        ordering = ['id']
 
 
 class ObservacionEtapa(models.Model):
@@ -94,3 +96,11 @@ class Impuesto(models.Model):
     class Meta:
         verbose_name = 'Impuesto'
         verbose_name_plural = 'Impuestos'
+
+
+@receiver(post_save, sender=Reparto)
+def agregar_etapas_reparto(sender, instance, **kwargs):
+    if kwargs.get('created', False):
+        et = Etapa.objects.filter()
+        for e in et:
+            RepartoEtapa.objects.create(reparto=instance, etapa=e)

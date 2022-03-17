@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
-from .models import Etapa  
-from .forms import EtapaCreateForm, EtapaUpdateForm
+from .models import Etapa, RepartoEtapa
+from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.views.generic.edit import DeleteView
 
@@ -33,9 +33,17 @@ class EtapaUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('stage:etapa-list')
 
+
 class EtapaDeleteView(DeleteView):
     model = Etapa
     success_url = reverse_lazy('stage:etapa-list')
 
 
+#REPARTO ETAPA
+class RepartoEtapaUpdateView(UpdateView):
+    model = RepartoEtapa
+    form_class = RepartoEtapaUpdateForm
+    template_name = 'stage/reparto-etapa_update_form.html'
 
+    def get_success_url(self):
+        return reverse_lazy('stage:repartoetapa-update')

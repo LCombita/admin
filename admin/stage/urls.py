@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import EtapaCreateView, EtapaListView, EtapaDeleteView, EtapaUpdateView
+from .views import RepartoEtapaUpdateView
 
 
 stage_patterns = ([
@@ -9,4 +10,6 @@ stage_patterns = ([
     path('eta-list', EtapaListView.as_view(), name='etapa-list'),
     path('eta-upd/<int:pk>', EtapaUpdateView.as_view(), name='etapa-update'),
     path('eta-del/<int:pk>', EtapaDeleteView.as_view(), name='etapa-delete'),
+    #REPARTO ETAPA
+    path('ret-upd/<int:pk>', RepartoEtapaUpdateView.as_view(), name='repartoetapa-update'),
 ], 'stage')
