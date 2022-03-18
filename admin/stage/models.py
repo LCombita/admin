@@ -29,7 +29,7 @@ class Etapa(models.Model):
         verbose_name = 'Etapa'
         verbose_name_plural = 'Etapas'
 
-    def __ster__(self):
+    def __str__(self):
         return self.nombre_etapa
 
 
