@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Observaciones: </b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <div class="row"> {{ form.reparto }} {{ form.etapa }} 
+                        <h5>Observaciones para : &nbsp <h5>
+                        <b>{{object.etapa}}</b>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="fieldWrapper">
+                            {{ form.fecha_inicio.errors }}
+                            {{ repstage}}
+                            <p class="help">{{ form.fecha_inicio.help_text|safe }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                    <table class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Observación</th>
+                            <th>¿Eliminar?</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for obs in form.forms %}
+                            <tr style="text-align: center;">
+                                <td>{{obs.observacion}}</td>
+                                <td>{{obs.DELETE}}</td>
+                                <td>{{obs.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-update' object.id %}" class="btn btn-secondary" >volver</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+        {% block scripts_local %}
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+    {% endblock scripts_local %}  
+{% endblock content %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Etapa, RepartoEtapa
+from .models import Etapa, RepartoEtapa, ObservacionEtapa
 
 
 class EtapaCreateForm(forms.ModelForm):
@@ -41,18 +41,34 @@ class EtapaUpdateForm(forms.ModelForm):
 class RepartoEtapaUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['reparto'].widget.attrs.update({'class': 'form-control'})
-        self.fields['etapa'].widget.attrs.update({'class': 'form-control'})
-        self.fields['fecha_inicio'].widget.attrs.update({'class': 'form-control'})
-        self.fields['fecha_final'].widget.attrs.update({'class': 'form-control'})
+        self.fields['reparto'].widget.attrs.update(
+            {'class': 'form-control', 'hidden':'True'})
+        self.fields['etapa'].widget.attrs.update(
+            {'class': 'form-control', 'hidden':'True'})
+        self.fields['fecha_inicio'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True'})
+        self.fields['fecha_final'].widget.attrs.update(
+            {'class': 'form-control', 'readonly':'True'})
 
     class Meta:
         model = RepartoEtapa
         fields = ['id', 'reparto', 'etapa', 'fecha_inicio', 'fecha_final']
         labels = {'reparto':'', 'etapa':'', 'fecha_inicio':'', 'fecha_final':''}
         help_texts = {
-            'reparto': 'Seleccione el reparto.',
-            'etapa': 'Seleccione el nombre de la etapa.',
-            'fecha_inicio': 'Seleccion fecha.',
-            'fecha_final': 'Seleccion fecha.',
+            'reparto': 'Hoja de ruta.',
+            'etapa': 'Etapa.',
+            'fecha_inicio': 'Seleccione la fecha de inicio.',
+            'fecha_final': 'Seleccione la fecha final.',
             }
+
+
+class ObservacionInlineFormSet(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['observacion'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = ObservacionEtapa
+        fields = ['id', 'observacion']
+        labels = {'observacion':''}
+        help_texts = { 'observacion': 'Introduzca observaciones.', }
