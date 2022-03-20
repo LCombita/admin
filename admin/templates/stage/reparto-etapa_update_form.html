@@ -25,21 +25,28 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="fieldWrapper">
+                                {{ form.tipo_repartoetapa.errors }}
+                                {{ form.tipo_repartoetapa }}
+                                <p class="help">{{ form.tipo_repartoetapa.help_text|safe }}</p>
+                            </div> 
+                        </div>
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.fecha_inicio.errors }}
                                 {{ form.fecha_inicio }}
                                 <p class="help">{{ form.fecha_inicio.help_text|safe }}</p>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.fecha_final.errors }}
                                 {{ form.fecha_final }}
                                 <p class="help">{{ form.fecha_final.help_text|safe }}</p>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.finalizado.errors }}
                                 {{ form.finalizado }}
@@ -49,12 +56,17 @@
                     </div>
                     <hr>
                     <div class="btn-group">
-                    <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
-                    <p><a href="{% url 'stage:repartoetapa-detail' object.id %}" class="btn btn-secondary " >Observaciones</a></p>
-                    <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary " >Regresar</a></p>
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-detail' object.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
+                        {% if form.tipo_repartoetapa.value == 'R' %}
+                            <p><a href="{% url 'stage:repartoetapa-revision' object.id %}" class="btn btn-warning btn-sm" >revisión</a></p>
+                        {% elif form.tipo_repartoetapa.value == 'I' %}
+                            <p><a href="#" class="btn btn-warning btn-sm" >impuesto</a></p>
+                        {% endif %}
+                            <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
                     </div>
+                    <hr>
                 </form>
-                <hr>
                 <div class="row">
                     <table class="display" style="width:100%">
                         <thead>
@@ -70,7 +82,28 @@
                             {% endfor %}
                         <tbody>
                     </table>
-                    </div>
+                </div>
+                <!-- REVISION-->
+                <hr>
+                <div class="row">
+                    {% if form.tipo_repartoetapa.value == 'R' %}
+                    <table class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Notas de revisión</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for rev in revision %}
+                            <tr>
+                                <td>{{rev.fecha_revision | date:"d/m/Y" }} ||
+                                {{rev.descripcion}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

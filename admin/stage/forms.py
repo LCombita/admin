@@ -1,5 +1,5 @@
 from django import forms
-from .models import Etapa, RepartoEtapa, ObservacionEtapa
+from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision
 
 
 class EtapaCreateForm(forms.ModelForm):
@@ -41,6 +41,8 @@ class EtapaUpdateForm(forms.ModelForm):
 class RepartoEtapaUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['tipo_repartoetapa'].widget.attrs.update(
+            {'class': 'form-control'})
         self.fields['reparto'].widget.attrs.update(
             {'class': 'form-control', 'hidden':'True'})
         self.fields['etapa'].widget.attrs.update(
@@ -53,14 +55,26 @@ class RepartoEtapaUpdateForm(forms.ModelForm):
 
     class Meta:
         model = RepartoEtapa
-        fields = ['id', 'reparto', 'etapa', 'fecha_inicio', 'fecha_final', 'finalizado']
-        labels = {'reparto':'', 'etapa':'', 'fecha_inicio':'', 'fecha_final':'', 'finalizado':''}
+        fields = ['id',
+            'reparto',
+            'etapa',
+            'fecha_inicio',
+            'fecha_final',
+            'finalizado',
+            'tipo_repartoetapa',]
+        labels = {'reparto':'',
+            'etapa':'',
+            'fecha_inicio':'',
+            'fecha_final':'',
+            'finalizado':'',
+            'tipo_repartoetapa':'',}
         help_texts = {
             'reparto': 'Hoja de ruta.',
             'etapa': 'Etapa.',
             'fecha_inicio': 'Seleccione la fecha de inicio.',
             'fecha_final': 'Seleccione la fecha final.',
-            'finalizado': 'Active esta casilla si finalizó la etapa.',
+            'finalizado': 'Seleccione si finalizó la etapa.',
+            'tipo_repartoetapa': 'Seleccione el tipo de etapa.',
             }
 
 
@@ -75,4 +89,29 @@ class ObservacionInlineFormSet(forms.ModelForm):
         labels = {'observacion':'',}
         help_texts = {
             'observacion': 'Verifique la información que se va a introducir, ya que no se puede modificar o eliminar.',
+         }
+
+
+class RevisionInlineFormSet(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['fecha_revision'].widget.attrs.update({'class': 'form-control'})
+        self.fields['reproceso'].widget.attrs.update({'class': 'form-control'})
+        self.fields['descripcion'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Revision
+        fields = [
+            'id',
+            'fecha_revision',
+            'reproceso',
+            'descripcion']
+        labels = {
+            'fecha_revision':'',
+            'reproceso':'',
+            'descripcion':'',}
+        help_texts = {
+            'fecha_revision': 'Seleccione la fecha en que hizo la revisión.',
+            'reproceso': 'Seleccion esta obción si encontró errores en la revisión.',
+            'descripcion': 'Describa los hallazgos econtrados.',
          }

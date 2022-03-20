@@ -36,6 +36,16 @@ class Etapa(models.Model):
 
 
 class RepartoEtapa(models.Model):
+    GENERAL = 'G'
+    IMPUESTO = 'I'
+    REVISION = 'R'
+    tipo_repartoetapa_choices = [
+        (GENERAL, 'GENERAL'),
+        (IMPUESTO, 'IMPUESTO'),
+        (REVISION, 'REVISION'),
+    ]
+    tipo_repartoetapa = models.CharField(
+            max_length=1, choices=tipo_repartoetapa_choices, default=GENERAL)
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     etapa = models.ForeignKey(
@@ -70,12 +80,9 @@ class ObservacionEtapa(models.Model):
 class Revision(models.Model):
     reparto_etapa = models.ForeignKey(
         RepartoEtapa, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto - Etapa')
-    fecha_revision = models.DateField(
-        verbose_name='Fecha Final', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
-    reproceso = models.BooleanField(
-        default=False, verbose_name='Hubo Reproceso')
-    descripcion = models.CharField(
-        max_length=200, verbose_name='Descripción')
+    fecha_revision = models.DateField(verbose_name='Fecha Final')
+    reproceso = models.BooleanField(default=False)
+    descripcion = models.CharField(max_length=200)
 
     class Meta:
         verbose_name = 'Revisión'

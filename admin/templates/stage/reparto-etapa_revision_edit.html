@@ -8,7 +8,7 @@
     <div class="card card-success">     
         <div class="card-header-gen">
             <h3 style="color:#ffffff" class="card-title"> 
-                <a><b>Observaciones: </b></a>
+                <a><b>Revisión </b></a>
             </h3>
         </div>
         <div class="card-body">
@@ -17,36 +17,40 @@
                     {{form.management_form}}
                     {{form.non_form_errors}}
                     <div class="row"> {{ form.reparto }} {{ form.etapa }} 
-                        <h5>Observaciones para : &nbsp <h5>
+                        <h5>Revisión para : &nbsp <h5>
                         <b>{{object.etapa}}</b>
                     </div>
                     <hr>
                     <div class="row">
+                        <h6>La fecha debe estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
+                    </div>
+                    <div class="row">
                     <table class="display" style="width:100%">
                         <thead>
                         <tr>
-                            <th>Observación</th>
+                            <th style="width:150px" >Fecha</th>
+                            <th style="text-align: center; width:100px">Reproceso</th>
+                            <th style="width:750px" >Descripción</th>
                             <!-- <th>¿Eliminar?</th> -->
                         </tr>
                         </thead>
                         <tbody>
-                            {% for obs in form.forms %}
-                            <tr style="text-align: center;">
-                                <td>{{obs.observacion}}</td>
-                                <!-- <td>{{obs.DELETE}}</td> -->
-                                <td>{{obs.id}}</td>
+                            {% for rev in form.forms %}
+                            <tr>
+                                <td >{{rev.fecha_revision }}</td>
+                                <td style="text-align: center;" >{{rev.reproceso}}</td>
+                                <td>{{rev.descripcion}}</td>
+                                <!-- <td>{{rev.DELETE}}</td> -->
+                                <td>{{rev.id}}</td>
                             <tr>
                             {% endfor %}
                         <tbody>
                     </table>
                     </div>
-                    <div class="row">
-                    <h5>Las observaciones no se pueden modificar o borrar.<h5>
-                    </div>
                     <hr>
                     <div class="btn-group">
-                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
-                        <p><a href="{% url 'stage:repartoetapa-update' object.id %}" class="btn btn-secondary" >volver</a></p>
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-update' object.id %}" class="btn btn-secondary btn-sm" >volver</a></p>
                     </div>
                 </form>
             </div>
@@ -55,11 +59,6 @@
 
     <!-- para todas -->
     <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
-        {% block scripts_local %}
-        <script> 
-            $(function () {
-                $('.select2').select2()
-            })
-        </script>
+    {% block scripts_local %}
     {% endblock scripts_local %}  
 {% endblock content %}
