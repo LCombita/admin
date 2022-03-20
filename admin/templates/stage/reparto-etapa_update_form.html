@@ -39,6 +39,13 @@
                                 <p class="help">{{ form.fecha_final.help_text|safe }}</p>
                             </div> 
                         </div>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ form.finalizado.errors }}
+                                {{ form.finalizado }}
+                                <p class="help">{{ form.finalizado.help_text|safe }}</p>
+                            </div> 
+                        </div>
                     </div>
                     <hr>
                     <div class="btn-group">
@@ -58,7 +65,7 @@
                         <tbody>
                             {% for obs in observaciones %}
                             <tr>
-                                <td>{{obs.observacion}}</td>
+                                <td>{{obs.fecha_hora | date:"d/m/Y h:i A" }} || {{obs.observacion}}</td>
                             <tr>
                             {% endfor %}
                         <tbody>

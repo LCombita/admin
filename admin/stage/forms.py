@@ -49,16 +49,18 @@ class RepartoEtapaUpdateForm(forms.ModelForm):
             {'class': 'form-control', 'readonly':'True'})
         self.fields['fecha_final'].widget.attrs.update(
             {'class': 'form-control', 'readonly':'True'})
+        self.fields['finalizado'].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = RepartoEtapa
-        fields = ['id', 'reparto', 'etapa', 'fecha_inicio', 'fecha_final']
-        labels = {'reparto':'', 'etapa':'', 'fecha_inicio':'', 'fecha_final':''}
+        fields = ['id', 'reparto', 'etapa', 'fecha_inicio', 'fecha_final', 'finalizado']
+        labels = {'reparto':'', 'etapa':'', 'fecha_inicio':'', 'fecha_final':'', 'finalizado':''}
         help_texts = {
             'reparto': 'Hoja de ruta.',
             'etapa': 'Etapa.',
             'fecha_inicio': 'Seleccione la fecha de inicio.',
             'fecha_final': 'Seleccione la fecha final.',
+            'finalizado': 'Active esta casilla si finalizó la etapa.',
             }
 
 
@@ -70,5 +72,7 @@ class ObservacionInlineFormSet(forms.ModelForm):
     class Meta:
         model = ObservacionEtapa
         fields = ['id', 'observacion']
-        labels = {'observacion':''}
-        help_texts = { 'observacion': 'Introduzca observaciones.', }
+        labels = {'observacion':'',}
+        help_texts = {
+            'observacion': 'Verifique la información que se va a introducir, ya que no se puede modificar o eliminar.',
+         }

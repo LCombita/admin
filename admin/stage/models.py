@@ -1,7 +1,9 @@
+from datetime import datetime
 from django.db import models
 from deed.models import Reparto
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+import datetime
 
 
 class Etapa(models.Model):
@@ -42,6 +44,7 @@ class RepartoEtapa(models.Model):
         verbose_name='Fecha Inicio', null=True, blank=True)
     fecha_final = models.DateField(
         verbose_name='Fecha Final', null=True, blank=True)
+    finalizado = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Etapa Hoja Ruta'
@@ -51,7 +54,8 @@ class RepartoEtapa(models.Model):
 
 class ObservacionEtapa(models.Model):
     reparto_etapa = models.ForeignKey(
-        RepartoEtapa, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto - Etapa')
+        RepartoEtapa, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto-Etapa')
+    fecha_hora = models.DateTimeField(auto_now_add=True, verbose_name='Fecha-Hora-Observacion')
     observacion = models.CharField(
         max_length=150, verbose_name='Observación')
 

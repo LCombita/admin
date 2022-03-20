@@ -33,19 +33,22 @@
                         <thead>
                         <tr>
                             <th>Observación</th>
-                            <th>¿Eliminar?</th>
+                            <!-- <th>¿Eliminar?</th> -->
                         </tr>
                         </thead>
                         <tbody>
                             {% for obs in form.forms %}
                             <tr style="text-align: center;">
                                 <td>{{obs.observacion}}</td>
-                                <td>{{obs.DELETE}}</td>
+                                <!-- <td>{{obs.DELETE}}</td> -->
                                 <td>{{obs.id}}</td>
                             <tr>
                             {% endfor %}
                         <tbody>
                     </table>
+                    </div>
+                    <div class="row">
+                    <h5>Las observaciones no se pueden modificar o borrar.<h5>
                     </div>
                     <hr>
                     <div class="btn-group">
