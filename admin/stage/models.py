@@ -26,10 +26,12 @@ class Etapa(models.Model):
         max_length=150, verbose_name='Etapa')
     activo = models.BooleanField(
         default=True, verbose_name='Activa')
+    orden = models.SmallIntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Etapa'
         verbose_name_plural = 'Etapas'
+        ordering = ['orden']
 
     def __str__(self):
         return self.nombre_etapa
@@ -50,6 +52,7 @@ class RepartoEtapa(models.Model):
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     etapa = models.ForeignKey(
         Etapa, on_delete=models.CASCADE, db_index=True, verbose_name='Etapa')
+    orden = models.SmallIntegerField(null=True, blank=True)
     fecha_inicio = models.DateField(
         verbose_name='Fecha Inicio', null=True, blank=True)
     fecha_final = models.DateField(
@@ -60,6 +63,9 @@ class RepartoEtapa(models.Model):
         verbose_name = 'Etapa Hoja Ruta'
         verbose_name_plural = 'Etapas Hoja Ruta'
         ordering = ['id']
+    
+    def __str__(self):
+        return str(self.etapa) + "-" + str(self.reparto)
 
 
 class ObservacionEtapa(models.Model):
@@ -112,6 +118,11 @@ class Impuesto(models.Model):
 @receiver(post_save, sender=Reparto)
 def agregar_etapas_reparto(sender, instance, **kwargs):
     if kwargs.get('created', False):
-        et = Etapa.objects.filter()
+        i = 1
+        et = Etapa.objects.filter().order_by('orden')
         for e in et:
-            RepartoEtapa.objects.create(reparto=instance, etapa=e)
+            RepartoEtapa.objects.create(reparto=instance, etapa=e, orden=i)
+            i=i+1
+            print("desde el ciclo for: ", i)
+        i=1
+

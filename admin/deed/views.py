@@ -57,7 +57,7 @@ class RepartoDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['inmueble'] = Inmueble.objects.filter(reparto=self.object.id)
-        context['etapas'] = RepartoEtapa.objects.filter(reparto=self.object.id)
+        context['etapas'] = RepartoEtapa.objects.filter(reparto=self.object.id).order_by('orden')
         return context
 
 #ACTOS JURIDICOS
