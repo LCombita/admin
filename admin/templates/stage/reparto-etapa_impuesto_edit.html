@@ -8,7 +8,7 @@
     <div class="card card-success">     
         <div class="card-header-gen">
             <h3 style="color:#ffffff" class="card-title"> 
-                <a><b>Revisión </b></a>
+                <a><b>Impuesto </b></a>
             </h3>
         </div>
         <div class="card-body">
@@ -17,33 +17,33 @@
                     {{form.management_form}}
                     {{form.non_form_errors}}
                     <div class="row"> {{ form.reparto }} {{ form.etapa }} 
-                        <h5>Revisión para : &nbsp <h5>
+                        <h5>Detalle de impuestos para : &nbsp <h5>
                         <b>{{object.etapa}}</b>
                     </div>
                     <hr>
                     <div class="row">
-                        <h6>La fecha debe estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
+                        <h6>Las fechas deben estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
                     </div>
                     <div class="row">
                     <table class="display" style="width:100%">
                         <thead>
                         <tr>
-                            <th style="width:150px" >Fecha</th>
-                            <th style="text-align: center; width:100px">Reproceso</th>
-                            <th style="width:750px" >Descripción</th>
+                            <th style="width:150px" ># boleta rentas</th>
+                            <th>fecha boleta rentas</th>
+                            <th># boleta registro</th>
+                            <th>fecha boleta registro</th>
                             <!-- <th>¿Eliminar?</th> -->
                         </tr>
                         </thead>
                         <tbody>
-                            {% for rev in form.forms %}
+                            {% for imp in form.forms %}
                             <tr>
-                                <td>{{rev.fecha_revision}} {{rev.fecha_revision.errors }}</td>
-                                <td style="text-align: center;" >
-                                    {{rev.reproceso}} {{rev.reproceso.errors}}
-                                </td>
-                                <td>{{rev.descripcion}} {{rev.descripcion.errors}}</td>
+                                <td>{{imp.boleta_rentas}}{{imp.boleta_rentas.errors}}</td>
+                                <td>{{imp.fecha_boleta_rentas}} {{imp.fecha_boleta_rentas.errors}}</td>
+                                <td>{{imp.boleta_registro}} {{imp.boleta_registro.errors}}</td>
+                                <td>{{imp.fecha_boleta_registro}} {{imp.fecha_boleta_registro.errors}}</td>
                                 <!-- <td>{{rev.DELETE}}</td> -->
-                                <td>{{rev.id}}</td>
+                                <td>{{imp.id}}</td>
                             <tr>
                             {% endfor %}
                         <tbody>

@@ -61,7 +61,7 @@
                         {% if form.tipo_repartoetapa.value == 'R' %}
                             <p><a href="{% url 'stage:repartoetapa-revision' object.id %}" class="btn btn-warning btn-sm" >revisión</a></p>
                         {% elif form.tipo_repartoetapa.value == 'I' %}
-                            <p><a href="#" class="btn btn-warning btn-sm" >impuesto</a></p>
+                            <p><a href="{% url 'stage:repartoetapa-impuesto' object.id %}" class="btn btn-warning btn-sm" >impuesto</a></p>
                         {% endif %}
                             <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
                     </div>
@@ -83,8 +83,8 @@
                         <tbody>
                     </table>
                 </div>
-                <!-- REVISION-->
                 <hr>
+                <!-- REVISION-->
                 <div class="row">
                     {% if form.tipo_repartoetapa.value == 'R' %}
                     <table class="display" style="width:100%">
@@ -98,6 +98,32 @@
                             <tr>
                                 <td>{{rev.fecha_revision | date:"d/m/Y" }} ||
                                 {{rev.descripcion}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                <hr>
+                <!-- IMPUESTO-->
+                <div class="row">
+                    {% if form.tipo_repartoetapa.value == 'I' %}
+                    <table class="display" style="width:50%">
+                        <thead>
+                        <tr>
+                            <th>Boleta de rentas</th>
+                            <th>Boleta de Registro</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for imp in impuesto %}
+                            <tr>
+                                <td>
+                                    {{imp.boleta_rentas}} || {{imp.fecha_boleta_rentas | date:"d/m/Y" }}
+                                </td>
+                                <td>
+                                    {{imp.boleta_registro}} || {{imp.fecha_boleta_registro | date:"d/m/Y" }}
+                                </td>
                             <tr>
                             {% endfor %}
                         <tbody>

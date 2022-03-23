@@ -102,13 +102,13 @@ class Impuesto(models.Model):
     reparto_etapa = models.ForeignKey(
         RepartoEtapa, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto - Etapa')
     boleta_rentas = models.CharField(
-        max_length=20, verbose_name='Boleta Rentas')
+        max_length=20, null=True, blank=True, verbose_name='Boleta Rentas')
     fecha_boleta_rentas = models.DateField(
-        verbose_name='Fecha Boleta Rentas', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Boleta Rentas', null=True, blank=True, help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
     boleta_registro = models.CharField(
-        max_length=20, verbose_name='Boleta Registro')
+        max_length=20, null=True, blank=True, verbose_name='Boleta Registro')
     fecha_boleta_registro = models.DateField(
-        verbose_name='Fecha Boleta Registro', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Boleta Registro', null=True, blank=True, help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
 
     class Meta:
         verbose_name = 'Impuesto'

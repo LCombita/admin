@@ -1,5 +1,5 @@
 from django import forms
-from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision
+from .models import Etapa, Impuesto, RepartoEtapa, ObservacionEtapa, Revision
 
 
 class EtapaCreateForm(forms.ModelForm):
@@ -115,3 +115,39 @@ class RevisionInlineFormSet(forms.ModelForm):
             'reproceso': 'Seleccion esta obción si encontró errores en la revisión.',
             'descripcion': 'Describa los hallazgos econtrados.',
          }
+
+
+class ImpuestoInlineFormSet(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['reparto_etapa'].widget.attrs.update({'class': 'form-control'})
+        self.fields['boleta_rentas'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_boleta_rentas'].widget.attrs.update({'class': 'form-control'})
+        self.fields['boleta_registro'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_boleta_registro'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = Impuesto
+        fields = [
+            'id',
+            'reparto_etapa',
+            'boleta_rentas',
+            'fecha_boleta_rentas',
+            'boleta_registro',
+            'fecha_boleta_registro']
+        labels = {
+            'reparto_etapa':'',
+            'boleta_rentas':'',
+            'fecha_boleta_rentas':'',
+            'boleta_registro':'',
+            'fecha_boleta_registro':'',}
+        help_texts = {
+            'reparto_etapa':'',
+            'boleta_rentas':'número de la boleta de rentas',
+            'fecha_boleta_rentas':'fecha de la boleta de rentas',
+            'boleta_registro':'número de boleta de registro',
+            'fecha_boleta_registro':'fecha de la boleta de registro',
+         }
+
+
+

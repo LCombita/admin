@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
-from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision
+from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
-from .forms import ObservacionInlineFormSet, RevisionInlineFormSet
+from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView, FormView
 from django.views.generic.edit import DeleteView
 from django.http import HttpResponseRedirect
@@ -53,6 +53,7 @@ class RepartoEtapaUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['observaciones'] = ObservacionEtapa.objects.filter(reparto_etapa=self.object.id)
         context['revision'] = Revision.objects.filter(reparto_etapa=self.object.id)
+        context['impuesto'] = Impuesto.objects.filter(reparto_etapa=self.object.id)
         return context
 
     def get_success_url(self):
@@ -118,3 +119,39 @@ class RevisionRepartoEtapaEditView(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
+
+
+#IMPUESTO EN ETAPAS
+class ImpuestoRepartoEtapaEditView(SingleObjectMixin, FormView):
+
+    model = RepartoEtapa
+    template_name = 'stage/reparto-etapa_impuesto_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
+        return super().post(request, *args, **kwargs)
+    
+    def get_form(self):
+        form_class = ImpuestoInlineFormSet
+        RepartoEtapaImpuestoFormSet = inlineformset_factory(
+            RepartoEtapa, Impuesto, fields=(
+                'reparto_etapa',
+                'boleta_rentas',
+                'fecha_boleta_rentas',
+                'boleta_registro',
+                'fecha_boleta_registro',),
+            form=form_class, max_num=Impuesto.objects.filter(reparto_etapa=self.object).count()+1)
+            #form=form_class, max_num=4)
+        return RepartoEtapaImpuestoFormSet(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
+

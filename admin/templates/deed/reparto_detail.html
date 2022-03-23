@@ -84,7 +84,7 @@
                             <table class="table table-sm" >
                                 <thead>
                                 <tr>
-                                    <th>Item</th>
+                                    <th style="text-align: center;" >Item</th>
                                     <th>Etapa</th>
                                     <th style="text-align: center;" >Fecha Inicio</th>
                                     <th style="text-align: center;" >Fecha Final</th>
@@ -95,7 +95,7 @@
                                 <tbody>
                                     {% for eta in etapas.all %}
                                     <tr>
-                                        <td>{{eta.orden}}</td>
+                                        <td style="text-align: center;" >{{eta.orden}}</td>
                                         <td>{{eta.etapa.nombre_etapa}}</td>
                                         <td style="text-align: center;">
                                         {% if eta.fecha_inicio %}

@@ -32,7 +32,7 @@
                         <tbody>
                             {% for obs in form.forms %}
                             <tr style="text-align: center;">
-                                <td>{{obs.observacion}}</td>
+                                <td>{{obs.observacion}} {{obs.observacion.errors}}</td>
                                 <!-- <td>{{obs.DELETE}}</td> -->
                                 <td>{{obs.id}}</td>
                             <tr>
