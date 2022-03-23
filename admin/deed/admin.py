@@ -18,9 +18,5 @@ admin.site.register(ActoJuridico)
 admin.site.register(Proyecto)
 admin.site.register(Inmueble)
 admin.site.register(OtorganteReparto)
-#admin.site.register(Etapa)
-#admin.site.register(RepartoEtapa)
-#admin.site.register(ObservacionEtapa)
-#admin.site.register(Revision)
-#admin.site.register(Impuesto)
+
 
