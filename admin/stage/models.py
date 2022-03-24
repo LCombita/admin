@@ -98,17 +98,37 @@ class Revision(models.Model):
         return self.descripcion
 
 
+#CONFIGURACION DE RUTAS PARA CARGAR LOS ARCHIVOS DE Impuesto
+"""Estas dos funciones configuran la ruta en la que se va a almacenar los archivos con las
+liquidaciones de rentas y registro. En caso de que se vaya cambiar el archivo, elimina el anterior
+y deja el nuevo archivo cargado con el fin de no guardar archivos innecesarios."""
+def rentas_upload_to(instance, filename):
+    old_instance=Impuesto.objects.get(pk=instance.pk)
+    old_instance.file_boleta_rentas.delete()
+    return 'media/iryr/' + filename
+
+def registro_upload_to(instance, filename):
+    old_instance=Impuesto.objects.get(pk=instance.pk)
+    old_instance.file_boleta_registro.delete()
+    return 'media/iryr/' + filename
+
 class Impuesto(models.Model):
+    """Este modelo es creado para almacenar la información relacionada con el impuesto 
+    de rentas y registro. Se relaciona con stage.RepartoEtapa, ya que los impuestos son una
+    etapa asociada al trámite."""
+    
     reparto_etapa = models.ForeignKey(
         RepartoEtapa, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto - Etapa')
     boleta_rentas = models.CharField(
         max_length=20, null=True, blank=True, verbose_name='Boleta Rentas')
     fecha_boleta_rentas = models.DateField(
-        verbose_name='Fecha Boleta Rentas', null=True, blank=True, help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Boleta Rentas', null=True, blank=True)
+    file_boleta_rentas = models.FileField(upload_to=rentas_upload_to, null=True, blank=True)
     boleta_registro = models.CharField(
         max_length=20, null=True, blank=True, verbose_name='Boleta Registro')
     fecha_boleta_registro = models.DateField(
-        verbose_name='Fecha Boleta Registro', null=True, blank=True, help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        verbose_name='Fecha Boleta Registro', null=True, blank=True)
+    file_boleta_registro = models.FileField(upload_to=registro_upload_to, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Impuesto'
@@ -117,6 +137,9 @@ class Impuesto(models.Model):
 
 @receiver(post_save, sender=Reparto)
 def agregar_etapas_reparto(sender, instance, **kwargs):
+    """Esta señal consulta las etapas existentes en stage.Etapa y se crean las instancias de 
+    stage.RepartoEtapa para la instancia de deed.Reparto que se está creando en el momento."""
+
     if kwargs.get('created', False):
         i = 1
         et = Etapa.objects.filter().order_by('orden')
