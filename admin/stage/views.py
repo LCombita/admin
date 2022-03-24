@@ -142,7 +142,9 @@ class ImpuestoRepartoEtapaEditView(SingleObjectMixin, FormView):
                 'reparto_etapa',
                 'boleta_rentas',
                 'fecha_boleta_rentas',
+                'file_boleta_rentas',
                 'boleta_registro',
+                'file_boleta_registro',
                 'fecha_boleta_registro',),
             form=form_class, max_num=Impuesto.objects.filter(reparto_etapa=self.object).count()+1)
             #form=form_class, max_num=4)

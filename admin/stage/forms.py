@@ -123,8 +123,10 @@ class ImpuestoInlineFormSet(forms.ModelForm):
         self.fields['reparto_etapa'].widget.attrs.update({'class': 'form-control'})
         self.fields['boleta_rentas'].widget.attrs.update({'class': 'form-control'})
         self.fields['fecha_boleta_rentas'].widget.attrs.update({'class': 'form-control'})
+        self.fields['file_boleta_rentas'].widget.attrs.update({'class': 'form-control-file'})
         self.fields['boleta_registro'].widget.attrs.update({'class': 'form-control'})
         self.fields['fecha_boleta_registro'].widget.attrs.update({'class': 'form-control'})
+        self.fields['file_boleta_registro'].widget.attrs.update({'class': 'form-control-file'})
 
     class Meta:
         model = Impuesto
@@ -133,20 +135,26 @@ class ImpuestoInlineFormSet(forms.ModelForm):
             'reparto_etapa',
             'boleta_rentas',
             'fecha_boleta_rentas',
+            'file_boleta_rentas',
             'boleta_registro',
-            'fecha_boleta_registro']
+            'fecha_boleta_registro',
+            'file_boleta_registro']
         labels = {
             'reparto_etapa':'',
             'boleta_rentas':'',
             'fecha_boleta_rentas':'',
+            'file_boleta_rentas':'',
             'boleta_registro':'',
-            'fecha_boleta_registro':'',}
+            'fecha_boleta_registro':'',
+            'file_boleta_registro':'',}
         help_texts = {
             'reparto_etapa':'',
             'boleta_rentas':'número de la boleta de rentas',
             'fecha_boleta_rentas':'fecha de la boleta de rentas',
+            'file_boleta_rentas':'seleccione el pdf con la boleta de rentas',
             'boleta_registro':'número de boleta de registro',
             'fecha_boleta_registro':'fecha de la boleta de registro',
+            'file_boleta_registro':'seleccione el pdf con la boleta de registro',
          }
 
 

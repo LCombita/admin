@@ -22,16 +22,18 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <h6>Las fechas deben estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
+                        <h6 style="color:#e00007"  >Las fechas deben estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
                     </div>
                     <div class="row">
                     <table class="display" style="width:100%">
                         <thead>
                         <tr>
-                            <th style="width:150px" ># boleta rentas</th>
+                            <th># boleta rentas</th>
                             <th>fecha boleta rentas</th>
+                            <th>boleta rentas</th>
                             <th># boleta registro</th>
                             <th>fecha boleta registro</th>
+                            <th>boleta registro</th>
                             <!-- <th>¿Eliminar?</th> -->
                         </tr>
                         </thead>
@@ -40,8 +42,10 @@
                             <tr>
                                 <td>{{imp.boleta_rentas}}{{imp.boleta_rentas.errors}}</td>
                                 <td>{{imp.fecha_boleta_rentas}} {{imp.fecha_boleta_rentas.errors}}</td>
+                                <td>{{imp.file_boleta_rentas}} {{imp.file_boleta_rentas.errors}}</td>
                                 <td>{{imp.boleta_registro}} {{imp.boleta_registro.errors}}</td>
                                 <td>{{imp.fecha_boleta_registro}} {{imp.fecha_boleta_registro.errors}}</td>
+                                <td>{{imp.file_boleta_registro}} {{imp.file_boleta_registro.errors}}</td>
                                 <!-- <td>{{rev.DELETE}}</td> -->
                                 <td>{{imp.id}}</td>
                             <tr>
