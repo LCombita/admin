@@ -1,0 +1,58 @@
+------ DESINSTALAR LIBRE OFFICE:
+sudo apt-get remove --purge libreoffice*
+sudo apt-get clean.
+sudo apt-get autoremove.
+
+------ INSTALAR ADOBE READER:
+https://linuxconfig.org/how-to-install-adobe-acrobat-reader-on-ubuntu-18-04-bionic-beaver-linux
+prerequisitos...
+sudo apt install gdebi-core libxml2:i386 libcanberra-gtk-module:i386 gtk2-engines-murrine:i386 libatk-adaptor:i386
+descargar .deb....
+wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb
+instalar...
+sudo gdebi AdbeRdr9.5.5-1_i386linux_enu.deb
+
+------ MEJORARLA BUSQUEDA EN SYNAPTIC
+INSTALARLO: 
+sudo apt install apt-xapian-index gdebi
+sudo apt install apt-xapian-index
+sudo update-apt-xapian-index -vf
+
+------ APARIENCIAS
+sudo apt install gnome-tweak-tool
+
+------ MEJORAR EL NAUTILUS
+sudo apt install arc-theme papirus-icon-theme
+
+------  RUTA CARPETA COMPARTIDA
+https://geekland.eu/compartir-carpetas-y-archivos-en-virtualbox/
+
+/home/lubian/SharedData
+------
+Permisos para la carpeta compartida en el SO huesped
+sudo usermod -a -G vboxsf “$(whoami)” ---no----
+sudo usermod -G vboxsf -a lubian
+
+montar la carpeta manualmente
+sudo mount -t vboxsf movies /home/lubian/SharedData
+desmontar la carpeta manualmente
+sudo umount -t vboxsf /home/lubian/SharedData
+
+-----------INSTALAR GOOGLE CHROME------------
+sudo apt update
+sudo apt upgrade
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+sudo apt update
+sudo apt install google-chrome-stable
+
+
+
+
+
+
+
+
+
+
+

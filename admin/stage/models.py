@@ -105,12 +105,12 @@ y deja el nuevo archivo cargado con el fin de no guardar archivos innecesarios."
 def rentas_upload_to(instance, filename):
     old_instance=Impuesto.objects.get(pk=instance.pk)
     old_instance.file_boleta_rentas.delete()
-    return 'media/iryr/' + filename
+    return 'iryr/' + filename
 
 def registro_upload_to(instance, filename):
     old_instance=Impuesto.objects.get(pk=instance.pk)
     old_instance.file_boleta_registro.delete()
-    return 'media/iryr/' + filename
+    return 'iryr/' + filename
 
 class Impuesto(models.Model):
     """Este modelo es creado para almacenar la información relacionada con el impuesto 

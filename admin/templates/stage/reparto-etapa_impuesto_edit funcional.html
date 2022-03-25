@@ -20,40 +20,32 @@
                         <h5>Detalle de impuestos para : &nbsp <h5>
                         <b>{{object.etapa}}</b>
                     </div>
+                    <hr>
                     <div class="row">
                         <h6 style="color:#e00007"  >Las fechas deben estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
                     </div>
                     <div class="row">
-                    <table class="table table-hover text-nowrap" style="width:100%">
+                    <table class="display" style="width:100%">
                         <thead>
                         <tr>
-                            <th># boleta</th>
-                            <th>fecha boleta</th>
-                            <th>cargar boleta</th>
+                            <th># boleta rentas</th>
+                            <th>fecha boleta rentas</th>
+                            <th>boleta rentas</th>
+                            <th># boleta registro</th>
+                            <th>fecha boleta registro</th>
+                            <th>boleta registro</th>
                             <!-- <th>¿Eliminar?</th> -->
                         </tr>
                         </thead>
                         <tbody>
                             {% for imp in form.forms %}
                             <tr>
-                                <td>
-                                    {{imp.boleta_rentas}}{{imp.boleta_rentas.errors}}
-                                    <p class="help"><b>{{ imp.boleta_rentas.help_text|safe }}</b></p>
-                                    {{imp.boleta_registro}} {{imp.boleta_registro.errors}}
-                                    <p class="help"><b>{{ imp.boleta_registro.help_text|safe }}</b></p>
-                                </td>
-                                <td>
-                                    {{imp.fecha_boleta_rentas}} {{imp.fecha_boleta_rentas.errors}}
-                                    <p class="help"><b>{{ imp.fecha_boleta_rentas.help_text|safe }}</b></p>
-                                    {{imp.fecha_boleta_registro}} {{imp.fecha_boleta_registro.errors}}
-                                    <p class="help"><b>{{ imp.fecha_boleta_registro.help_text|safe }}</b></p>
-                                </td>
-                                <td>
-                                    {{imp.file_boleta_rentas}}
-                                    <p class="help"><b>{{ imp.file_boleta_rentas.help_text|safe }}</b></p>
-                                    {{imp.file_boleta_registro}}
-                                    <p class="help"><b>{{ imp.file_boleta_registro.help_text|safe }}</b></p>
-                                </td>
+                                <td>{{imp.boleta_rentas}}{{imp.boleta_rentas.errors}}</td>
+                                <td>{{imp.fecha_boleta_rentas}} {{imp.fecha_boleta_rentas.errors}}</td>
+                                <td>{{imp.file_boleta_rentas}} {{imp.file_boleta_rentas.errors}}</td>
+                                <td>{{imp.boleta_registro}} {{imp.boleta_registro.errors}}</td>
+                                <td>{{imp.fecha_boleta_registro}} {{imp.fecha_boleta_registro.errors}}</td>
+                                <td>{{imp.file_boleta_registro}} {{imp.file_boleta_registro.errors}}</td>
                                 <!-- <td>{{rev.DELETE}}</td> -->
                                 <td>{{imp.id}}</td>
                             <tr>
