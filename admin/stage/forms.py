@@ -1,3 +1,4 @@
+from tkinter import Widget
 from django import forms
 from .models import Etapa, Impuesto, RepartoEtapa, ObservacionEtapa, Revision
 
@@ -147,14 +148,17 @@ class ImpuestoInlineFormSet(forms.ModelForm):
             'boleta_registro':'',
             'fecha_boleta_registro':'',
             'file_boleta_registro':'',}
+        #widgets= {
+        #    'file_boleta_rentas':forms.FileInput(attrs={'class':'form-control-file'}),
+        #    'file_boleta_registro':forms.FileInput(attrs={'class':'form-control-file'}),
+        # }
         help_texts = {
-            'reparto_etapa':'',
-            'boleta_rentas':'número de la boleta de rentas',
-            'fecha_boleta_rentas':'fecha de la boleta de rentas',
-            'file_boleta_rentas':'seleccione el pdf con la boleta de rentas',
-            'boleta_registro':'número de boleta de registro',
-            'fecha_boleta_registro':'fecha de la boleta de registro',
-            'file_boleta_registro':'seleccione el pdf con la boleta de registro',
+            'boleta_rentas':'rentas',
+            'fecha_boleta_rentas':'rentas',
+            'file_boleta_rentas':'rentas',
+            'boleta_registro':'registro',
+            'fecha_boleta_registro':'registro',
+            'file_boleta_registro':'registro',
          }
 
 

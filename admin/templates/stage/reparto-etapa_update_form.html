@@ -119,10 +119,12 @@
                             {% for imp in impuesto %}
                             <tr>
                                 <td>
-                                    {{imp.boleta_rentas}} || {{imp.fecha_boleta_rentas | date:"d/m/Y" }} || {{imp.boleta_rentas.url}}
+                                    {{imp.boleta_rentas}} || {{imp.fecha_boleta_rentas | date:"d/m/Y" }} ||
+                                    {% if imp.file_boleta_rentas %} <a href="{{imp.file_boleta_rentas.url}}" ><b> ver </b></a>{% endif %}
                                 </td>
                                 <td>
-                                    {{imp.boleta_registro}} || {{imp.fecha_boleta_registro | date:"d/m/Y" }} || {{imp.boleta_registro.url}}
+                                    {{imp.boleta_registro}} || {{imp.fecha_boleta_registro | date:"d/m/Y" }} ||
+                                    {% if imp.file_boleta_registro %} <a href="{{imp.file_boleta_registro.url}}" ><b> ver </b></a>{% endif %}
                                 </td>
                             <tr>
                             {% endfor %}
