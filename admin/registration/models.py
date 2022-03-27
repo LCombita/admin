@@ -29,31 +29,47 @@ class User(AbstractUser):
     #se debe establecer como requerido para manejo interno de django.
     REQUIRED_FIELDS = ['username']
 
+    """los siguientes metodos se utilizar para identificar que tipo de rol o a qué
+    grupo pertenece el usuario. Devuelven True si el grupo consultado existe"""
     def es_administrador(self):
-        """Verificar si el usuario pertenece al grupo administrador"""
         return True if user_in_groups(self, ['administrador']) else False
+
+    def es_autenticaciones(self):
+        return True if user_in_groups(self, ['autenticaciones']) else False
+
+    def es_ciudadano(self):
+        return True if user_in_groups(self, ['ciudadano']) else False
+
+    def es_declaraciones(self):
+        return True if user_in_groups(self, ['declaraciones']) else False
+
+    def es_escrituracion(self):
+        return True if user_in_groups(self, ['escrituracion']) else False
+
+    def es_facturacion(self):
+        return True if user_in_groups(self, ['facturacion']) else False
+
+    def es_finalizacion(self):
+        return True if user_in_groups(self, ['finalizacion']) else False
+
+    def es_juridica(self):
+        return True if user_in_groups(self, ['juridica']) else False
+
+    def es_otorgante(self):
+        return True if user_in_groups(self, ['otorgante']) else False
+
+    def es_reparto(self):
+        return True if user_in_groups(self, ['reparto']) else False
+    
+    def es_tramitador(self):
+        return True if user_in_groups(self, ['tramitador']) else False
 
     class Meta:
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
 
     def __str__(self):
-        return self.email
-
-
-class Grantor(User):
-    """Modelo proxi para personalizar el comportamiento de los usuarios que serán otorgantes.
-    Se va a crear una señal, para que cuando se cree un usuario otorgante, automaticamente
-    se cree una instancia en modelo DataGrantor, que son datos que solo llevarán los otorgantes"""
-    
-    def es_otorgante(self):
-        """Verificar si el usuario pertenece al grupo administrador"""
-        return True if user_in_groups(self, ['otorgante']) else False
-
-    class Meta:
-        proxy = True
-        verbose_name = "Otorgante"
-        verbose_name_plural = "Otorgantes"
+        return str(self.first_name) + " " + str(self.last_name)
 
 
 class DataGrantor(models.Model):
@@ -71,7 +87,116 @@ class DataGrantor(models.Model):
         verbose_name = "Datos Otorgante"
         verbose_name_plural = "Datos Otorgantes"
 
-#TODO: pendiente la configuración de los otros tipos de usuarios
+
+class Administrador(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán administradores."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Administrador"
+        verbose_name_plural = "Administradores"
+
+
+class Autenticaciones(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán de autenticaciones."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Autenticaciones"
+        verbose_name_plural = "Autenticaciones"
+
+
+class Ciudadano(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán ciudadanos."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Ciudadano"
+        verbose_name_plural = "Ciudadanos"
+
+
+class Declaraciones(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán declaraciones."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Declaraciones"
+        verbose_name_plural = "Declaraciones"
+
+
+class Escrituracion(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán escrituracion."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Escrituracion"
+        verbose_name_plural = "Asistentes_Escrituracion"
+
+
+class Facturacion(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán facturacion."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Facturacion"
+        verbose_name_plural = "Facturadores"
+
+
+class Finalizacion(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán finalizacion."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Finalizacion"
+        verbose_name_plural = "Finalizacion"
+
+
+class Juridica(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán juridica."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Juridica"
+        verbose_name_plural = "Juridica"
+
+
+class Grantor(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán otorgantes."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Otorgante"
+        verbose_name_plural = "Otorgantes"
+
+
+class RepartoUser(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán reparto."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Reparto"
+        verbose_name_plural = "Reparto"
+
+
+class Tramitador(User):
+    """Modelo proxi para personalizar el comportamiento de los usuarios 
+    que serán otorgantes."""
+
+    class Meta:
+        proxy = True
+        verbose_name = "Tramitador"
+        verbose_name_plural = "Tramitadores"
+
 
 #FUNCIONES GLOBALES
 def user_in_groups(user, list_groups):
@@ -83,7 +208,7 @@ def user_in_groups(user, list_groups):
 @receiver(post_save, sender=Grantor)
 def create_data_otorgante(sender, instance, **kwargs):
     """Señal para crear una instancia de Grantor en DataGrantor, para los datos
-    que corresponden solo a los otorgantes. Además, al crear el otorgante, se veifica
+    que corresponden solo a los otorgantes. Además, al crear el otorgante, se verifica
     que el grupo otorgante exista y se agrega el grupo al otorgante, si el grupo no existe,
     se crea el grupo y luego se agrega al usuario. Se comprueba con los tests:
     GrantorTestCase y GroupTestCase"""
