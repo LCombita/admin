@@ -205,6 +205,7 @@ def user_in_groups(user, list_groups):
     
     return True if user.groups.filter(name__in=list_groups) else False
 
+
 @receiver(post_save, sender=Grantor)
 def create_data_otorgante(sender, instance, **kwargs):
     """Señal para crear una instancia de Grantor en DataGrantor, para los datos
@@ -222,4 +223,32 @@ def create_data_otorgante(sender, instance, **kwargs):
             instance.groups.add(grp)
         else:
             grp = Group.objects.create(name='otorgante')
+            instance.groups.add(grp)
+
+
+@receiver(post_save, sender=Administrador)
+def add_group_to_administrador(sender, instance, **kwargs):
+    """Señal para asignar el grupo administrador invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'administrador', **kwargs)
+
+#TODO: verificar por qué no funciona para tramitador
+@receiver(post_save, sender=Tramitador)
+def add_group_to_tramitador(sender, instance, **kwargs):
+    """Señal para asignar el grupo tramitador invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'tramitador', **kwargs)
+
+
+def add_groups_to_users(instance, grp, **kwargs):
+    """Se verifica que el grupo enviado exista y se agrega el grupo al usuario.
+    Si el grupo no existe, se crea el grupo y luego se agrega al usuario."""
+
+    if kwargs.get('created', False):
+        existgroup = Group.objects.filter(name=grp).exists()
+        if existgroup:
+            grp =  Group.objects.get(name=grp)
+            instance.groups.add(grp)
+        else:
+            grp = Group.objects.create(name=grp)
             instance.groups.add(grp)
