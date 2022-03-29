@@ -225,20 +225,65 @@ def create_data_otorgante(sender, instance, **kwargs):
             grp = Group.objects.create(name='otorgante')
             instance.groups.add(grp)
 
-
 @receiver(post_save, sender=Administrador)
 def add_group_to_administrador(sender, instance, **kwargs):
     """Señal para asignar el grupo administrador invocando la funcion add_groups_to_users."""
 
     add_groups_to_users(instance, 'administrador', **kwargs)
 
-#TODO: verificar por qué no funciona para tramitador
+@receiver(post_save, sender=Autenticaciones)
+def add_group_to_autenticaciones(sender, instance, **kwargs):
+    """Señal para asignar el grupo autenticaciones invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'autenticaciones', **kwargs)
+
+@receiver(post_save, sender=Ciudadano)
+def add_group_to_ciudadano(sender, instance, **kwargs):
+    """Señal para asignar el grupo ciudadano invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'ciudadano', **kwargs)
+
+@receiver(post_save, sender=Declaraciones)
+def add_group_to_declaraciones(sender, instance, **kwargs):
+    """Señal para asignar el grupo declaraciones invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'declaraciones', **kwargs)
+
+@receiver(post_save, sender=Escrituracion)
+def add_group_to_escrituracion(sender, instance, **kwargs):
+    """Señal para asignar el grupo escrituracion invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'escrituracion', **kwargs)
+
+@receiver(post_save, sender=Facturacion)
+def add_group_to_facturacion(sender, instance, **kwargs):
+    """Señal para asignar el grupo facturacion invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'facturacion', **kwargs)
+
+@receiver(post_save, sender=Finalizacion)
+def add_group_to_finalizacion(sender, instance, **kwargs):
+    """Señal para asignar el grupo finalizacion invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'finalizacion', **kwargs)
+
+@receiver(post_save, sender=Juridica)
+def add_group_to_juridica(sender, instance, **kwargs):
+    """Señal para asignar el grupo juridica invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'juridica', **kwargs)
+
+@receiver(post_save, sender=RepartoUser)
+def add_group_to_reparto(sender, instance, **kwargs):
+    """Señal para asignar el grupo reparto invocando la funcion add_groups_to_users."""
+
+    add_groups_to_users(instance, 'reparto', **kwargs)
+
 @receiver(post_save, sender=Tramitador)
 def add_group_to_tramitador(sender, instance, **kwargs):
     """Señal para asignar el grupo tramitador invocando la funcion add_groups_to_users."""
 
     add_groups_to_users(instance, 'tramitador', **kwargs)
-
 
 def add_groups_to_users(instance, grp, **kwargs):
     """Se verifica que el grupo enviado exista y se agrega el grupo al usuario.
