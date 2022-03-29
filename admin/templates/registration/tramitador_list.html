@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Otorgantes{% endblock title %}
+
+{% block content %}
+
+<!--table-->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+
+<div class="card card-success">
+    <div class="card-header-gen">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Tramitadores</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table id="grantorlist" class="display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tramitador in tramitador_list %}
+                <tr>
+                    <td>{{ tramitador.username }}</td>
+                    <td>{{ tramitador.email }}</td>
+                    <td>{{ tramitador.name }} {{ tramitador.first_name }} {{ tramitador.last_name }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'registration:update-tramitador' tramitador.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <li>No hay datos para mostrar.</li>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+<!-- table -->
+<script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#grantorlist').DataTable({
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu":     "Mostrar _MENU_ registros.",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
+        });
+    }); 
+</script>
+
+{% endblock content %}
+

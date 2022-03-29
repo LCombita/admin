@@ -12,6 +12,7 @@ class ActoJuridico(models.Model):
     class Meta:
         verbose_name = 'Acto Jurídico'
         verbose_name_plural = 'Actos Jurídicos'
+        ordering = ['nombre_acto',]
 
     def __str__(self):
         return self.nombre_acto
@@ -20,7 +21,7 @@ class ActoJuridico(models.Model):
 class Reparto(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     protocolista = models.ForeignKey(
-        User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración')
+        User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración',limit_choices_to={'groups__name': 'escrituracion'})
     proyecto = models.ForeignKey(
         Proyecto, on_delete=models.CASCADE, db_index=True, verbose_name='Proyecto')
     acto_juridico = models.ManyToManyField(
@@ -30,7 +31,7 @@ class Reparto(models.Model):
     escritura = models.CharField(
         max_length=5, null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
-        null=True, blank=True, verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        null=True, blank=True, verbose_name='Fecha Escritura')
     hoja_ruta = models.CharField(max_length=20, null = True, blank=True)
     anio_escritura = models.CharField(max_length=10, unique=True, null = True, blank=True)
     activo = models.BooleanField(
@@ -69,7 +70,7 @@ class OtorganteReparto(models.Model):
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     otorgante = models.ForeignKey(
-        User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante')
+        User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante', limit_choices_to={'groups__name': 'otorgante'})
     factura = models.CharField(
         max_length=20, verbose_name='Número Factura')
     derechos_notariales = models.DecimalField(

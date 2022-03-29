@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Actualizar Tramitador</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+        <div class="tab-content p-0">
+            <form action="" method="post">{% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="fieldWrapper">
+                            {{ form.username.errors }}
+                            {{ form.username }}
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="fieldWrapper">
+                            {{ form.email.errors }}
+                            {{ form.email }}
+                        </div> 
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.first_name.errors }}
+                            {{ form.first_name }}
+                            <p class="help">{{ form.first_name.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.last_name.errors }}
+                            {{ form.last_name }}
+                            <p class="help">{{ form.last_name.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.last_name2.errors }}
+                            {{ form.last_name2 }}
+                            <p class="help">{{ form.last_name2.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.identification.errors }}
+                            {{ form.identification }}
+                            <p class="help">{{ form.identification.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                </div>
+                <hr>
+                <div class="btn-group">
+                    <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                    <p><a href="{% url 'registration:tramitador-list' %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+{% endblock content %}
