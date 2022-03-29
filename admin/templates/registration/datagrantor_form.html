@@ -14,7 +14,23 @@
     <div class="card-body">
     <div class="tab-content p-0">
         <form action="" method="post">{% csrf_token %}
-            {{form.as_p}}
+            {{ form.non_field_errors }}
+            <div class="row">
+                <div class="col-md-4">
+                        <div class="fieldWrapper">
+                            {{ form.phone.errors }}
+                            {{ form.phone }}
+                            <p class="help">{{ form.phone.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="fieldWrapper">
+                            {{ form.address.errors }}
+                            {{ form.address }}
+                            <p class="help">{{ form.address.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                </div>
             <p><input type="submit" class="btn btn-success btn-block" value="Guardar"></p>
         </form>
     </div>
