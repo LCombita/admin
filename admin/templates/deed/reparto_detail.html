@@ -17,7 +17,7 @@
                         <a class="nav-link" id="etapas-detail-tab" data-toggle="pill" href="#etapas-detail" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Etapas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Otorgantes</a>
+                        <a class="nav-link" id="otorgantes-detail-tab" data-toggle="pill" href="#otorgantes-detail" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Otorgantes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="reparto-inmueble-tab" data-toggle="pill" href="#reparto-inmueble" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Inmuebles</a>
@@ -27,6 +27,7 @@
                         <div class="dropdown-menu mt-0">
                             <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >actualizar</a>
                             <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >inmuebles</a>
+                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >otorgantes</a>
                             <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >regresar</a>
                         </div>
                     </li>
@@ -132,8 +133,35 @@
                 <div class="tab-pane fade" id="etapas-detail" role="tabpanel" aria-labelledby="etapas-detail-tab">
                     
                 </div>
-                <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
-                    Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                <div class="tab-pane fade" id="otorgantes-detail" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                    <form action="" method="post">{% csrf_token %}
+                        <div class="row">
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Otorgantes</th>
+                                    <th style="text-align: center;">Factura</th>
+                                    <th style="text-align: center;">Gastos Notaria</th>
+                                    <th style="text-align: center;">$ Rentas</th>
+                                    <th style="text-align: center;">$ Registro</th>
+                                    <th style="text-align: center;">Canje</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for oto in otorgantes.all %}
+                                    <tr>
+                                        <td>{{oto.otorgante}}</td>
+                                        <td style="text-align: center;">{% if oto.factura %} {{oto.factura}} {% else %} --- {% endif %}</td>
+                                        <td style="text-align: center;">{% if oto.derechos_notariales %} {{oto.derechos_notariales}} {% else %} --- {% endif %}</td>
+                                        <td style="text-align: center;">{% if oto.valor_rentas %}{{oto.valor_rentas}}{% else %} --- {% endif %}</td>
+                                        <td style="text-align: center;">{% if oto.valor_registro %}{{oto.valor_registro}}{% else %} --- {% endif %}</td>
+                                        <td style="text-align: center;">{% if oto.canje %} Sí {% else %} No {% endif %}</td>
+                                    <tr>
+                                    {% endfor %}
+                                <tbody>
+                            </table>
+                        </div>
+                    </form>
                 </div>
                 <!-- LISTA DE INMUEBLES -->
                 <div class="tab-pane fade" id="reparto-inmueble" role="tabpanel" aria-labelledby="reparto-inmueble-tab">

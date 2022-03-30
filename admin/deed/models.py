@@ -72,15 +72,15 @@ class OtorganteReparto(models.Model):
     otorgante = models.ForeignKey(
         User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante', limit_choices_to={'groups__name': 'otorgante'})
     factura = models.CharField(
-        max_length=20, verbose_name='Número Factura')
+        max_length=20, null=True, blank=True, verbose_name='Número Factura')
     derechos_notariales = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Derechos Notariales')
+        max_digits=9, decimal_places=1, null=True, blank=True, verbose_name='Derechos Notariales')
     valor_registro = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Registro')
+        max_digits=9, decimal_places=1, null=True, blank=True, verbose_name='Registro')
     valor_rentas = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Rentas')
+        max_digits=9, decimal_places=1, null=True, blank=True,verbose_name='Rentas')
     canje = models.BooleanField(
-        default=False, verbose_name='Para Canje')
+        default=False, null=True, blank=True, verbose_name='Para Canje')
 
     
     #pendiente metodo para calcular el total
