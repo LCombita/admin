@@ -134,6 +134,8 @@ class Impuesto(models.Model):
         verbose_name = 'Impuesto'
         verbose_name_plural = 'Impuestos'
 
+    def __str__(self):
+        return "impuestos de: " + str(self.reparto_etapa)
 
 @receiver(post_save, sender=Reparto)
 def agregar_etapas_reparto(sender, instance, **kwargs):

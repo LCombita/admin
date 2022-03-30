@@ -4,7 +4,7 @@ from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
 
 
 class RepartoAdmin(admin.ModelAdmin):
-    """personaliza el admin de de escrituración, registrado todos los modelos correspondientes"""
+    """personaliza el admin de de escrituración, registrando el modelo Reparto"""
 
     list_display = ('id', 'hoja_ruta', 'fecha_reparto', 'anio_escritura', 'proyecto', 'activo')
     list_filter = ('activo', 'proyecto')
@@ -12,11 +12,25 @@ class RepartoAdmin(admin.ModelAdmin):
     ordering = ('-id',)
 
 
+class OtorganteRepartoAdmin(admin.ModelAdmin):
+    """personaliza el admin de de escrituración, registrando el modelo OtorganteReparto"""
+
+    list_display = (
+        'reparto',
+        'otorgante',
+        'factura',
+        'derechos_notariales',
+        'valor_rentas',
+        'valor_registro',
+        'canje')
+    list_filter = ('reparto',)
+    search_fields = ('reparto', 'otorgante')
+    ordering = ('-reparto',)
+
+
 admin.site.register(Reparto, RepartoAdmin)
-#admin.site.register(Cliente)
 admin.site.register(ActoJuridico)
-#admin.site.register(Proyecto)
 admin.site.register(Inmueble)
-admin.site.register(OtorganteReparto)
+admin.site.register(OtorganteReparto, OtorganteRepartoAdmin)
 
 

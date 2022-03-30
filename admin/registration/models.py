@@ -176,7 +176,10 @@ class Grantor(User):
         proxy = True
         verbose_name = "Otorgante"
         verbose_name_plural = "Otorgantes"
+        ordering = ['identification','first_name']
 
+    def __str__(self):
+        return  str(self.identification)+ " " + str(self.first_name) + " " + str(self.last_name)
 
 class RepartoUser(User):
     """Modelo proxi para personalizar el comportamiento de los usuarios 

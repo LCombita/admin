@@ -17,18 +17,16 @@
                     {{form.management_form}}
                     {{form.non_form_errors}}
                     <h4><b>Hoja de Ruta: {{reparto.hoja_ruta}}</b></h4>
-                    <hr>
                     <div class="row">
-                    <table class="display" style="width:100%">
+                    <table class="table table-hover text-nowrap" style="width:100%">
                         <thead>
                         <tr style="text-align: center;">
                             <th>Otorgante</th>
                             <th>Factura</th>
-                            <th>Derechos Notariales</th>
+                            <th>$ Notaría</th>
                             <th>$ Rentas</th>
                             <th>$ Registro</th>
                             <th>Canje</th>
-                            <th>¿Eliminar?</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,7 +38,6 @@
                                 <td>{{rep_oto.valor_rentas}} {{rep_oto.valor_rentas.errors}}</td>
                                 <td>{{rep_oto.valor_registro}} {{rep_oto.valor_registro.errors}}</td>
                                 <td>{{rep_oto.canje}} {{rep_oto.valor_rentas.errors}}</td>
-                                <td>{{rep_oto.DELETE}}</td>
                                 <td>{{rep_oto.id}}</td>
                             <tr>
                             {% endfor %}

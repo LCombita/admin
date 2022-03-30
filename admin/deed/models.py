@@ -1,5 +1,5 @@
 from django.db import models
-from registration.models import User
+from registration.models import User, Grantor
 from project.models import Proyecto
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -70,7 +70,7 @@ class OtorganteReparto(models.Model):
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     otorgante = models.ForeignKey(
-        User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante', limit_choices_to={'groups__name': 'otorgante'})
+        Grantor, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante', limit_choices_to={'groups__name': 'otorgante'})
     factura = models.CharField(
         max_length=20, null=True, blank=True, verbose_name='Número Factura')
     derechos_notariales = models.DecimalField(
@@ -80,7 +80,7 @@ class OtorganteReparto(models.Model):
     valor_rentas = models.DecimalField(
         max_digits=9, decimal_places=1, null=True, blank=True,verbose_name='Rentas')
     canje = models.BooleanField(
-        default=False, null=True, blank=True, verbose_name='Para Canje')
+        default=False, verbose_name='Para Canje')
 
     
     #pendiente metodo para calcular el total
@@ -88,6 +88,9 @@ class OtorganteReparto(models.Model):
     class Meta:
         verbose_name = 'Otorgante'
         verbose_name_plural = 'Otorgantes'
+
+    def __str__(self):
+        return str(self.otorgante)
 
 
 #SEÑALES
