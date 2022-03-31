@@ -1,72 +1,64 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}UpdateEtapa{% endblock title %}
+{% block title %}DetailEtapa{% endblock title %}
 
 {% block content %}
     <style>.errorlist{color:red;}</style>
     <div class="card card-success">     
         <div class="card-header-gen">
             <h3 style="color:#ffffff" class="card-title"> 
-                <a><b>Actualizar Etapa</b></a>
+                <a><b>Detalle Etapa</b></a>
             </h3>
         </div>
         <div class="card-body">
             <div class="tab-content p-0">
                 <form action="" method="post">{% csrf_token %}
-                    <div class="row"> {{ form.reparto }} {{ form.etapa }} </div>
-                    <div class="row"> {{ form.reparto }} {{ form.etapa }} 
+                    <div class="row"> 
                         <h5>Etapa: &nbsp <h5>
-                        <b>{{object.etapa}}</b>
+                        <b>{{repartoetapa.etapa}}</b>
                     </div>
-                    <div class="row"> {{ form.reparto }} {{ form.etapa }} 
+                    <div class="row"> 
                         <h5>Hoja Ruta: &nbsp <h5>
-                        <b>{{object.reparto}}</b>
+                        <b>{{repartoetapa.reparto}}</b>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="fieldWrapper">
-                                {{ form.tipo_repartoetapa.errors }}
-                                {{ form.tipo_repartoetapa }}
-                                <p class="help">{{ form.tipo_repartoetapa.help_text|safe }}</p>
+                                <h6>Fecha Inicio:&nbsp</h6>
+                                {% if repartoetapa.fecha_inicio %}
+                                    <b>{{ repartoetapa.fecha_inicio | date:'d/m/Y' }}</b>
+                                {% endif %}    
                             </div> 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="fieldWrapper">
-                                {{ form.fecha_inicio.errors }}
-                                {{ form.fecha_inicio }}
-                                <p class="help">{{ form.fecha_inicio.help_text|safe }}</p>
+                                <h6>Fecha Final:&nbsp</h6>
+                                {% if repartoetapa.fecha_final %}
+                                    <b>{{ repartoetapa.fecha_final | date:'d/m/Y'}}</b>
+                                {% endif %}  
                             </div> 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="fieldWrapper">
-                                {{ form.fecha_final.errors }}
-                                {{ form.fecha_final }}
-                                <p class="help">{{ form.fecha_final.help_text|safe }}</p>
-                            </div> 
-                        </div>
-                        <div class="col-md-3">
-                            <div class="fieldWrapper">
-                                {{ form.finalizado.errors }}
-                                {{ form.finalizado }}
-                                <p class="help">{{ form.finalizado.help_text|safe }}</p>
+                                <h6>Finalizada:&nbsp</h6>
+                                {% if repartoetapa.finalizado %}
+                                    <b>Sí</b>
+                                {% else %}
+                                    <b>No</b>
+                                {% endif %}  
                             </div> 
                         </div>
                     </div>
                     <hr>
                     <div class="btn-group">
-                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
-                        <p><a href="{% url 'stage:repartoetapa-observaciones' object.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
-                        {% if form.tipo_repartoetapa.value == 'R' %}
-                            <p><a href="{% url 'stage:repartoetapa-revision' object.id %}" class="btn btn-warning btn-sm" >revisión</a></p>
-                        {% elif form.tipo_repartoetapa.value == 'I' %}
-                            <p><a href="{% url 'stage:repartoetapa-impuesto' object.id %}" class="btn btn-warning btn-sm" >impuesto</a></p>
-                        {% endif %}
-                            <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
+                        <p><a href="{% url 'stage:repartoetapa-observaciones2' repartoetapa.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
+                        <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
                     </div>
                     <hr>
                 </form>
+                <!-- OBSERVACIONES-->
                 <div class="row">
                     <table class="display" style="width:100%">
                         <thead>
@@ -86,7 +78,7 @@
                 <hr>
                 <!-- REVISION-->
                 <div class="row">
-                    {% if form.tipo_repartoetapa.value == 'R' %}
+                    {% if repartoetapa.tipo_repartoetapa == 'R' %}
                     <table class="display" style="width:100%">
                         <thead>
                         <tr>
@@ -107,7 +99,7 @@
                 <hr>
                 <!-- IMPUESTO-->
                 <div class="row">
-                    {% if form.tipo_repartoetapa.value == 'I' %}
+                    {% if repartoetapa.tipo_repartoetapa == 'I' %}
                     <table class="display" style="width:50%">
                         <thead>
                         <tr>
@@ -139,22 +131,5 @@
     <!-- para todas -->
     <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
     {% block scripts_local %}
-         <!-- calendario -->
-        <script> 
-            var fechainicio = document.getElementById("id_fecha_inicio");
-            fechainicio.addEventListener("click", function(){
-                $("#id_fecha_inicio").datetimepicker({  
-                format: 'd/m/Y',  
-                timepicker:false  
-                }); 
-            })
-            var fechafinal = document.getElementById("id_fecha_final");
-            fechafinal.addEventListener("click", function(){
-                $("#id_fecha_final").datetimepicker({  
-                format: 'd/m/Y',  
-                timepicker:false  
-                }); 
-            })
-        </script>
     {% endblock scripts_local %}  
 {% endblock content %}

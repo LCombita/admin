@@ -14,9 +14,6 @@
                         <a class="nav-link active" id="reparto-detail-tab" data-toggle="pill" href="#reparto-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Hoja Ruta</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="etapas-detail-tab" data-toggle="pill" href="#etapas-detail" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Etapas</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" id="otorgantes-detail-tab" data-toggle="pill" href="#otorgantes-detail" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Otorgantes</a>
                     </li>
                     <li class="nav-item">
@@ -25,10 +22,10 @@
                     <li class="nav-item">
                         <a class="nav-link bg-success dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Opciones</b></a>
                         <div class="dropdown-menu mt-0">
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >actualizar</a>
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >inmuebles</a>
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >otorgantes</a>
-                            <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >regresar</a>
+                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >Actualizar</a>
+                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >Inmuebles</a>
+                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >Otorgantes</a>
+                            <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >Regresar</a>
                         </div>
                     </li>
                 </ul>
@@ -121,6 +118,7 @@
                                         <td style="text-align: center;">
                                             <div class="btn-group">
                                                 <a href="{% url 'stage:repartoetapa-update' eta.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                                                <a href="{% url 'stage:repartoetapa-detail' eta.id %}" class="btn btn-warning btn-sm" >detalle</a>
                                             </div>
                                         </td>
                                     <tr>
@@ -129,9 +127,6 @@
                             </table>
                         </div>
                     </form>
-                </div>
-                <div class="tab-pane fade" id="etapas-detail" role="tabpanel" aria-labelledby="etapas-detail-tab">
-                    
                 </div>
                 <div class="tab-pane fade" id="otorgantes-detail" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
                     <form action="" method="post">{% csrf_token %}

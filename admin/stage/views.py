@@ -3,7 +3,7 @@ from django.views.generic.detail import SingleObjectMixin
 from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
 from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView, FormView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView
 from django.views.generic.edit import DeleteView
 from django.http import HttpResponseRedirect
 from django.forms import inlineformset_factory
@@ -60,8 +60,20 @@ class RepartoEtapaUpdateView(UpdateView):
         return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
 
 
+class RepartoEtapaDetailView(DetailView):
+    model = RepartoEtapa
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['observaciones'] = ObservacionEtapa.objects.filter(reparto_etapa=self.object.id)
+        context['impuesto'] = Impuesto.objects.filter(reparto_etapa=self.object.id)
+        context['revision'] = Revision.objects.filter(reparto_etapa=self.object.id)
+        return context
+
+
 #OBSERVACIONES REPARTO ETAPAS
-class RepartoEtapaEditView(SingleObjectMixin, FormView):
+class ObservacionesRepartoEtapaEditView(SingleObjectMixin, FormView):
+    """Abre desde RepartoEtapaUpdate"""
 
     model = RepartoEtapa
     template_name = 'stage/reparto-etapa_observacion_edit.html'
@@ -87,6 +99,35 @@ class RepartoEtapaEditView(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
+
+
+class ObservacionesRepartoEtapa2EditView(SingleObjectMixin, FormView):
+    """Abre desde RepartoEtapaDetail"""
+
+    model = RepartoEtapa
+    template_name = 'stage/reparto-etapa_observacion_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
+        return super().post(request, *args, **kwargs)
+    
+    def get_form(self):
+        form_class = ObservacionInlineFormSet
+        RepartoEtapaObservacionFormSet = inlineformset_factory(
+            RepartoEtapa, ObservacionEtapa, fields=('observacion',),
+            form=form_class, max_num=ObservacionEtapa.objects.filter(reparto_etapa=self.object).count()+1)
+        return RepartoEtapaObservacionFormSet(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse_lazy('stage:repartoetapa-detail', args=[self.object.id])
 
 
 #REVISION EN ETAPAS

@@ -10,6 +10,7 @@ class RepartoAdmin(admin.ModelAdmin):
     list_filter = ('activo', 'proyecto')
     search_fields = ('id', 'hoja_ruta', 'anio_escritura')
     ordering = ('-id',)
+    filter_horizontal = ('acto_juridico',)
 
 
 class OtorganteRepartoAdmin(admin.ModelAdmin):

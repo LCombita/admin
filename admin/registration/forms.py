@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import  Grantor, DataGrantor, Tramitador
+from .models import  Escrituracion, Grantor, DataGrantor, Tramitador
 
 
 class CreateGrantorForm(UserCreationForm):
@@ -49,6 +49,26 @@ class UpdateTramitadorForm(UserChangeForm):
         model = Tramitador
         fields = [
             'username', 'email', 'password', 'first_name', 'last_name', 'last_name2', 'identification']
+
+
+#ESCRITURACION
+class CreateEscrituracionForm(UserCreationForm):
+
+    class Meta:
+        model = Escrituracion
+        fields = [
+            'username', 'email', 'password1', 'password2',
+            'first_name', 'last_name', 'last_name2', 'identification']
+
+
+class UpdateEscrituracionForm(UserChangeForm):
+
+    class Meta:
+        model = Escrituracion
+        fields = [
+            'username', 'email', 'password', 'first_name', 'last_name', 'last_name2', 'identification']
+
+
 
 """
 fields = '__all__'
