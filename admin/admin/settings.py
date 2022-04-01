@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'deed',
     'project',
     'stage',
+    'reports',
 ]
 
 MIDDLEWARE = [

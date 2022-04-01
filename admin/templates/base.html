@@ -181,22 +181,24 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-header"><b>CATEGORIA-2</b></li>
+              <li class="nav-header"><b>REPORTES</b></li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                    SEGUNDO MENÚ
+                    ESCRITURACION
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>primer submenú</p>
-                    </a>
-                  </li>
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion or request.user.es_facturacion or request.user.es_juridica or request.user.es_finalizacion %}
+                    <li class="nav-item">
+                      <a href="{% url 'reports:repartos-otorgante' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Repartos X Otorgante</p>
+                      </a>
+                    </li>
+                  {% endif%}
                 </ul>
               </li>
                 <li class="nav-header"><b>GESTIÓN DE USUARIOS</b></li>

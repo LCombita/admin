@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block titlecontent %} Inicio {% endblock titlecontent %}
+
+{% block content %}
+  <div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Repartos por otorgante</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+    <div class="tab-content p-0">
+      <form action="" method="post">{% csrf_token %}
+          {{ form.non_field_errors }}
+        <div class="row">
+          <div class="col-md-3">
+            <div class="fieldWrapper">
+                {{ form.as_p }}
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <p><a href="{% url 'reports:repartos-otorgante' %}" class="btn btn-secondary btn-sm" >Buscar</a></p>
+        </div>
+        <hr>
+        <div class="row">
+          {{otorgante}}
+        </div>
+        <div class="row">
+          {{repartos}}
+        </div>
+        <hr>
+      </form>
+    </div>
+    </div>
+  </div>
+
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+{% endblock content %}
