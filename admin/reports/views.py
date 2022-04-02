@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from .forms import ReportRepartoXOtorganteForm
@@ -14,10 +13,11 @@ class ReportRepartosXOtorganteView(TemplateView):
         context = self.get_context_data()
         identificacion = request.POST.get('identificacion', '')
         if identificacion:
-            g = Grantor.objects.filter(identification = identificacion).exists()
-            if g:    
-                context['repartos'] = Reparto.objects.filter(otorgantereparto__otorgante__identification = identificacion)
-                context['otorgante'] = Grantor.objects.get(identification = identificacion)
+            if Grantor.objects.filter(identification = identificacion).exists():    
+                context['repartos'] = Reparto.objects.filter(
+                    otorgantereparto__otorgante__identification = identificacion)
+                context['otorgante'] = Grantor.objects.get(
+                    identification = identificacion)
         return super().render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -26,15 +26,16 @@ class ReportRepartosXOtorganteView(TemplateView):
         return context
 
 
-class ReportRepartoProyectosListView(ListView):
+class ReportRepartoTramitadorListView(ListView):
     """Gestiona la lista de hojas de ruta"""
     model=Reparto
-"""
+    template_name = 'reports/repartos_x_tramitador.html'
+
     def get_queryset(self):
         #Se crea un filtro para que se muestren solo los repartos activos
         #correspondientes al tramitador logueado
-        #TODO: organizar el queryset para mostrar los reparto de los proyectos con tramitador logueado
-        qs = super().get_queryset()
-        return qs.filter(activo='True').filter(user=self.request.user).order_by('-id')
+        return super().get_queryset().filter(
+            activo='True').filter(
+                proyecto__tramitador=self.request.user.id).order_by('-id')
 
-"""
+

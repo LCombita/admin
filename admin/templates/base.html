@@ -200,6 +200,17 @@
                     </li>
                   {% endif%}
                 </ul>
+                </a>
+                <ul class="nav nav-treeview">
+                  {% if request.user.es_tramitador %}
+                    <li class="nav-item">
+                      <a href="{% url 'reports:repartos-tramitador' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Repartos Asignados</p>
+                      </a>
+                    </li>
+                  {% endif%}
+                </ul>
               </li>
                 <li class="nav-header"><b>GESTIÓN DE USUARIOS</b></li>
                 <li class="nav-item">
