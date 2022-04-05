@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% load static %}
-<!-- table -->
-<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
 
 {% block title %}Inicio{% endblock title %}
 
 {% block titlecontent %} Inicio {% endblock titlecontent %}
 
 {% block content %}
+<!-- table -->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+
   <div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title"> 
@@ -16,7 +17,7 @@
         </h3>
     </div>
     <div class="card-body">
-          <table id="replisttra" class="display" style="width:100%">
+        <table id="replisttra" class="display" style="width:100%">
             <thead>
             <tr style="text-align: center;">
                 <th>Hoja Ruta</th>
@@ -59,7 +60,6 @@
             </tbody>
         </table>
     </div>
-    </div>
   </div>
 
 <script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
@@ -82,4 +82,7 @@
         });
     }); 
 </script>
+{% block scripts_local %}
+{% endblock scripts_local %} 
+
 {% endblock content %}
