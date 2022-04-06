@@ -1,9 +1,7 @@
-from datetime import datetime
 from django.db import models
 from deed.models import Reparto
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-import datetime
 
 
 class Etapa(models.Model):
@@ -46,8 +44,20 @@ class RepartoEtapa(models.Model):
         (IMPUESTO, 'IMPUESTO'),
         (REVISION, 'REVISION'),
     ]
+    FACTURACION = 'FAC'
+    FINALIZACION = 'FIN'
+    JURIDICA = 'JUR'
+    PROCOTOLISTA = 'PRO'
+    grupo_repartoetapa_choices = [
+        (FACTURACION, 'FACTURACION'),
+        (FINALIZACION, 'FINALIZACION'),
+        (JURIDICA, 'JURIDICA'),
+        (PROCOTOLISTA, 'PROCOTOLISTA'),
+    ]
     tipo_repartoetapa = models.CharField(
             max_length=1, choices=tipo_repartoetapa_choices, default=GENERAL)
+    grupo_repartoetapa = models.CharField(
+            max_length=3, choices=grupo_repartoetapa_choices, default=PROCOTOLISTA)
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     etapa = models.ForeignKey(
@@ -148,6 +158,5 @@ def agregar_etapas_reparto(sender, instance, **kwargs):
         for e in et:
             RepartoEtapa.objects.create(reparto=instance, etapa=e, orden=i)
             i=i+1
-            print("desde el ciclo for: ", i)
         i=1
 

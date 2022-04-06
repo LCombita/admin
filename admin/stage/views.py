@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
+from registration.models import User
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
 from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet
 from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView
