@@ -58,6 +58,7 @@
                     <div class="btn-group">
                         <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
                         <p><a href="{% url 'stage:repartoetapa-observaciones' object.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
+                        <p><a href="{% url 'stage:repartoetapa-observaciones3' object.id %}" class="btn btn-warning btn-sm" >Observaciones3</a></p>
                         {% if form.tipo_repartoetapa.value == 'R' %}
                             <p><a href="{% url 'stage:repartoetapa-revision' object.id %}" class="btn btn-warning btn-sm" >revisión</a></p>
                         {% elif form.tipo_repartoetapa.value == 'I' %}

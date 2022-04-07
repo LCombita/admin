@@ -25,10 +25,10 @@
                         </thead>
                         <tbody>
                             {% for obs in form.forms %}
-                            <tr style="text-align: center;">
-                                <td>{{obs.observacion}} {{obs.observacion.errors}}</td>
-                                <td>{{obs.id}}</td>
-                            <tr>
+                                <tr style="text-align: center;">
+                                    <td>{{obs.observacion}} {{obs.observacion.errors}}</td>
+                                    <td>{{obs.id}}</td>
+                                <tr>
                             {% endfor %}
                         <tbody>
                     </table>

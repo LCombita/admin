@@ -1,10 +1,11 @@
+from pipes import Template
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 from registration.models import User
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
-from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet
-from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView
+from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet, RepartoEtapaObservacionesForm
+from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView, TemplateView
 from django.views.generic.edit import DeleteView
 from django.http import HttpResponseRedirect
 from django.forms import inlineformset_factory
@@ -129,6 +130,31 @@ class ObservacionesRepartoEtapa2EditView(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-detail', args=[self.object.id])
+
+
+class ObservacionCreateView(TemplateView):
+    #va a recibir un RepartoEtapa por la url para crear la observacion
+    #para ello se modifica el metodo post
+    template_name = 'stage/reparto-etapa_observaciones.html'
+
+    def post(self, request, *args, **kwargs):
+        #context = self.get_context_data()
+        obs = request.POST.get('observacion', '')
+        if obs:
+            repeta = RepartoEtapa.objects.get(id=self.kwargs['id'])
+            ObservacionEtapa.objects.create(reparto_etapa=repeta, observacion = obs)
+            #context['repartos'] = Reparto.objects.filter(
+            #        otorgantereparto__otorgante__identification = identificacion)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = RepartoEtapaObservacionesForm()
+        context['rep_eta'] = RepartoEtapa.objects.get(id=self.kwargs['id'])
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('stage:repartoetapa-update', args=[self.kwargs['id']])
 
 
 #REVISION EN ETAPAS

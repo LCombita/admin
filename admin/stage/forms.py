@@ -93,6 +93,20 @@ class ObservacionInlineFormSet(forms.ModelForm):
          }
 
 
+class RepartoEtapaObservacionesForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['observacion'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = ObservacionEtapa
+        fields = ['id', 'observacion']
+        labels = {'observacion':'',}
+        help_texts = {
+            'observacion': 'Verifique la información que se va a introducir, ya que no se puede modificar o eliminar.',
+         }
+
+
 class RevisionInlineFormSet(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
