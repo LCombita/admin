@@ -1,7 +1,6 @@
 from django import forms
-from .models import Reparto, ActoJuridico, Inmueble
-from django.forms import BaseInlineFormSet
-from django.forms import inlineformset_factory
+from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
+#from django.forms import inlineformset_factory
 
 class RepartoUpdateForm(forms.ModelForm):
 
@@ -152,14 +151,45 @@ class ActoUpdateForm(forms.ModelForm):
 
 
 #INMUEBLES
-"""
-class InmuebleInlineFormSet(BaseInlineFormSet):
+class InmuebleInlineFormSet(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['reparto'].widget.attrs.update({'class': 'form-control'})
         self.fields['inmueble'].widget.attrs.update({'class': 'form-control'})
         self.fields['matricula'].widget.attrs.update({'class': 'form-control'})
-"""
 
-RepartoInmuebleFormSet = inlineformset_factory(
-    Reparto, Inmueble, fields=('reparto', 'inmueble', 'matricula',), max_num=2, extra=2)
+    class Meta:
+        model = Inmueble
+        fields = ['inmueble', 'matricula']
+        labels = {'inmueble':'', 'matricula':''}
+
+
+#INMUEBLES
+class RepartoOtorganteInlineFormSet(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #self.fields['reparto'].widget.attrs.update({'class': 'form-control'})
+        self.fields['otorgante'].widget.attrs.update({'class': 'form-control'})
+        self.fields['factura'].widget.attrs.update({'class': 'form-control'})
+        self.fields['derechos_notariales'].widget.attrs.update({'class': 'form-control'})
+        self.fields['valor_registro'].widget.attrs.update({'class': 'form-control'})
+        self.fields['valor_rentas'].widget.attrs.update({'class': 'form-control'})
+        self.fields['canje'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = OtorganteReparto
+        fields = [
+            'otorgante',
+            'factura',
+            'derechos_notariales',
+            'valor_registro',
+            'valor_rentas',
+            'canje']
+        labels = {
+            'otorgante':'',
+            'factura':'',
+            'derechos_notariales':'',
+            'valor_registro':'',
+            'valor_rentas':'',
+            'canje':''}

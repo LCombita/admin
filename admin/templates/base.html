@@ -32,29 +32,6 @@
             <a href="{% url 'registration:home' %}" class="nav-link"><b>Inicio</b></a>
           </li>
         </ul>
-        <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-              <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-              <form class="form-inline">
-                <div class="input-group input-group-sm">
-                  <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                  <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                      <i class="fas fa-search"></i>
-                        </button>
-                        <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </li>
-        </ul>
       </nav>
       <!-- /.navbar -->
       <!-- Main Sidebar Container-->
@@ -103,16 +80,20 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{% url 'deed:reparto-create' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Crear Hoja de Ruta</p>
-                    </a>
+                    {% if request.user.es_administrador or request.user.es_reparto %}
+                      <a href="{% url 'deed:reparto-create' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Crear Hoja de Ruta</p>
+                      </a>
+                    {% endif%}
                   </li>
                   <li class="nav-item">
-                    <a href="{% url 'deed:reparto-list' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Listar Hojas de Ruta</p>
-                    </a>
+                    {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion or request.user.es_facturacion or request.user.es_juridica or request.user.es_finalizacion %}
+                      <a href="{% url 'deed:reparto-list' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Listar Hojas de Ruta</p>
+                      </a>
+                    {% endif%}
                   </li>
                 </ul>
               </li>
@@ -137,18 +118,20 @@
                       <p>Listar Proyectos</p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="{% url 'project:cliente-create' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Crear Cliente</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{% url 'project:cliente-list' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Listar Clientes</p>
-                    </a>
-                  </li>
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion %}
+                    <li class="nav-item">
+                      <a href="{% url 'project:cliente-create' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Crear Cliente</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{% url 'project:cliente-list' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Listar Clientes</p>
+                      </a>
+                    </li>
+                  {% endif%}
                 </ul>
               </li>
               <li class="nav-item">
@@ -160,18 +143,19 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{% url 'deed:acto-create' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Crear Acto Jurídico</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{% url 'deed:acto-list' %}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Listar Actos Jurídicos</p>
-                    </a>
-                  </li>
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion %} 
+                      <a href="{% url 'deed:acto-create' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Crear Acto Jurídico</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{% url 'deed:acto-list' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Listar Actos Jurídicos</p>
+                      </a>
+                    </li>
+                  {% endif%}
                 </ul>
               </li>
               <li class="nav-item">
@@ -197,25 +181,37 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-header"><b>CATEGORIA-2</b></li>
+              <li class="nav-header"><b>REPORTES</b></li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-edit"></i>
                   <p>
-                    SEGUNDO MENÚ
+                    ESCRITURACION
                     <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>primer submenú</p>
-                    </a>
-                  </li>
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion or request.user.es_facturacion or request.user.es_juridica or request.user.es_finalizacion %}
+                    <li class="nav-item">
+                      <a href="{% url 'reports:repartos-otorgante' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Repartos X Otorgante</p>
+                      </a>
+                    </li>
+                  {% endif%}
+                </ul>
+                </a>
+                <ul class="nav nav-treeview">
+                  {% if request.user.es_tramitador %}
+                    <li class="nav-item">
+                      <a href="{% url 'reports:repartos-tramitador' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Repartos Asignados</p>
+                      </a>
+                    </li>
+                  {% endif%}
                 </ul>
               </li>
-              {% if request.user.es_administrador%}
                 <li class="nav-header"><b>GESTIÓN DE USUARIOS</b></li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
@@ -225,23 +221,73 @@
                       <i class="fas fa-angle-left right"></i>
                     </p>
                   </a>
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion or request.user.es_autenticaciones %}
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{% url 'registration:create-grantor' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Nuevo</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'registration:grantor-list' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Lista</p>
+                        </a>
+                      </li>
+                    </ul>
+                  {% endif%}
+                </li>
+                <li class="nav-item">
+                  {% if request.user.es_administrador or request.user.es_reparto or request.user.es_escrituracion %}
+                    <a href="#" class="nav-link">
+                      <i><ion-icon name="people-sharp"></ion-icon></i>
+                      <p>
+                        TRAMITADORES
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{% url 'registration:create-tramitador' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Nuevo</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'registration:tramitador-list' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Lista</p>
+                        </a>
+                      </li>
+                    </ul>
+                  {% endif%}
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i><ion-icon name="people-sharp"></ion-icon></i>
+                    <p>
+                      ASISTENTES DE ESCRITURACION
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{% url 'registration:create-grantor' %}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Nuevo</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{% url 'registration:grantor-list' %}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Lista</p>
-                      </a>
-                    </li>
+                    {% if request.user.es_administrador or request.user.es_reparto %}
+                      <li class="nav-item">
+                        <a href="{% url 'registration:escrituracion-create' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Nuevo</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'registration:escrituracion-list' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Lista</p>
+                        </a>
+                      </li>
+                    {% endif%}
                   </ul>
                 </li>
-              {% else %}
-              {% endif %}
             </ul>
           </nav>
           <!-- /.sidebar-menu -->
@@ -291,8 +337,8 @@
     -->
     <!-- select2 -->
     <script src="{% static 'registration/plugins/select2/js/select2.full.min.js' %}"></script>
-        <!-- modal 
-    <script src="{% static 'registration/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
+        <!-- modal y tabs -->
+    <script src="{% static 'registration/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script> 
     <!-- iconos -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

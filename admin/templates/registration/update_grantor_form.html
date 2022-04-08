@@ -15,7 +15,53 @@
         <div class="card-body">
         <div class="tab-content p-0">
             <form action="" method="post">{% csrf_token %}
-                {{form.as_p}}
+                {{ form.non_field_errors }}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="fieldWrapper">
+                            {{ form.username.errors }}
+                            {{ form.username }}
+                        </div> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="fieldWrapper">
+                            {{ form.email.errors }}
+                            {{ form.email }}
+                        </div> 
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.first_name.errors }}
+                            {{ form.first_name }}
+                            <p class="help">{{ form.first_name.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.last_name.errors }}
+                            {{ form.last_name }}
+                            <p class="help">{{ form.last_name.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.last_name2.errors }}
+                            {{ form.last_name2 }}
+                            <p class="help">{{ form.last_name2.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.identification.errors }}
+                            {{ form.identification }}
+                            <p class="help">{{ form.identification.help_text|safe }}</p>
+                        </div> 
+                    </div>
+                </div>
+                <hr>
                 <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
             </form>
         </div>

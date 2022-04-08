@@ -1,6 +1,8 @@
 from django.test import TestCase
-from .models import User, Reparto, Proyecto, Cliente
-from django.utils.timezone import now
+from registration.models import User
+from project.models import Cliente, Proyecto
+from deed.models import Reparto
+
 
 class FechaRepartoTestCase(TestCase):
 

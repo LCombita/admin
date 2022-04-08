@@ -37,8 +37,12 @@
                                 <p class="help">{{ form.activo.help_text|safe }}</p>
                             </div>
                         </div>
-                    </div>        
-                    <p><input type="submit" class="btn btn-success btn-block" value="Guardar"></p>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Guardar"></p>
+                        <p><a href="{% url 'stage:etapa-list' %}" class="btn btn-secondary btn-sm" >Cancelar</a></p>
+                    </div>    
                 </form>
             </div>
         </div>

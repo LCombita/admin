@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block titlecontent %} Inicio {% endblock titlecontent %}
+
+{% block content %}
+<!-- table -->
+<link rel="stylesheet" href="{% static 'table/css/jquery.dataTables.min.css' %}">
+
+  <div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Repartos asignados a: {{request.user.first_name}}&nbsp{{request.user.last_name}}</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table id="replisttra" class="display" style="width:100%">
+            <thead>
+            <tr style="text-align: center;">
+                <th>Hoja Ruta</th>
+                <th>Fecha Hoja Ruta</th>
+                <th>Proyecto</th>
+                <th>Fecha Escritura</th>
+                <th>Escritura</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rep in reparto_list %}
+                <tr style="text-align: center;">
+                    <td>{{ rep.hoja_ruta}}</td>
+                    <td>{{ rep.fecha_reparto | date:'d/m/Y' }}</td>
+                    <td>{{ rep.proyecto }}</td>
+                    <td>
+                    {% if rep.fecha_escritura %}
+                        {{ rep.fecha_escritura | date:'d/m/Y'}}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
+                    <td>
+                    {% if rep.anio_escritura %}
+                        {{ rep.anio_escritura }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'deed:reparto-detail' rep.id %}" class="btn btn-warning btn-sm" >&nbsp &nbsp &nbsp <b>ver</b> &nbsp &nbsp &nbsp</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <li>No hay datos para mostrar.</li>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+<script src="{% static 'table/js/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'table/js/jquery.dataTables.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#replisttra').DataTable({
+            "language": {
+                "search": "Buscar:",
+                "lengthMenu":     "Mostrar _MENU_ registros.",
+                "info":           "Mostrando _START_ de _END_ de _TOTAL_ registros",
+                "paginate": {
+                    "first":      "Primero",
+                    "last":       "Último",
+                    "next":       "Siguiente",
+                    "previous":   "Anterior"
+                }
+            }
+        });
+    }); 
+</script>
+{% block scripts_local %}
+{% endblock scripts_local %} 
+
+{% endblock content %}

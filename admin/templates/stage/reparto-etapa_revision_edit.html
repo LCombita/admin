@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Revisión </b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <div class="row"> {{ form.reparto }} {{ form.etapa }} 
+                        <h5>Revisión para : &nbsp <h5>
+                        <b>{{object.etapa}}</b>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h6>La fecha debe estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
+                    </div>
+                    <div class="row">
+                    <table class="table table-head-fixed text-nowrap" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th style="width:150px" >Fecha</th>
+                            <th style="text-align: center; width:100px">Reproceso</th>
+                            <th style="width:750px" >Descripción</th>
+                            <!-- <th>¿Eliminar?</th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for rev in form.forms %}
+                            <tr>
+                                <td>{{rev.fecha_revision}} {{rev.fecha_revision.errors }}</td>
+                                <td style="text-align: center;" >
+                                    {{rev.reproceso}} {{rev.reproceso.errors}}
+                                </td>
+                                <td>{{rev.descripcion}} {{rev.descripcion.errors}}</td>
+                                <!-- <td>{{rev.DELETE}}</td> -->
+                                <td>{{rev.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-update' object.id %}" class="btn btn-secondary btn-sm" >volver</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    {% block scripts_local %}
+    {% endblock scripts_local %}  
+{% endblock content %}

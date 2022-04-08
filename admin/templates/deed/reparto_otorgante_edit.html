@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}rep-inm{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Registrar Otorgantes</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <h4><b>Hoja de Ruta: {{reparto.hoja_ruta}}</b></h4>
+                    <div class="row">
+                    <table class="table table-hover text-nowrap" style="width:100%">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>Otorgante</th>
+                            <th>Factura</th>
+                            <th>$ Notaría</th>
+                            <th>$ Rentas</th>
+                            <th>$ Registro</th>
+                            <th>Canje</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for rep_oto in form.forms %}
+                            <tr style="text-align: center;">
+                                <td>{{rep_oto.otorgante}} {{rep_oto.otorgante.errors}}</td>
+                                <td>{{rep_oto.factura}} {{rep_oto.factura.errors}}</td>
+                                <td>{{rep_oto.derechos_notariales}} {{rep_oto.derechos_notariales.errors}}</td>
+                                <td>{{rep_oto.valor_rentas}} {{rep_oto.valor_rentas.errors}}</td>
+                                <td>{{rep_oto.valor_registro}} {{rep_oto.valor_registro.errors}}</td>
+                                <td>{{rep_oto.canje}} {{rep_oto.valor_rentas.errors}}</td>
+                                <td>{{rep_oto.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                        <p><a href="{% url 'deed:reparto-detail' reparto.id%}" class="btn btn-secondary" >volver</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    
+    {% block scripts_local %}  
+    {% endblock scripts_local %}  
+{% endblock content %}

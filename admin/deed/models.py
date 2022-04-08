@@ -1,5 +1,5 @@
 from django.db import models
-from registration.models import User
+from registration.models import User, Grantor
 from project.models import Proyecto
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -12,6 +12,7 @@ class ActoJuridico(models.Model):
     class Meta:
         verbose_name = 'Acto Jurídico'
         verbose_name_plural = 'Actos Jurídicos'
+        ordering = ['nombre_acto',]
 
     def __str__(self):
         return self.nombre_acto
@@ -20,7 +21,7 @@ class ActoJuridico(models.Model):
 class Reparto(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     protocolista = models.ForeignKey(
-        User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración')
+        User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración',limit_choices_to={'groups__name': 'escrituracion'})
     proyecto = models.ForeignKey(
         Proyecto, on_delete=models.CASCADE, db_index=True, verbose_name='Proyecto')
     acto_juridico = models.ManyToManyField(
@@ -30,7 +31,7 @@ class Reparto(models.Model):
     escritura = models.CharField(
         max_length=5, null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
-        null=True, blank=True, verbose_name='Fecha Escritura', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+        null=True, blank=True, verbose_name='Fecha Escritura')
     hoja_ruta = models.CharField(max_length=20, null = True, blank=True)
     anio_escritura = models.CharField(max_length=10, unique=True, null = True, blank=True)
     activo = models.BooleanField(
@@ -46,7 +47,7 @@ class Reparto(models.Model):
     #    return reverse_lazy('deed:reparto-update', args=[self.object.id])
 
     def __str__(self):
-        return str(self.id)
+        return str(self.hoja_ruta)
 
 
 class Inmueble(models.Model):
@@ -69,15 +70,15 @@ class OtorganteReparto(models.Model):
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     otorgante = models.ForeignKey(
-        User, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante')
+        Grantor, on_delete=models.CASCADE, db_index=True, verbose_name='Otorgante', limit_choices_to={'groups__name': 'otorgante'})
     factura = models.CharField(
-        max_length=20, verbose_name='Número Factura')
+        max_length=20, null=True, blank=True, verbose_name='Número Factura')
     derechos_notariales = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Derechos Notariales')
+        max_digits=9, decimal_places=1, null=True, blank=True, verbose_name='Derechos Notariales')
     valor_registro = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Registro')
+        max_digits=9, decimal_places=1, null=True, blank=True, verbose_name='Registro')
     valor_rentas = models.DecimalField(
-        max_digits=9, decimal_places=1, verbose_name='Rentas')
+        max_digits=9, decimal_places=1, null=True, blank=True,verbose_name='Rentas')
     canje = models.BooleanField(
         default=False, verbose_name='Para Canje')
 
@@ -87,6 +88,9 @@ class OtorganteReparto(models.Model):
     class Meta:
         verbose_name = 'Otorgante'
         verbose_name_plural = 'Otorgantes'
+
+    def __str__(self):
+        return str(self.otorgante)
 
 
 #SEÑALES
@@ -114,5 +118,6 @@ def actualizar_anioescritura(sender, instance, **kwargs):
                 anio_escritura=None)
         else:
             pass
+
 #consultas
 #https://programmerclick.com/article/66081820135/

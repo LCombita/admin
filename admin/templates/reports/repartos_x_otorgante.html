@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Inicio{% endblock title %}
+
+{% block titlecontent %} Inicio {% endblock titlecontent %}
+
+{% block content %}
+  <div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title"> 
+            <a style="color:#ffffff"><b>Repartos por otorgante</b></a>
+        </h3>
+    </div>
+    <div class="card-body">
+    <div class="tab-content p-0">
+      <form action="" method="post">{% csrf_token %}
+          {{ form.errors }}
+        <div class="row">
+          <div class="col-md-3">
+            <div class="fieldWrapper">
+                {{ form.as_p }}
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <p><input type="submit" class="btn btn-success btn-sm" value="buscar"></p>
+          <p><a href="{% url 'reports:repartos-otorgante' %}" class="btn btn-secondary btn-sm" >limpiar</a></p>
+        </div>
+        <hr>
+        {% if otorgante.email %}
+          <div class="row">
+            <h5>Otorgante: &nbsp <h5>
+              <b> {{otorgante.first_name}} </b> 
+              <b> {{otorgante.last_name}} </b>
+              <b> {% if otorgante.last_name2 %} {{otorgante.last_name2}} {% endif %} </b>
+          </div>
+          <div class="row">
+            <h5>Identificación: &nbsp <h5>
+            <b> {{otorgante.identification}} </b>
+          </div>
+          <div class="row">
+            <h5>Teléfono: &nbsp <h5>
+            <b> {% if otorgante.datagrantor.phone %} {{otorgante.datagrantor.phone}} {% endif %} </b>
+          </div>
+          <div class="row">
+            <h5>Correo electrónico: &nbsp <h5>
+            <b> {{otorgante.email}} </b>
+          </div>
+        {% endif %}
+        <div class="row">
+          <table class="table table-hover text-nowrap" style="width:100%">
+            <thead>
+            <tr style="text-align: center;">
+                <th>Hoja Ruta</th>
+                <th>Fecha Hoja Ruta</th>
+                <th>Proyecto</th>
+                <th>Fecha Escritura</th>
+                <th>Escritura</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rep in repartos %}
+                <tr style="text-align: center;">
+                    <td>{{ rep.hoja_ruta}}</td>
+                    <td>{{ rep.fecha_reparto | date:'d/m/Y' }}</td>
+                    <td>{{ rep.proyecto }}</td>
+                    <td>
+                    {% if rep.fecha_escritura %}
+                        {{ rep.fecha_escritura | date:'d/m/Y'}}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
+                    <td>
+                    {% if rep.anio_escritura %}
+                        {{ rep.anio_escritura }}
+                    {% else %}
+                        ---
+                    {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'deed:reparto-detail' rep.id %}" class="btn btn-warning btn-sm" >&nbsp &nbsp &nbsp <b>ver</b> &nbsp &nbsp &nbsp</a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <li>No hay datos para mostrar.</li>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <hr>
+      </form>
+    </div>
+    </div>
+  </div>
+
+<script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+{% endblock content %}

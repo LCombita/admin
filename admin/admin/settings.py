@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'deed',
     'project',
     'stage',
+    'reports',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,7 @@ AUTH_USER_MODEL = 'registration.User'
 #redireccionar la página al inciar la sesión en login
 LOGIN_REDIRECT_URL = 'registration:home'
 LOGOUT_REDIRECT_URL = 'registration:home'
+
+#almacenamiento de imagenes
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #ir a las urls.py globales para terminar la config

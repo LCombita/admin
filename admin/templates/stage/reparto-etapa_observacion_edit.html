@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Observaciones para {{object.etapa}} de {{object.reparto}}</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <div class="row">
+                    <table class="table table-sm" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Observación</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for obs in form.forms %}
+                                <tr style="text-align: center;">
+                                    <td>{{obs.observacion}} {{obs.observacion.errors}}</td>
+                                    <td>{{obs.id}}</td>
+                                <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <div class="row">
+                    <h5>Las observaciones no se pueden modificar o borrar.<h5>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+        {% block scripts_local %}
+        <script> 
+            $(function () {
+                $('.select2').select2()
+            })
+        </script>
+    {% endblock scripts_local %}  
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Impuesto </b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post" enctype='multipart/form-data' >{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <div class="row"> {{ form.reparto }} {{ form.etapa }} 
+                        <h5>Detalle de impuestos para : &nbsp <h5>
+                        <b>{{object.etapa}}</b>
+                    </div>
+                    <div class="row">
+                        <h6 style="color:#e00007"  >Las fechas deben estar en formato DD/MM/AAAA. Ejemplo 30/01/2022.</h6>
+                    </div>
+                    <div class="row">
+                    <table class="table table-hover text-nowrap" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th># boleta</th>
+                            <th>fecha boleta</th>
+                            <th>cargar boleta</th>
+                            <!-- <th>¿Eliminar?</th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for imp in form.forms %}
+                            <tr>
+                                <td>
+                                    {{imp.boleta_rentas}}{{imp.boleta_rentas.errors}}
+                                    <p class="help"><b>{{ imp.boleta_rentas.help_text|safe }}</b></p>
+                                    {{imp.boleta_registro}} {{imp.boleta_registro.errors}}
+                                    <p class="help"><b>{{ imp.boleta_registro.help_text|safe }}</b></p>
+                                </td>
+                                <td>
+                                    {{imp.fecha_boleta_rentas}} {{imp.fecha_boleta_rentas.errors}}
+                                    <p class="help"><b>{{ imp.fecha_boleta_rentas.help_text|safe }}</b></p>
+                                    {{imp.fecha_boleta_registro}} {{imp.fecha_boleta_registro.errors}}
+                                    <p class="help"><b>{{ imp.fecha_boleta_registro.help_text|safe }}</b></p>
+                                </td>
+                                <td>
+                                    {{imp.file_boleta_rentas}}
+                                    <p class="help"><b>{{ imp.file_boleta_rentas.help_text|safe }}</b></p>
+                                    {{imp.file_boleta_registro}}
+                                    <p class="help"><b>{{ imp.file_boleta_registro.help_text|safe }}</b></p>
+                                </td>
+                                <!-- <td>{{rev.DELETE}}</td> -->
+                                <td>{{imp.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-update' object.id %}" class="btn btn-secondary btn-sm" >volver</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    {% block scripts_local %}
+    {% endblock scripts_local %}  
+{% endblock content %}

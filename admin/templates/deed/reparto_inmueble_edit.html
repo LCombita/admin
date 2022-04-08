@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}rep-mat{% endblock title %}
+{% block title %}rep-inm{% endblock title %}
 
 {% block content %}
     <style>.errorlist{color:red;}</style>
@@ -16,13 +16,33 @@
                 <form action="" method="post">{% csrf_token %}
                     {{form.management_form}}
                     {{form.non_form_errors}}
-                    <h4>Hoja de Ruta: {{reparto.hoja_ruta}}</h4> 
-                    {% for reparto_inmueble in form.forms %}
-                        {{reparto_inmueble.as_p}}
-                    {% endfor %}
+                    <h4><b>Hoja de Ruta: {{reparto.hoja_ruta}}</b></h4>
+                    <hr>
+                    <div class="row">
+                    <table class="display" style="width:100%">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>Inmueble</th>
+                            <th>Matricula</th>
+                            <th>¿Eliminar?</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for reparto_inmueble in form.forms %}
+                            <tr style="text-align: center;">
+                                <td>{{reparto_inmueble.inmueble}}</td>
+                                <td>{{reparto_inmueble.matricula}}</td>
+                                <td>{{reparto_inmueble.DELETE}}</td>
+                                <td>{{reparto_inmueble.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
                     <div class="btn-group">
                         <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
-                        <p><a href="{% url 'deed:reparto-update' reparto.id%}" class="btn btn-secondary" >volver</a></p>
+                        <p><a href="{% url 'deed:reparto-detail' reparto.id%}" class="btn btn-secondary" >volver</a></p>
                     </div>
                 </form>
             </div>

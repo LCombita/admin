@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}DetailEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Detalle Etapa</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row"> 
+                        <h5>Etapa: &nbsp <h5>
+                        <b>{{repartoetapa.etapa}}</b>
+                    </div>
+                    <div class="row"> 
+                        <h5>Hoja Ruta: &nbsp <h5>
+                        <b>{{repartoetapa.reparto}}</b>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                <h6>Fecha Inicio:&nbsp</h6>
+                                {% if repartoetapa.fecha_inicio %}
+                                    <b>{{ repartoetapa.fecha_inicio | date:'d/m/Y' }}</b>
+                                {% endif %}    
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                <h6>Fecha Final:&nbsp</h6>
+                                {% if repartoetapa.fecha_final %}
+                                    <b>{{ repartoetapa.fecha_final | date:'d/m/Y'}}</b>
+                                {% endif %}  
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                <h6>Finalizada:&nbsp</h6>
+                                {% if repartoetapa.finalizado %}
+                                    <b>Sí</b>
+                                {% else %}
+                                    <b>No</b>
+                                {% endif %}  
+                            </div> 
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><a href="{% url 'stage:repartoetapa-observaciones2' object.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
+                        <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
+                    </div>
+                    <hr>
+                </form>
+                <!-- OBSERVACIONES-->
+                <div class="row">
+                    <table class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Observaciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for obs in observaciones %}
+                            <tr>
+                                <td>{{obs.usuario}} ||
+                                    {{obs.fecha_hora | date:"d/m/Y h:i A" }} ||
+                                    {{obs.observacion}}
+                                </td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                </div>
+                <hr>
+                <!-- REVISION-->
+                <div class="row">
+                    {% if repartoetapa.tipo_repartoetapa == 'R' %}
+                    <table class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Notas de revisión</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for rev in revision %}
+                            <tr>
+                                <td>{{rev.fecha_revision | date:"d/m/Y" }} ||
+                                {{rev.descripcion}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                <hr>
+                <!-- IMPUESTO-->
+                <div class="row">
+                    {% if repartoetapa.tipo_repartoetapa == 'I' %}
+                    <table class="display" style="width:50%">
+                        <thead>
+                        <tr>
+                            <th>Boleta de rentas</th>
+                            <th>Boleta de Registro</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for imp in impuesto %}
+                            <tr>
+                                <td>
+                                    {{imp.boleta_rentas}} || {{imp.fecha_boleta_rentas | date:"d/m/Y" }} ||
+                                    {% if imp.file_boleta_rentas %} <a href="{{imp.file_boleta_rentas.url}}" ><b> ver </b></a>{% endif %}
+                                </td>
+                                <td>
+                                    {{imp.boleta_registro}} || {{imp.fecha_boleta_registro | date:"d/m/Y" }} ||
+                                    {% if imp.file_boleta_registro %} <a href="{{imp.file_boleta_registro.url}}" ><b> ver </b></a>{% endif %}
+                                </td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    {% block scripts_local %}
+    {% endblock scripts_local %}  
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}UpdateEtapa{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 style="color:#ffffff" class="card-title"> 
+                <a><b>Observaciones para {{rep_eta.etapa}} de {{rep_eta.reparto}}</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5><b>Observación.</b><h5>
+                            <h6 style="color:#FF0000" >Las observaciones no se pueden modificar o borrar.<h6>
+                            <div class="fieldWrapper">
+                                {{ form.observacion.errors }}
+                                {{ form.observacion }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-sm" value="Actualizar"></p>
+                        <p><a href="{% url 'stage:repartoetapa-update' rep_eta.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- para todas -->
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+{% endblock content %}

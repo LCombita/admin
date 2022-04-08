@@ -21,17 +21,31 @@
             <tr>
                 <th>Tipo Etapa</th>
                 <th>Etapa</th>
-                <th>Activo</th>
-                <th>Acción  </th>
+                <th style="text-align: center;"  >Activo</th>
+                <th style="text-align: center;"  >Acción  </th>
             </tr>
             </thead>
             <tbody>
             {% for etapa in etapa_list %}
                 <tr>
-                    <td>{{ etapa.tipo_etapa }}</td>
+                    {% if etapa.tipo_etapa == 'REC' %}
+                        <td>RECEPCION</td>
+                    {% elif etapa.tipo_etapa == 'EXT' %}
+                        <td>EXTENCION</td>
+                    {% elif etapa.tipo_etapa == 'OTO' %}
+                        <td>OTORGAMIENTO</td>
+                    {% elif etapa.tipo_etapa == 'AUT' %}
+                        <td>AUTORIZACION</td>
+                    {% else %}
+                        <td> ---- </td>
+                    {% endif %}
                     <td>{{ etapa.nombre_etapa }}</td>
-                    <td>{{ etapa.activo | safe}}</td>
-                    <td>
+                    {% if etapa.activo %}
+                        <td style="text-align: center;"  >Sí</td>
+                    {% else %}
+                        <td style="text-align: center;"  >No</td>
+                    {% endif %}
+                    <td style="text-align: center;"  >
                         <div class="btn-group">
                             <a href="{% url 'stage:etapa-update' etapa.id %}" class="btn btn-warning btn-sm" >actualizar</a>
                             <a href="{% url 'stage:etapa-delete' etapa.id %}" class="btn btn-danger btn-sm" >eliminar</a>

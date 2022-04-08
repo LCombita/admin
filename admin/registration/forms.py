@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import  Grantor, DataGrantor
+from .models import  Escrituracion, Grantor, DataGrantor, Tramitador
 
 
 class CreateGrantorForm(UserCreationForm):
@@ -32,12 +32,44 @@ class DataGrantorForm(forms.ModelForm):
                 'class':'form-control mb-2', 'placeholder':'dirección'}),
         }
 
-"""
-labels = {
-    'username': '', 'email': '', 'password': '',
-    'first_name': '','last_name': '', 'last_name2': '', 'identification': ''
-}
-"""
+
+#TRAMITADORES
+class CreateTramitadorForm(UserCreationForm):
+
+    class Meta:
+        model = Tramitador
+        fields = [
+            'username', 'email', 'password1', 'password2',
+            'first_name', 'last_name', 'last_name2', 'identification']
+
+
+class UpdateTramitadorForm(UserChangeForm):
+
+    class Meta:
+        model = Tramitador
+        fields = [
+            'username', 'email', 'password', 'first_name', 'last_name', 'last_name2', 'identification']
+
+
+#ESCRITURACION
+class CreateEscrituracionForm(UserCreationForm):
+
+    class Meta:
+        model = Escrituracion
+        fields = [
+            'username', 'email', 'password1', 'password2',
+            'first_name', 'last_name', 'last_name2', 'identification']
+
+
+class UpdateEscrituracionForm(UserChangeForm):
+
+    class Meta:
+        model = Escrituracion
+        fields = [
+            'username', 'email', 'password', 'first_name', 'last_name', 'last_name2', 'identification']
+
+
+
 """
 fields = '__all__'
 fields = ['campo1', 'campo2']

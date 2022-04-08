@@ -1,12 +1,14 @@
-from django.views.generic import CreateView, UpdateView, ListView, FormView
+from django.views.generic import CreateView, UpdateView, ListView, FormView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeleteView
-from .models import Reparto, ActoJuridico
+from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
+from stage.models import RepartoEtapa
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
-from .forms import RepartoInmuebleFormSet
+from .forms import InmuebleInlineFormSet, RepartoOtorganteInlineFormSet
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.forms import inlineformset_factory
 
 
 class RepartoUpdateView(UpdateView):
@@ -16,7 +18,7 @@ class RepartoUpdateView(UpdateView):
     template_name = 'deed/reparto_update_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('deed:reparto-update', args=[self.object.id])
+        return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
 
 class NumeroEscrituraUpdateView(UpdateView):
@@ -46,7 +48,18 @@ class RepartoCreateView(CreateView):
     template_name = 'deed/reparto_create_form.html'
 
     def get_success_url(self):
-        return reverse_lazy('deed:reparto-update', args=[self.object.id])
+        return reverse_lazy('deed:reparto-detail', args=[self.object.id])
+
+
+class RepartoDetailView(DetailView):
+    model = Reparto
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inmueble'] = Inmueble.objects.filter(reparto=self.object.id)
+        context['etapas'] = RepartoEtapa.objects.filter(reparto=self.object.id).order_by('orden')
+        context['otorgantes'] = OtorganteReparto.objects.filter(reparto=self.object.id).order_by('otorgante')
+        return context
 
 
 #ACTOS JURIDICOS
@@ -93,18 +106,54 @@ class RepartoInmuebleEditView(SingleObjectMixin, FormView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Reparto.objects.all())
         return super().post(request, *args, **kwargs)
-
-    def get_form(self, form_class=None):
+    
+    def get_form(self):
+        form_class = InmuebleInlineFormSet
+        RepartoInmuebleFormSet = inlineformset_factory(
+            Reparto, Inmueble, fields=('reparto', 'inmueble', 'matricula',),
+            form=form_class, max_num=Inmueble.objects.filter(reparto=self.object).count()+1)
         return RepartoInmuebleFormSet(**self.get_form_kwargs(), instance=self.object)
 
     def form_valid(self, form):
         form.save()
-        #messages.add_message(
-        #    self.request,
-        #    messages.SUCCESS,
-        #    'Changes were saved.'
-        #)
         return HttpResponseRedirect(self.get_success_url())
     
     def get_success_url(self):
         return reverse_lazy('deed:reparto-inmueble-edit', args=[self.object.id])
+
+
+#OTORGANTES
+class RepartoOtorganteEditView(SingleObjectMixin, FormView):
+
+    model = Reparto
+    template_name = 'deed/reparto_otorgante_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().post(request, *args, **kwargs)
+    
+    def get_form(self):
+        form_class = RepartoOtorganteInlineFormSet
+        RepartoOtorganteFormSet = inlineformset_factory(
+            Reparto, OtorganteReparto, fields=(
+                'otorgante',
+                'factura',
+                'derechos_notariales',
+                'valor_registro',
+                'valor_rentas',
+                'canje',),
+            form=form_class, max_num=OtorganteReparto.objects.filter(reparto=self.object).count()+1)
+        return RepartoOtorganteFormSet(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse_lazy('deed:reparto-otorgante-edit', args=[self.object.id])
+
+
