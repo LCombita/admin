@@ -1,5 +1,6 @@
 from django import forms
 from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
+from stage.models import RepartoEtapa
 #from django.forms import inlineformset_factory
 
 class RepartoUpdateForm(forms.ModelForm):
@@ -164,12 +165,11 @@ class InmuebleInlineFormSet(forms.ModelForm):
         labels = {'inmueble':'', 'matricula':''}
 
 
-#INMUEBLES
+#OTORGANTES
 class RepartoOtorganteInlineFormSet(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        #self.fields['reparto'].widget.attrs.update({'class': 'form-control'})
         self.fields['otorgante'].widget.attrs.update({'class': 'form-control'})
         self.fields['factura'].widget.attrs.update({'class': 'form-control'})
         self.fields['derechos_notariales'].widget.attrs.update({'class': 'form-control'})
@@ -193,3 +193,35 @@ class RepartoOtorganteInlineFormSet(forms.ModelForm):
             'valor_registro':'',
             'valor_rentas':'',
             'canje':''}
+
+
+#ETAPAS
+class RepartoEtapasInlineFormSet(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tipo_repartoetapa'].widget.attrs.update({'class': 'form-control'})
+        self.fields['grupo_repartoetapa'].widget.attrs.update({'class': 'form-control'})
+        self.fields['etapa'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
+        self.fields['orden'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_inicio'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_final'].widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = RepartoEtapa
+        fields = [
+            'tipo_repartoetapa',
+            'grupo_repartoetapa',
+            'etapa',
+            'orden',
+            'fecha_inicio',
+            'fecha_final',
+            'finalizado']
+        labels = {
+            'tipo_repartoetapa':'',
+            'grupo_repartoetapa':'',
+            'etapa':'',
+            'orden':'',
+            'fecha_inicio':'',
+            'fecha_final':'',
+            'finalizado':''}

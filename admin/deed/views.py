@@ -5,7 +5,7 @@ from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
 from stage.models import RepartoEtapa
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
-from .forms import InmuebleInlineFormSet, RepartoOtorganteInlineFormSet
+from .forms import InmuebleInlineFormSet, RepartoOtorganteInlineFormSet, RepartoEtapasInlineFormSet
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.forms import inlineformset_factory
@@ -157,3 +157,37 @@ class RepartoOtorganteEditView(SingleObjectMixin, FormView):
         return reverse_lazy('deed:reparto-otorgante-edit', args=[self.object.id])
 
 
+#CONFIGURACIÓN DE ETAPAS
+class RepartoEtapasEditView(SingleObjectMixin, FormView):
+
+    model = Reparto
+    template_name = 'deed/reparto_etapas_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Reparto.objects.all())
+        return super().post(request, *args, **kwargs)
+    
+    def get_form(self):
+        form_class = RepartoEtapasInlineFormSet
+        RepartoEtapasFormSet = inlineformset_factory(
+            Reparto, RepartoEtapa, fields=(
+                'tipo_repartoetapa',
+                'grupo_repartoetapa',
+                'etapa',
+                'orden',
+                'fecha_inicio',
+                'fecha_final',
+                'finalizado'),
+            form=form_class, max_num=RepartoEtapa.objects.filter(reparto=self.object).count()+1)
+        return RepartoEtapasFormSet(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        return reverse_lazy('deed:reparto-etapas-edit', args=[self.object.id])

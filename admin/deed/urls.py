@@ -2,7 +2,7 @@ from django.urls import path
 from .views import RepartoUpdateView, RepartoListView, NumeroEscrituraUpdateView
 from .views import RepartoCreateView, RepartoInmuebleEditView, RepartoDetailView
 from .views import ActoCreateView, ActoUpdateView, ActoListView, ActoDeleteView
-from .views import RepartoOtorganteEditView
+from .views import RepartoOtorganteEditView, RepartoEtapasEditView
 
 deed_patterns = ([
     path('rep-cre', RepartoCreateView.as_view(), name='reparto-create'),
@@ -19,4 +19,6 @@ deed_patterns = ([
     path('rep-inm/<int:pk>', RepartoInmuebleEditView.as_view(), name='reparto-inmueble-edit'),
     #OTORGANTES
     path('rep-oto/<int:pk>', RepartoOtorganteEditView.as_view(), name='reparto-otorgante-edit'),
+    #ETAPAS
+    path('rep-eta/<int:pk>', RepartoEtapasEditView.as_view(), name='reparto-etapas-edit'),
 ], 'deed')

@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import EtapaCreateView, EtapaListView, EtapaDeleteView, EtapaUpdateView
 from .views import RepartoEtapaUpdateView, RevisionRepartoEtapaEditView
-from .views import ImpuestoRepartoEtapaEditView, RepartoEtapaDetailView, ObservacionCreateView, ObservacionCreate2View
+from .views import ImpuestoRepartoEtapaEditView, RepartoEtapaDetailView
+from .views import ObservacionCreateView, ObservacionCreate2View
 
 
 stage_patterns = ([

@@ -1,10 +1,9 @@
-from pipes import Template
 from django.urls import reverse_lazy
 from django.views.generic.detail import SingleObjectMixin
 from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 from registration.models import User
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
-from .forms import ObservacionInlineFormSet, RevisionInlineFormSet, ImpuestoInlineFormSet, RepartoEtapaObservacionesForm
+from .forms import RevisionInlineFormSet, ImpuestoInlineFormSet, RepartoEtapaObservacionesForm
 from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView, TemplateView
 from django.views.generic.edit import DeleteView
 from django.http import HttpResponseRedirect
@@ -74,35 +73,6 @@ class RepartoEtapaDetailView(DetailView):
 
 
 #OBSERVACIONES REPARTO ETAPAS
-class ObservacionesRepartoEtapa2EditView(SingleObjectMixin, FormView):
-    """Abre desde RepartoEtapaDetail"""
-
-    model = RepartoEtapa
-    template_name = 'stage/reparto-etapa_observacion_edit.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
-        return super().post(request, *args, **kwargs)
-    
-    def get_form(self):
-        form_class = ObservacionInlineFormSet
-        RepartoEtapaObservacionFormSet = inlineformset_factory(
-            RepartoEtapa, ObservacionEtapa, fields=('observacion',),
-            form=form_class, max_num=ObservacionEtapa.objects.filter(reparto_etapa=self.object).count()+1)
-        return RepartoEtapaObservacionFormSet(**self.get_form_kwargs(), instance=self.object)
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
-    
-    def get_success_url(self):
-        return reverse_lazy('stage:repartoetapa-detail', args=[self.object.id])
-
-
 class ObservacionCreateView(TemplateView):
     """Esta vista controla la creación de observaciones desde RepartoEtapaUdate.
     Recibe por url el codigo del RepartoEtapa que se está editanto para crear la observación

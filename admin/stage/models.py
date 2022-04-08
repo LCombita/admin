@@ -44,11 +44,13 @@ class RepartoEtapa(models.Model):
         (IMPUESTO, 'IMPUESTO'),
         (REVISION, 'REVISION'),
     ]
+    NINGUNO = 'NIN'
     FACTURACION = 'FAC'
     FINALIZACION = 'FIN'
     JURIDICA = 'JUR'
     PROCOTOLISTA = 'PRO'
     grupo_repartoetapa_choices = [
+        (NINGUNO, 'NINGUNO'),
         (FACTURACION, 'FACTURACION'),
         (FINALIZACION, 'FINALIZACION'),
         (JURIDICA, 'JURIDICA'),
@@ -57,7 +59,7 @@ class RepartoEtapa(models.Model):
     tipo_repartoetapa = models.CharField(
             max_length=1, choices=tipo_repartoetapa_choices, default=GENERAL)
     grupo_repartoetapa = models.CharField(
-            max_length=3, choices=grupo_repartoetapa_choices, default=PROCOTOLISTA)
+            max_length=3, choices=grupo_repartoetapa_choices, default=NINGUNO)
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     etapa = models.ForeignKey(
@@ -113,6 +115,7 @@ class Revision(models.Model):
 """Estas dos funciones configuran la ruta en la que se va a almacenar los archivos con las
 liquidaciones de rentas y registro. En caso de que se vaya cambiar el archivo, elimina el anterior
 y deja el nuevo archivo cargado con el fin de no guardar archivos innecesarios."""
+
 def rentas_upload_to(instance, filename):
     old_instance=Impuesto.objects.get(pk=instance.pk)
     old_instance.file_boleta_rentas.delete()

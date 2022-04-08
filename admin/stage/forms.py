@@ -1,4 +1,3 @@
-from tkinter import Widget
 from django import forms
 from .models import Etapa, Impuesto, RepartoEtapa, ObservacionEtapa, Revision
 
@@ -43,7 +42,7 @@ class RepartoEtapaUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tipo_repartoetapa'].widget.attrs.update(
-            {'class': 'form-control'})
+            {'class': 'form-control', 'hidden':'True'})
         self.fields['reparto'].widget.attrs.update(
             {'class': 'form-control', 'hidden':'True'})
         self.fields['etapa'].widget.attrs.update(
@@ -77,20 +76,6 @@ class RepartoEtapaUpdateForm(forms.ModelForm):
             'finalizado': 'Seleccione si finalizó la etapa.',
             'tipo_repartoetapa': 'Seleccione el tipo de etapa.',
             }
-
-
-class ObservacionInlineFormSet(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['observacion'].widget.attrs.update({'class': 'form-control'})
-
-    class Meta:
-        model = ObservacionEtapa
-        fields = ['id', 'observacion']
-        labels = {'observacion':'',}
-        help_texts = {
-            'observacion': 'Verifique la información que se va a introducir, ya que no se puede modificar o eliminar.',
-         }
 
 
 class RepartoEtapaObservacionesForm(forms.ModelForm):

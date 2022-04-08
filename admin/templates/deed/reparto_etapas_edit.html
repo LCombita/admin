@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}rep-inm{% endblock title %}
+
+{% block content %}
+    <style>.errorlist{color:red;}</style>
+    <div class="card card-success">     
+        <div class="card-header-gen">
+            <h3 class="card-title"> 
+                <a style="color:#ffffff"><b>Configurar Etapas</b></a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <form action="" method="post">{% csrf_token %}
+                    {{form.management_form}}
+                    {{form.non_form_errors}}
+                    <h4><b>Hoja de Ruta: {{reparto.hoja_ruta}}</b></h4>
+                    <h5>Configuración de las etapas del trámite.</h5>
+                    <div class="row">
+                    <table class="table table-head-fixed text-nowrap" style="width:100%">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>Etapa</th>
+                            <th>Tipo</th>
+                            <th>Grupo</th>
+                            <th style="width:80px" >Orden</th>
+                            <th style="width:80px" >¿Eliminar?</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for etapa in form.forms %}
+                            <tr style="text-align: center;">
+                                <td>{{etapa.etapa}} {{etapa.etapa.errors}}</td>
+                                <td>{{etapa.tipo_repartoetapa}} {{etapa.tipo_repartoetapa.errors}}</td>
+                                <td>{{etapa.grupo_repartoetapa}} {{etapa.grupo_repartoetapa.errors}}</td>
+                                <td>{{etapa.orden}} {{etapa.orden.errors}}</td>
+                                <td>{{etapa.DELETE}}</td>
+                                <td>{{etapa.id}}</td>
+                            <tr>
+                            {% endfor %}
+                        <tbody>
+                    </table>
+                    </div>
+                    <hr>
+                    <div class="btn-group">
+                        <p><input type="submit" class="btn btn-success btn-block" value="Actualizar"></p>
+                        <p><a href="{% url 'deed:reparto-detail' reparto.id%}" class="btn btn-secondary" >volver</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
+    
+    {% block scripts_local %}  
+    {% endblock scripts_local %}  
+{% endblock content %}

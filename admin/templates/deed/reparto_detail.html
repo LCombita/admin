@@ -23,6 +23,7 @@
                         <a class="nav-link bg-success dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Opciones</b></a>
                         <div class="dropdown-menu mt-0">
                             <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >Actualizar</a>
+                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-etapas-edit' reparto.id %}" >Configurar Etapas</a>
                             <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >Inmuebles</a>
                             <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >Otorgantes</a>
                             <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >Regresar</a>
@@ -76,7 +77,7 @@
                     <form action="" method="post">{% csrf_token %}
                         <hr>
                         <div class="row">
-                            <h4><b>avance del trámite</b><h4>
+                            <h4><b>estado del trámite</b><h4>
                         </div>
                         <div class="row">
                             <table class="table table-sm" >
