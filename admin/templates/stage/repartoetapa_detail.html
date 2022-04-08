@@ -53,7 +53,7 @@
                     </div>
                     <hr>
                     <div class="btn-group">
-                        <p><a href="{% url 'stage:repartoetapa-observaciones2' repartoetapa.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
+                        <p><a href="{% url 'stage:repartoetapa-observaciones2' object.id %}" class="btn btn-warning btn-sm" >Observaciones</a></p>
                         <p><a href="{% url 'deed:reparto-detail' object.reparto.id %}" class="btn btn-secondary btn-sm" >Regresar</a></p>
                     </div>
                     <hr>
@@ -69,7 +69,10 @@
                         <tbody>
                             {% for obs in observaciones %}
                             <tr>
-                                <td>{{obs.fecha_hora | date:"d/m/Y h:i A" }} || {{obs.observacion}}</td>
+                                <td>{{obs.usuario}} ||
+                                    {{obs.fecha_hora | date:"d/m/Y h:i A" }} ||
+                                    {{obs.observacion}}
+                                </td>
                             <tr>
                             {% endfor %}
                         <tbody>

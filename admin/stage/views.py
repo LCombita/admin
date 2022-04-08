@@ -74,35 +74,6 @@ class RepartoEtapaDetailView(DetailView):
 
 
 #OBSERVACIONES REPARTO ETAPAS
-class ObservacionesRepartoEtapaEditView(SingleObjectMixin, FormView):
-    """Abre desde RepartoEtapaUpdate"""
-
-    model = RepartoEtapa
-    template_name = 'stage/reparto-etapa_observacion_edit.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=RepartoEtapa.objects.all())
-        return super().post(request, *args, **kwargs)
-    
-    def get_form(self):
-        form_class = ObservacionInlineFormSet
-        RepartoEtapaObservacionFormSet = inlineformset_factory(
-            RepartoEtapa, ObservacionEtapa, fields=('observacion',),
-            form=form_class, max_num=ObservacionEtapa.objects.filter(reparto_etapa=self.object).count()+1)
-        return RepartoEtapaObservacionFormSet(**self.get_form_kwargs(), instance=self.object)
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
-    
-    def get_success_url(self):
-        return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
-
-
 class ObservacionesRepartoEtapa2EditView(SingleObjectMixin, FormView):
     """Abre desde RepartoEtapaDetail"""
 
@@ -133,21 +104,28 @@ class ObservacionesRepartoEtapa2EditView(SingleObjectMixin, FormView):
 
 
 class ObservacionCreateView(TemplateView):
-    #va a recibir un RepartoEtapa por la url para crear la observacion
-    #para ello se modifica el metodo post
+    """Esta vista controla la creación de observaciones desde RepartoEtapaUdate.
+    Recibe por url el codigo del RepartoEtapa que se está editanto para crear la observación
+    y el usuario que ha iniciado sesión"""
+
     template_name = 'stage/reparto-etapa_observaciones.html'
 
     def post(self, request, *args, **kwargs):
-        #context = self.get_context_data()
+        """Se sobrescribe este método para crear la observación con base en id RepartoEtapa
+        recibido en la url"""
+
         obs = request.POST.get('observacion', '')
         if obs:
+            usr = User.objects.get(id=self.request.user.id)
             repeta = RepartoEtapa.objects.get(id=self.kwargs['id'])
-            ObservacionEtapa.objects.create(reparto_etapa=repeta, observacion = obs)
-            #context['repartos'] = Reparto.objects.filter(
-            #        otorgantereparto__otorgante__identification = identificacion)
+            ObservacionEtapa.objects.create(
+                reparto_etapa=repeta, observacion = obs, usuario = usr.username)
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
+        """Sobre escribe el get_context_Data para enviar al template el formulario de las
+        observaciones y el id recibido en la url"""
+
         context = super().get_context_data(**kwargs)
         context['form'] = RepartoEtapaObservacionesForm()
         context['rep_eta'] = RepartoEtapa.objects.get(id=self.kwargs['id'])
@@ -155,6 +133,38 @@ class ObservacionCreateView(TemplateView):
     
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-update', args=[self.kwargs['id']])
+
+
+class ObservacionCreate2View(TemplateView):
+    """Esta vista controla la creación de observaciones desde RepartoEtapaDetail.
+    Recibe por url el codigo del RepartoEtapa que se está editanto para crear la observación
+    y el usuario que ha iniciado sesión"""
+
+    template_name = 'stage/reparto-etapa_observaciones.html'
+
+    def post(self, request, *args, **kwargs):
+        """Se sobrescribe este método para crear la observación con base en id RepartoEtapa
+        recibido en la url"""
+
+        obs = request.POST.get('observacion', '')
+        if obs:
+            usr = User.objects.get(id=self.request.user.id)
+            repeta = RepartoEtapa.objects.get(id=self.kwargs['id'])
+            ObservacionEtapa.objects.create(
+                reparto_etapa=repeta, observacion = obs, usuario = usr.username)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        """Sobre escribe el get_context_Data para enviar al template el formulario de las
+        observaciones y el id recibido en la url"""
+
+        context = super().get_context_data(**kwargs)
+        context['form'] = RepartoEtapaObservacionesForm()
+        context['rep_eta'] = RepartoEtapa.objects.get(id=self.kwargs['id'])
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('stage:repartoetapa-detail', args=[self.kwargs['id']])
 
 
 #REVISION EN ETAPAS

@@ -84,6 +84,7 @@ class ObservacionEtapa(models.Model):
     fecha_hora = models.DateTimeField(auto_now_add=True, verbose_name='Fecha-Hora-Observacion')
     observacion = models.CharField(
         max_length=150, verbose_name='Observación')
+    usuario = models.CharField(max_length=150, verbose_name='Usuario', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Observación'
