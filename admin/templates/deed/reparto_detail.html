@@ -4,188 +4,197 @@
 {% block title %}rep-det{% endblock title %}
 
 {% block content %}
-    <style>.errorlist{color:red;}</style>
-    <div class="col-12 col-sm-12">
-        <div class="card card-success card-tabs">
-            <div class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                    <li class="pt-2 px-3" style="color:#ffffff"><h3 class="card-title"><b>HR: {{ reparto.hoja_ruta }}</b></h3></li>
-                    <li class="nav-item">
-                        <a class="nav-link active" id="reparto-detail-tab" data-toggle="pill" href="#reparto-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Hoja Ruta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="otorgantes-detail-tab" data-toggle="pill" href="#otorgantes-detail" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Otorgantes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="reparto-inmueble-tab" data-toggle="pill" href="#reparto-inmueble" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Inmuebles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link bg-success dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Opciones</b></a>
-                        <div class="dropdown-menu mt-0">
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >Actualizar</a>
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-etapas-edit' reparto.id %}" >Configurar Etapas</a>
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >Inmuebles</a>
-                            <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >Otorgantes</a>
-                            <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >Regresar</a>
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-            <div class="card-body">
-            <div class="tab-content" id="custom-tabs-two-tabContent">
-                <div class="tab-pane fade show active" id="reparto-detail" role="tabpanel" aria-labelledby="reparto-detail-tab">
-                    <form action="" method="post">{% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <h5>Fecha Reparto: &nbsp <h5>
-                                    <b>{{ reparto.fecha_reparto | date:'d/m/Y'}}</b>
-                                </div>
-                                <div class="row">
-                                    <h5>Escritura: &nbsp <h5>
-                                    {%if reparto.anio_escritura%}
-                                        <b>{{ reparto.anio_escritura }}</b>
-                                    {%else%}
-                                        ---
-                                    {% endif %}
-                                </div>
-                                <div class="row">    
-                                    <h5>Fecha Escritura: &nbsp <h5>
-                                    {% if reparto.fecha_escritura %}
-                                        <b>{{ reparto.fecha_escritura | date:'d/m/Y'}}</b>
-                                    {% else %}
-                                        ---
-                                    {% endif %}
-                                </div>
+<style>.errorlist{color:red;}</style>
+<div class="col-12 col-sm-12">
+    <div class="card card-success card-tabs">
+        <div class="card-header p-0 pt-1">
+            <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                <li class="pt-2 px-3" style="color:#ffffff"><h3 class="card-title"><b>HR: {{ reparto.hoja_ruta }}</b></h3></li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="reparto-detail-tab" data-toggle="pill" href="#reparto-detail" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Hoja Ruta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="otorgantes-detail-tab" data-toggle="pill" href="#otorgantes-detail" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Otorgantes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="reparto-inmueble-tab" data-toggle="pill" href="#reparto-inmueble" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Inmuebles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link bg-success dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Opciones</b></a>
+                    <div class="dropdown-menu mt-0">
+                    {% if not request.user.es_tramitador %}    
+                        <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-update' reparto.id %}" >Actualizar</a>
+                        <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-etapas-edit' reparto.id %}" >Configurar Etapas</a>
+                        <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-inmueble-edit' reparto.id %}" >Inmuebles</a>
+                        <a style="color:#000000" class="dropdown-item" href="{% url 'deed:reparto-otorgante-edit' reparto.id %}" >Otorgantes</a>
+                        <a style="color:#e0004d" class="dropdown-item" href="{% url 'deed:reparto-list' %}" >Regresar</a>
+                    {% else %}
+                        <a style="color:#e0004d" class="dropdown-item" href="{% url 'reports:repartos-tramitador' %}" >Regresar</a>
+                    {% endif%}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade show active" id="reparto-detail" role="tabpanel" aria-labelledby="reparto-detail-tab">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <h5>Fecha Reparto: &nbsp <h5>
+                                <b>{{ reparto.fecha_reparto | date:'d/m/Y'}}</b>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <h5>Proyecto: &nbsp <h5>
-                                    <b>{{ reparto.proyecto }}</b>
-                                </div>
-                                <div class="row">
-                                    <h5>Acto Jurídico: &nbsp <h5>
-                                    {% for acto in reparto.acto_juridico.all %}
-                                        <b>{{ acto }} {% if not forloop.last %} - {% endif %}</b>
-                                    {% endfor %}
-                                </div>
+                            <div class="row">
+                                <h5>Escritura: &nbsp <h5>
+                                {%if reparto.anio_escritura%}
+                                    <b>{{ reparto.anio_escritura }}</b>
+                                {%else%}
+                                    ---
+                                {% endif %}
+                            </div>
+                            <div class="row">    
+                                <h5>Fecha Escritura: &nbsp <h5>
+                                {% if reparto.fecha_escritura %}
+                                    <b>{{ reparto.fecha_escritura | date:'d/m/Y'}}</b>
+                                {% else %}
+                                    ---
+                                {% endif %}
                             </div>
                         </div>
-                    </form>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <h5>Proyecto: &nbsp <h5>
+                                <b>{{ reparto.proyecto }}</b>
+                            </div>
+                            <div class="row">
+                                <h5>Acto Jurídico: &nbsp <h5>
+                                {% for acto in reparto.acto_juridico.all %}
+                                    <b>{{ acto }} {% if not forloop.last %} - {% endif %}</b>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form action="" method="post">{% csrf_token %}
+                    <hr>
+                    <div class="row">
+                        <h4><b>estado del trámite</b><h4>
+                    </div>
                     <!-- LISTA DE ETAPAS -->
-                    <form action="" method="post">{% csrf_token %}
-                        <hr>
-                        <div class="row">
-                            <h4><b>estado del trámite</b><h4>
-                        </div>
-                        <div class="row">
-                            <table class="table table-sm" >
-                                <thead>
+                    <div class="row">
+                        <table class="table table-sm" >
+                            <thead>
+                            <tr>
+                                <th style="text-align: center;" >Item</th>
+                                <th>Etapa</th>
+                                <th style="text-align: center;" >Fecha Inicio</th>
+                                <th style="text-align: center;" >Fecha Final</th>
+                                <th style="text-align: center;" >Finalizado</th>
+                                <th style="text-align: center;">Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for eta in etapas.all %}
                                 <tr>
-                                    <th style="text-align: center;" >Item</th>
-                                    <th>Etapa</th>
-                                    <th style="text-align: center;" >Fecha Inicio</th>
-                                    <th style="text-align: center;" >Fecha Final</th>
-                                    <th style="text-align: center;" >Finalizado</th>
-                                    <th style="text-align: center;">Acción</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {% for eta in etapas.all %}
-                                    <tr>
-                                        <td style="text-align: center;" >{{eta.orden}}</td>
-                                        <td>{{eta.etapa.nombre_etapa}}</td>
-                                        <td style="text-align: center;">
-                                        {% if eta.fecha_inicio %}
-                                            {{ eta.fecha_inicio | date:'d/m/Y'}}
+                                    <td style="text-align: center;" >{{eta.orden}}</td>
+                                    <td>{{eta.etapa.nombre_etapa}}</td>
+                                    <td style="text-align: center;">
+                                    {% if eta.fecha_inicio %}
+                                        {{ eta.fecha_inicio | date:'d/m/Y'}}
+                                    {% else %}
+                                    ---
+                                    {% endif %}
+                                    </td>
+                                    <td style="text-align: center;" >
+                                        {% if eta.fecha_final %}
+                                            {{ eta.fecha_final | date:'d/m/Y'}}
                                         {% else %}
-                                        ---
+                                            ---
                                         {% endif %}
-                                        </td>
-                                        <td style="text-align: center;" >
-                                            {% if eta.fecha_final %}
-                                                {{ eta.fecha_final | date:'d/m/Y'}}
-                                            {% else %}
-                                                ---
-                                            {% endif %}
-                                        </td>
-                                        <td style="text-align: center;"> 
-                                            {% if eta.finalizado %}
-                                                Sí
-                                            {% else %}
-                                                No
-                                            {% endif %}
-                                        <td style="text-align: center;">
-                                            <div class="btn-group">
-                                                {% if not request.user.es_tramitador%}
+                                    </td>
+                                    <td style="text-align: center;"> 
+                                        {% if eta.finalizado %}
+                                            Sí
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    <td style="text-align: center;">
+                                        <div class="btn-group">
+                                            {% if request.user.es_escrituracion and eta.grupo_repartoetapa == 'PRO' %}
                                                 <a href="{% url 'stage:repartoetapa-update' eta.id %}" class="btn btn-warning btn-sm" >actualizar</a>
-                                                {% endif %}
-                                                <a href="{% url 'stage:repartoetapa-detail' eta.id %}" class="btn btn-warning btn-sm" >detalle</a>
-                                            </div>
-                                        </td>
-                                    <tr>
-                                    {% endfor %}
-                                <tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-                <div class="tab-pane fade" id="otorgantes-detail" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
-                    <form action="" method="post">{% csrf_token %}
-                        <div class="row">
-                            <table class="table table-sm">
-                                <thead>
+                                            {% elif request.user.es_juridica and eta.grupo_repartoetapa == 'JUR' %}
+                                                <a href="{% url 'stage:repartoetapa-update' eta.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                                            {% elif request.user.es_finalizacion and eta.grupo_repartoetapa == 'FIN' %}
+                                                <a href="{% url 'stage:repartoetapa-update' eta.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                                            {% elif request.user.es_facturacion and eta.grupo_repartoetapa == 'FAC' %}
+                                                <a href="{% url 'stage:repartoetapa-update' eta.id %}" class="btn btn-warning btn-sm" >actualizar</a>
+                                            {% endif %}
+                                            <a href="{% url 'stage:repartoetapa-detail' eta.id %}" class="btn btn-warning btn-sm" >detalle</a>
+                                        </div>
+                                    </td>
                                 <tr>
-                                    <th>Otorgantes</th>
-                                    <th style="text-align: center;">Factura</th>
-                                    <th style="text-align: center;">Gastos Notaria</th>
-                                    <th style="text-align: center;">$ Rentas</th>
-                                    <th style="text-align: center;">$ Registro</th>
-                                    <th style="text-align: center;">Canje</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {% for oto in otorgantes.all %}
-                                    <tr>
-                                        <td>{{oto.otorgante}}</td>
-                                        <td style="text-align: center;">{% if oto.factura %} {{oto.factura}} {% else %} --- {% endif %}</td>
-                                        <td style="text-align: center;">{% if oto.derechos_notariales %} {{oto.derechos_notariales}} {% else %} --- {% endif %}</td>
-                                        <td style="text-align: center;">{% if oto.valor_rentas %}{{oto.valor_rentas}}{% else %} --- {% endif %}</td>
-                                        <td style="text-align: center;">{% if oto.valor_registro %}{{oto.valor_registro}}{% else %} --- {% endif %}</td>
-                                        <td style="text-align: center;">{% if oto.canje %} Sí {% else %} No {% endif %}</td>
-                                    <tr>
-                                    {% endfor %}
-                                <tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-                <!-- LISTA DE INMUEBLES -->
-                <div class="tab-pane fade" id="reparto-inmueble" role="tabpanel" aria-labelledby="reparto-inmueble-tab">
-                    <form action="" method="post">{% csrf_token %}
-                        <div class="row">
-                            <table class="table table-sm" >
-                                <thead>
-                                <tr>
-                                    <th>Inmueble</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {% for inm in inmueble.all %}
-                                    <tr>
-                                        <td>{{inm.inmueble}} || matrícula {{inm.matricula}}</td>
-                                    <tr>
-                                    {% endfor %}
-                                <tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
+                                {% endfor %}
+                            <tbody>
+                        </table>
+                    </div>
+                </form>
             </div>
+            <div class="tab-pane fade" id="otorgantes-detail" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th>Otorgantes</th>
+                                <th style="text-align: center;">Factura</th>
+                                <th style="text-align: center;">Gastos Notaria</th>
+                                <th style="text-align: center;">$ Rentas</th>
+                                <th style="text-align: center;">$ Registro</th>
+                                <th style="text-align: center;">Canje</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for oto in otorgantes.all %}
+                                <tr>
+                                    <td>{{oto.otorgante}}</td>
+                                    <td style="text-align: center;">{% if oto.factura %} {{oto.factura}} {% else %} --- {% endif %}</td>
+                                    <td style="text-align: center;">{% if oto.derechos_notariales %} {{oto.derechos_notariales}} {% else %} --- {% endif %}</td>
+                                    <td style="text-align: center;">{% if oto.valor_rentas %}{{oto.valor_rentas}}{% else %} --- {% endif %}</td>
+                                    <td style="text-align: center;">{% if oto.valor_registro %}{{oto.valor_registro}}{% else %} --- {% endif %}</td>
+                                    <td style="text-align: center;">{% if oto.canje %} Sí {% else %} No {% endif %}</td>
+                                <tr>
+                                {% endfor %}
+                            <tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <!-- LISTA DE INMUEBLES -->
+            <div class="tab-pane fade" id="reparto-inmueble" role="tabpanel" aria-labelledby="reparto-inmueble-tab">
+                <form action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <table class="table table-sm" >
+                            <thead>
+                            <tr>
+                                <th>Inmueble</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for inm in inmueble.all %}
+                                <tr>
+                                    <td>{{inm.inmueble}} || matrícula {{inm.matricula}}</td>
+                                <tr>
+                                {% endfor %}
+                            <tbody>
+                        </table>
+                    </div>
+                </form>
             </div>
         </div>
-    </div> 
+        </div>
+    </div>
+</div> 
     
 <script src="{% static 'registration/plugins/jquery/jquery.min.js' %}"></script>
   
