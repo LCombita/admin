@@ -49,18 +49,25 @@
                         </div>
                     </div>        
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="fieldWrapper">
                                 {{ form.fecha_reparto.errors }}
                                 {{ form.fecha_reparto }}
                                 <p class="help">{{ form.fecha_reparto.help_text|safe }}</p>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-5">
                             <div class="fieldWrapper">
                                 {{ form.proyecto.errors }}
                                 {{ form.proyecto }}
                                 <p class="help">{{ form.proyecto.help_text|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fieldWrapper">
+                                {{ form.protocolista.errors }}
+                                {{ form.protocolista}}
+                                <p class="help">{{ form.protocolista.help_text|safe }}</p>
                             </div>
                         </div>        
                     </div>

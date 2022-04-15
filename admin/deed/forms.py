@@ -9,6 +9,8 @@ class RepartoUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['hoja_ruta'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
         self.fields['anio_escritura'].widget.attrs.update({'class': 'form-control', 'readonly':'True'})
+        self.fields['protocolista'].widget.attrs.update(
+            {'class': 'form-control'})
         self.fields['proyecto'].widget.attrs.update({'class': 'form-control'})
         self.fields['acto_juridico'].widget.attrs.update(
             {'class': 'form-control select2', 'data-placeholder':'Selecione los actos jurídicos.'})
@@ -23,13 +25,15 @@ class RepartoUpdateForm(forms.ModelForm):
     class Meta:
         model = Reparto
         fields = ['id', 'hoja_ruta', 'anio_escritura', 'proyecto', 'acto_juridico',
-         'fecha_reparto', 'escritura', 'fecha_escritura', 'activo']
+         'fecha_reparto', 'escritura', 'fecha_escritura', 'activo', 'protocolista']
         labels = {
             'escritura':'', 'fecha_escritura':'', 'fecha_reparto':'',
-            'activo':'', 'proyecto':'', 'acto_juridico':'', 'hoja_ruta':'', 'anio_escritura':'' 
+            'activo':'', 'proyecto':'', 'acto_juridico':'', 'hoja_ruta':'', 'anio_escritura':'',
+            'protocolista':'' 
             }
         help_texts = {
             'proyecto': 'Seleccione el proyecto relacionado con el trámite.',
+            'protocolista': 'Seleccione asistente de escrituración.',
             'acto_juridico': 'Seleccione los actos relacionados.',
             'fecha_escritura': 'Fecha de la escritura.',
             'fecha_reparto': 'Seleccione la fecha de registro de la Hoja de Ruta.',

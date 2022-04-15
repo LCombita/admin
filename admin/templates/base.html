@@ -201,6 +201,14 @@
                       </a>
                     </li>
                   {% endif%}
+                  {% if request.user.es_administrador or request.user.es_reparto %}
+                    <li class="nav-item">
+                      <a href="{% url 'reports:repartos-asistente' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Repartos X Asistente</p>
+                      </a>
+                    </li>
+                  {% endif%}
                 </ul>
                 </a>
                 <ul class="nav nav-treeview">

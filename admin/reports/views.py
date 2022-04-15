@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
+from django.db.models import Count
 from .forms import ReportRepartoXOtorganteForm
 from deed.models import Reparto
-from registration.models import Grantor
+from registration.models import Grantor, Escrituracion
 
 
 class ReportRepartosXOtorganteView(TemplateView):
@@ -37,5 +37,16 @@ class ReportRepartoTramitadorListView(ListView):
         return super().get_queryset().filter(
             activo='True').filter(
                 proyecto__tramitador=self.request.user.id).order_by('-id')
+
+
+class ReportRepartosXAsistenteEscrituracionView(TemplateView):
+    
+    template_name = 'reports/repartos_x_asistente.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['asistentes'] = Escrituracion.objects.filter(
+            groups__name='escrituracion', reparto__activo = True).annotate(cant_reparto = Count('reparto'))
+        return context
 
 
