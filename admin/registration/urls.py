@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomePageView, CreateGrantorView, DataGrantorView
+from .views import HomePageView, CreateGrantorView, DataGrantorView, NoPermisoPageView
 from .views import GrantorListView, UpdateGrantorView
 from .views import CreateTramitadorView, TramitadorListView, UpdateTramitadorView
 from .views import CreateEscrituracionView, EscrituracionListView, UpdateEscrituracionView
@@ -7,6 +7,7 @@ from .views import CreateEscrituracionView, EscrituracionListView, UpdateEscritu
 
 registration_patterns = ([
     path('', HomePageView.as_view(), name="home"),
+    path('sin-acceso', NoPermisoPageView.as_view(), name="no-permiso"),
     path('create-grantor', CreateGrantorView.as_view(), name="create-grantor"),
     path('update-grantor/<int:pk>/', UpdateGrantorView.as_view(), name="update-grantor"),
     path('data-grantor/<int:pk>/', DataGrantorView.as_view(), name="data-grantor"),

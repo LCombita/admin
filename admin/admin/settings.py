@@ -135,6 +135,7 @@ AUTH_USER_MODEL = 'registration.User'
 #redireccionar la página al inciar la sesión en login
 LOGIN_REDIRECT_URL = 'registration:home'
 LOGOUT_REDIRECT_URL = 'registration:home'
+LOGIN_URL = 'login'
 
 #almacenamiento de imagenes
 MEDIA_URL = '/media/'

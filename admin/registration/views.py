@@ -14,6 +14,9 @@ class HomePageView(TemplateView):
     """procesa el template 'registration/home.html' que representa el inicio del proyecto AdmIN"""
     template_name = 'registration/home.html'
 
+class NoPermisoPageView(TemplateView):
+    template_name = 'registration/no_permiso.html'
+
 
 class CreateGrantorView(CreateView):
     """Gestiona el formulario para crear el otorgante.
