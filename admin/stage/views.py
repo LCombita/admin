@@ -131,7 +131,7 @@ class ObservacionCreate2View(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if user_in_groups(self.request.user, ['tramitador']):
-            return super(CheckUserAdmRepMixin, self).dispatch(request, *args, **kwargs)
+            return super(ObservacionCreate2View, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
     def post(self, request, *args, **kwargs):
@@ -168,7 +168,7 @@ class RevisionRepartoEtapaEditView(SingleObjectMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if user_in_groups(self.request.user, ['juridica']):
-            return super(CheckUserAdmRepMixin, self).dispatch(request, *args, **kwargs)
+            return super(RevisionRepartoEtapaEditView, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
     def get(self, request, *args, **kwargs):
@@ -206,7 +206,7 @@ class ImpuestoRepartoEtapaEditView(SingleObjectMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if user_in_groups(self.request.user, ['finalizacion']):
-            return super(CheckUserAdmRepMixin, self).dispatch(request, *args, **kwargs)
+            return super(ImpuestoRepartoEtapaEditView, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
     def get(self, request, *args, **kwargs):
