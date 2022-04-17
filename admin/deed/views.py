@@ -1,17 +1,22 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, ListView, FormView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.forms import inlineformset_factory
 from .models import Reparto, ActoJuridico, Inmueble, OtorganteReparto
 from stage.models import RepartoEtapa
 from .forms import RepartoUpdateForm, NumeroEscrituraUpdateForm, RepartoCreateForm
 from .forms import ActoCreateForm, ActoUpdateForm
 from .forms import InmuebleInlineFormSet, RepartoOtorganteInlineFormSet, RepartoEtapasInlineFormSet
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from django.forms import inlineformset_factory
+from registration.mixin import CheckAdmRepMixin, CheckFacMixin, CheckAdmRepEscMixin
+from registration.mixin import CheckAdmRepEscJurFinFacTraMixin, CheckAdmRepEscFacMixin
 
 
-class RepartoUpdateView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class RepartoUpdateView(CheckAdmRepEscMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo reparto"""
     model = Reparto
     form_class = RepartoUpdateForm
@@ -21,7 +26,8 @@ class RepartoUpdateView(UpdateView):
         return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
 
-class NumeroEscrituraUpdateView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class NumeroEscrituraUpdateView(CheckFacMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo reparto"""
     model = Reparto
     form_class = NumeroEscrituraUpdateForm
@@ -31,7 +37,8 @@ class NumeroEscrituraUpdateView(UpdateView):
         return reverse_lazy('deed:reparto-update', args=[self.object.id])
 
 
-class RepartoListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class RepartoListView(CheckAdmRepEscJurFinFacTraMixin, ListView):
     """Gestiona la lista de hojas de ruta"""
     model=Reparto
     
@@ -41,7 +48,8 @@ class RepartoListView(ListView):
         return qs.filter(activo='True').order_by('-id')
 
 
-class RepartoCreateView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class RepartoCreateView(CheckAdmRepMixin, CreateView):
 
     model = Reparto
     form_class = RepartoCreateForm
@@ -51,6 +59,7 @@ class RepartoCreateView(CreateView):
         return reverse_lazy('deed:reparto-detail', args=[self.object.id])
 
 
+@method_decorator(login_required, name='dispatch')
 class RepartoDetailView(DetailView):
     model = Reparto
 
@@ -63,7 +72,8 @@ class RepartoDetailView(DetailView):
 
 
 #ACTOS JURIDICOS
-class ActoCreateView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class ActoCreateView(CheckAdmRepEscMixin, CreateView):
 
     model = ActoJuridico
     form_class = ActoCreateForm
@@ -73,7 +83,8 @@ class ActoCreateView(CreateView):
         return reverse_lazy('deed:acto-list')
 
 
-class ActoUpdateView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class ActoUpdateView(CheckAdmRepEscMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo ActoJuridico"""
     model = ActoJuridico
     form_class = ActoUpdateForm
@@ -82,19 +93,22 @@ class ActoUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('deed:acto-list')
 
-    
-class ActoListView(ListView):
+
+@method_decorator(login_required, name='dispatch')    
+class ActoListView(CheckAdmRepEscMixin, ListView):
     """Gestiona la lista de actos jurídicos"""
     model=ActoJuridico
 
 
-class ActoDeleteView(DeleteView):
+@method_decorator(login_required, name='dispatch')
+class ActoDeleteView(CheckAdmRepEscMixin, DeleteView):
     model = ActoJuridico
     success_url = reverse_lazy('deed:acto-list')
 
 
 #IMUEBLES
-class RepartoInmuebleEditView(SingleObjectMixin, FormView):
+@method_decorator(login_required, name='dispatch')
+class RepartoInmuebleEditView(CheckAdmRepEscMixin, SingleObjectMixin, FormView):
 
     model = Reparto
     template_name = 'deed/reparto_inmueble_edit.html'
@@ -123,7 +137,8 @@ class RepartoInmuebleEditView(SingleObjectMixin, FormView):
 
 
 #OTORGANTES
-class RepartoOtorganteEditView(SingleObjectMixin, FormView):
+@method_decorator(login_required, name='dispatch')
+class RepartoOtorganteEditView(CheckAdmRepEscFacMixin, SingleObjectMixin, FormView):
 
     model = Reparto
     template_name = 'deed/reparto_otorgante_edit.html'
@@ -158,7 +173,8 @@ class RepartoOtorganteEditView(SingleObjectMixin, FormView):
 
 
 #CONFIGURACIÓN DE ETAPAS
-class RepartoEtapasEditView(SingleObjectMixin, FormView):
+@method_decorator(login_required, name='dispatch')
+class RepartoEtapasEditView(CheckAdmRepMixin, SingleObjectMixin, FormView):
 
     model = Reparto
     template_name = 'deed/reparto_etapas_edit.html'
@@ -191,3 +207,5 @@ class RepartoEtapasEditView(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         return reverse_lazy('deed:reparto-etapas-edit', args=[self.object.id])
+
+

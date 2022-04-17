@@ -1,7 +1,5 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 
 
 class CheckAdmRepEscAutMixin(object):
@@ -14,6 +12,30 @@ class CheckAdmRepEscAutMixin(object):
         if user_in_groups(self.request.user, grps):
             return super(CheckAdmRepEscAutMixin, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
+
+
+class CheckAdmRepEscMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        grps = [
+            'administrador',
+            'reparto',
+            'escrituracion']
+        if user_in_groups(self.request.user, grps):
+            return super(CheckAdmRepEscMixin, self).dispatch(request, *args, **kwargs)
+        return redirect(reverse_lazy('registration:no-permiso'))
+
+
+class CheckAdmRepEscFacMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        grps = [
+            'administrador',
+            'reparto',
+            'escrituracion',
+            'facturacion']
+        if user_in_groups(self.request.user, grps):
+            return super(CheckAdmRepEscMixin, self).dispatch(request, *args, **kwargs)
+        return redirect(reverse_lazy('registration:no-permiso'))
+
 
 
 class CheckAdmRepMixin(object):
@@ -45,6 +67,15 @@ class CheckAdmRepEscJurFinFacTraMixin(object):
             'facturacion']
         if user_in_groups(self.request.user, grps):
             return super(CheckTraMixin, self).dispatch(request, *args, **kwargs)
+        return redirect(reverse_lazy('registration:no-permiso'))
+
+
+class CheckFacMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        grps = [
+            'facturacion']
+        if user_in_groups(self.request.user, grps):
+            return super(CheckFacMixin, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
 

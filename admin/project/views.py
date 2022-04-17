@@ -1,12 +1,16 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from .models import Proyecto, Cliente   
 from .forms import ProyectoCreateForm, ProyectoUpdateForm
 from .forms import ClienteCreateForm, ClienteUpdateForm
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView
 from django.views.generic.edit import DeleteView
+from registration.mixin import CheckAdmRepEscMixin
 
 # PROYECTO
-class ProyectoCreateView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class ProyectoCreateView(CheckAdmRepEscMixin, CreateView):
     model = Proyecto
     form_class = ProyectoCreateForm
     template_name = 'project/proyecto_create_form.html'
@@ -15,17 +19,20 @@ class ProyectoCreateView(CreateView):
         return reverse_lazy('project:proyecto-list')
 
 
-class ProyectoListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class ProyectoListView(CheckAdmRepEscMixin, ListView):
     """Gestiona la lista proyectos"""
     model=Proyecto
 
 
-class ProyectoDeleteView(DeleteView):
+@method_decorator(login_required, name='dispatch')
+class ProyectoDeleteView(CheckAdmRepEscMixin, DeleteView):
     model = Proyecto
     success_url = reverse_lazy('project:proyecto-list')
 
 
-class ProyectoUpdateView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class ProyectoUpdateView(CheckAdmRepEscMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo cliente"""
     model = Proyecto
     form_class = ProyectoUpdateForm
@@ -36,7 +43,8 @@ class ProyectoUpdateView(UpdateView):
 
 
 # CLIENTE
-class ClienteCreateView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class ClienteCreateView(CheckAdmRepEscMixin, CreateView):
     model = Cliente
     form_class = ClienteCreateForm
     template_name = 'project/cliente_create_form.html'
@@ -45,12 +53,14 @@ class ClienteCreateView(CreateView):
         return reverse_lazy('project:cliente-list')
 
 
-class ClienteListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class ClienteListView(CheckAdmRepEscMixin, ListView):
     """Gestiona la lista proyectos"""
     model=Cliente
 
 
-class ClienteUpdateView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class ClienteUpdateView(CheckAdmRepEscMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo cliente"""
     model = Cliente
     form_class = ClienteUpdateForm
@@ -60,7 +70,8 @@ class ClienteUpdateView(UpdateView):
         return reverse_lazy('project:cliente-list')
 
 
-class ClienteDeleteView(DeleteView):
+@method_decorator(login_required, name='dispatch')
+class ClienteDeleteView(CheckAdmRepEscMixin, DeleteView):
     model = Cliente
     success_url = reverse_lazy('project:cliente-list')
 
