@@ -1,10 +1,14 @@
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django import forms
 from .models import DataGrantor, Grantor, Tramitador, Escrituracion
 from .forms import CreateGrantorForm, DataGrantorForm, UpdateGrantorForm
 from .forms import CreateTramitadorForm, UpdateTramitadorForm
 from .forms import CreateEscrituracionForm, UpdateEscrituracionForm
+from .mixin import CheckAdmRepMixin, CheckAdmRepEscAutMixin
+
 
 """El login es gestionado por el sistema de autenticación predeterminado de django, para esta
 funcionalidad solo se le pasó el template 'registration/login.html'. Para el logout, tambien se utiliza
@@ -14,11 +18,14 @@ class HomePageView(TemplateView):
     """procesa el template 'registration/home.html' que representa el inicio del proyecto AdmIN"""
     template_name = 'registration/home.html'
 
+
+@method_decorator(login_required, name='dispatch')
 class NoPermisoPageView(TemplateView):
     template_name = 'registration/no_permiso.html'
 
 
-class CreateGrantorView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class CreateGrantorView(CheckAdmRepEscAutMixin, CreateView):
     """Gestiona el formulario para crear el otorgante.
     El métoro get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
     ya que se está estendiento el formulario UserCreationForm predeterminado de django"""
@@ -51,7 +58,8 @@ class CreateGrantorView(CreateView):
         return reverse_lazy('registration:data-grantor', args=[self.object.datagrantor.id])
 
 
-class UpdateGrantorView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class UpdateGrantorView(CheckAdmRepEscAutMixin, UpdateView):
     model = Grantor
     form_class = UpdateGrantorForm 
     template_name = 'registration/update_grantor_form.html'
@@ -79,14 +87,17 @@ class UpdateGrantorView(UpdateView):
         return reverse_lazy('registration:data-grantor', args=[self.object.datagrantor.id])
 
 
-class DataGrantorView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class DataGrantorView(CheckAdmRepEscAutMixin, UpdateView):
     model = DataGrantor
     form_class = DataGrantorForm
     template_name = 'registration/datagrantor_form.html'
     success_url = reverse_lazy('registration:grantor-list') #TODO: revisar a donde debe redireccionar este
 
+
 #TODO: pendiente agregas las otras columnas al template
-class GrantorListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class GrantorListView(CheckAdmRepEscAutMixin, ListView):
     model = Grantor
     
     def get_queryset(self):
@@ -95,8 +106,10 @@ class GrantorListView(ListView):
         print("desde GrantorAdmin, el qs", qs)
         return qs.filter(groups__name='otorgante')
 
+
 #TRAMITADORES
-class CreateTramitadorView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class CreateTramitadorView(CheckAdmRepEscAutMixin, CreateView):
 
     model = Tramitador
     form_class = CreateTramitadorForm
@@ -127,7 +140,8 @@ class CreateTramitadorView(CreateView):
         return reverse_lazy('registration:tramitador-list')
 
 
-class TramitadorListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class TramitadorListView(CheckAdmRepEscAutMixin, ListView):
     model = Tramitador
     
     def get_queryset(self):
@@ -136,7 +150,8 @@ class TramitadorListView(ListView):
         return qs.filter(groups__name='tramitador')
 
 
-class UpdateTramitadorView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class UpdateTramitadorView(CheckAdmRepEscAutMixin, UpdateView):
     model = Tramitador
     form_class = UpdateTramitadorForm 
     template_name = 'registration/update_tramitador_form.html'
@@ -165,7 +180,8 @@ class UpdateTramitadorView(UpdateView):
 
 
 #ASISTENTES DE ESCRITURACION
-class CreateEscrituracionView(CreateView):
+@method_decorator(login_required, name='dispatch')
+class CreateEscrituracionView(CheckAdmRepMixin, CreateView):
 
     model = Escrituracion
     form_class = CreateEscrituracionForm
@@ -196,7 +212,8 @@ class CreateEscrituracionView(CreateView):
         return reverse_lazy('registration:escrituracion-list')
 
 
-class EscrituracionListView(ListView):
+@method_decorator(login_required, name='dispatch')
+class EscrituracionListView(CheckAdmRepMixin, ListView):
     model = Escrituracion
     
     def get_queryset(self):
@@ -205,7 +222,8 @@ class EscrituracionListView(ListView):
         return qs.filter(groups__name='escrituracion')
 
 
-class UpdateEscrituracionView(UpdateView):
+@method_decorator(login_required, name='dispatch')
+class UpdateEscrituracionView(CheckAdmRepMixin, UpdateView):
     model = Escrituracion
     form_class = UpdateEscrituracionForm 
     template_name = 'registration/update_escrituracion_form.html'
