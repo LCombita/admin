@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 
 
 class ActoJuridico(models.Model):
+    """Gestiona los actos jurídicos relacionados con los direntes trámites"""
+
     nombre_acto = models.CharField(max_length=100, unique=True, verbose_name='Acto Jurídico')
 
     class Meta:
@@ -19,6 +21,9 @@ class ActoJuridico(models.Model):
 
         
 class Reparto(models.Model):
+    """Gestiona los radicados del reparto de los trámites de escrituración, cuyos números se
+    denominan Hojas de Ruta"""
+
     id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     protocolista = models.ForeignKey(
         User, on_delete=models.CASCADE, db_index=True, verbose_name='Asistente Escrituración',limit_choices_to={'groups__name': 'escrituracion'})
@@ -26,8 +31,7 @@ class Reparto(models.Model):
         Proyecto, on_delete=models.CASCADE, db_index=True, verbose_name='Proyecto')
     acto_juridico = models.ManyToManyField(
         ActoJuridico, related_name='acto_juridico', db_index=True, verbose_name='Acto Jurídico')
-    fecha_reparto = models.DateField(
-        verbose_name='Fecha Reparto', help_text="Introduzca la fecha en formato: <em>YYYY-MM-DD</em>.")
+    fecha_reparto = models.DateField(verbose_name='Fecha Reparto')
     escritura = models.CharField(
         max_length=5, null=True, blank=True, verbose_name='Número Escritura') 
     fecha_escritura = models.DateField(
@@ -51,6 +55,8 @@ class Reparto(models.Model):
 
 
 class Inmueble(models.Model):
+    """Gestiona los datos básicos de los inmuebles vinculados a un trámite de escrituración"""
+
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     inmueble = models.CharField(
@@ -67,6 +73,9 @@ class Inmueble(models.Model):
     
 
 class OtorganteReparto(models.Model):
+    """Gestiona la relación entre el modelo Reparto y los usuarios que se vinculan a cada
+    reparto, gestionando la información que genera esa relación."""
+
     reparto = models.ForeignKey(
         Reparto, on_delete=models.CASCADE, db_index=True, verbose_name='Reparto')
     otorgante = models.ForeignKey(
@@ -106,8 +115,9 @@ def actualizar_hojaruta(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Reparto)
 def actualizar_anioescritura(sender, instance, **kwargs):
-    #Señal para actualiar el campo anio_escritura, tomando el año de la fecha de la escritura,
-    #se concatena con un - y el número de la escritura    
+    """Señal para actualiar el campo anio_escritura, tomando el año de la fecha de la escritura,
+    se concatena con un - y el número de la escritura. """
+
     if not kwargs.get('created', False):
         re = Reparto.objects.get(id=instance.id)
         if re.fecha_escritura and re.escritura:
@@ -119,5 +129,3 @@ def actualizar_anioescritura(sender, instance, **kwargs):
         else:
             pass
 
-#consultas
-#https://programmerclick.com/article/66081820135/

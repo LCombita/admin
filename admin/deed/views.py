@@ -14,10 +14,15 @@ from .forms import InmuebleInlineFormSet, RepartoOtorganteInlineFormSet, Reparto
 from registration.mixin import CheckAdmRepMixin, CheckFacMixin, CheckAdmRepEscMixin
 from registration.mixin import CheckAdmRepEscJurFinFacTraMixin, CheckAdmRepEscFacMixin
 
+"""Las lineas @method_decorator(login_required, name='dispatch'), se utlizan para que vista
+solo sea gestionada por un usuario que haya iniciado sesión en el sistema.
+Las clases *Mixin, se heredan para controlar que la vista la pueda ejecutar un usuario 
+que pertenece a un grupo específico."""
 
 @method_decorator(login_required, name='dispatch')
 class RepartoUpdateView(CheckAdmRepEscMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo reparto"""
+    
     model = Reparto
     form_class = RepartoUpdateForm
     template_name = 'deed/reparto_update_form.html'
