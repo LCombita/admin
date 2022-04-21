@@ -66,7 +66,7 @@ class CheckAdmRepEscJurFinFacTraMixin(object):
             'finalizacion',
             'facturacion']
         if user_in_groups(self.request.user, grps):
-            return super(CheckTraMixin, self).dispatch(request, *args, **kwargs)
+            return super(CheckAdmRepEscJurFinFacTraMixin, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
 

@@ -21,8 +21,10 @@ que pertenece a un grupo específico."""
 
 @method_decorator(login_required, name='dispatch')
 class RepartoUpdateView(CheckAdmRepEscMixin, UpdateView):
-    """Gestiona el formulario para actualizar los datos del modelo reparto"""
-    
+    """Gestiona el formulario para actualizar los datos del modelo reparto. Esta vista
+    solo la pueden ejecutar los usuarios de los grupos administrador, reparto y escrituracion, la 
+    restricción la controla la CheckAdmRepEscMixin."""
+
     model = Reparto
     form_class = RepartoUpdateForm
     template_name = 'deed/reparto_update_form.html'
@@ -33,7 +35,9 @@ class RepartoUpdateView(CheckAdmRepEscMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 class NumeroEscrituraUpdateView(CheckFacMixin, UpdateView):
-    """Gestiona el formulario para actualizar los datos del modelo reparto"""
+    """Gestiona el formulario para actualizar el número y la fecha de la escritura.
+    Esta vista solo la pueden ejecutar los usuarios del grupo facturacion,
+    y esto lo controla la CheckFacMixin"""
     model = Reparto
     form_class = NumeroEscrituraUpdateForm
     template_name = 'deed/num_escritura_update_form.html'
@@ -44,7 +48,9 @@ class NumeroEscrituraUpdateView(CheckFacMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 class RepartoListView(CheckAdmRepEscJurFinFacTraMixin, ListView):
-    """Gestiona la lista de hojas de ruta"""
+    """Gestiona un listado de repartos activos. Esta vista la pueden ejecutar los usuarios
+    de los grupos administrador, reparto, escrituracion, finalizacion y tramitador,
+    la restriccion es controlada por la CheckAdmRepEscJurFinFacTraMixin."""
     model=Reparto
     
     def get_queryset(self):
@@ -55,6 +61,9 @@ class RepartoListView(CheckAdmRepEscJurFinFacTraMixin, ListView):
 
 @method_decorator(login_required, name='dispatch')
 class RepartoCreateView(CheckAdmRepMixin, CreateView):
+    """Gestiona el formulario para crear repartos nuevos. Esta vista solo la pueden ejecutar
+    los usuarios que pertenecen a los grupos adminitrador y reparto. La restricción la controla
+    la CheckAdmRepMixin"""
 
     model = Reparto
     form_class = RepartoCreateForm
@@ -66,6 +75,11 @@ class RepartoCreateView(CheckAdmRepMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class RepartoDetailView(DetailView):
+    """Gestiona la visualización de la información de un reparto en especifico, definido por un parametro
+    que llega por url. En el contexto de la plantilla se envía los inmuebles, las etapas
+    y lo otorgantes que pertenecen al reparto que se muestra actualmente.
+    Esta vista la puede ejecutar cualquier usuario que haya iniciado sesión"""
+
     model = Reparto
 
     def get_context_data(self, **kwargs):
@@ -79,6 +93,9 @@ class RepartoDetailView(DetailView):
 #ACTOS JURIDICOS
 @method_decorator(login_required, name='dispatch')
 class ActoCreateView(CheckAdmRepEscMixin, CreateView):
+    """Gestiona el formulario para crear actos jurídicos. Esta vista solo la puede ejecutar
+    unb usuario que pertenezca al grupo administrador, reparto y escrituracion. La restricción
+    la gestiona la CheckAdmRepEscMixin."""
 
     model = ActoJuridico
     form_class = ActoCreateForm
