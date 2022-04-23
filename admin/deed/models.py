@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 
 class ActoJuridico(models.Model):
-    """Gestiona los actos jurídicos relacionados con los direntes trámites"""
+    """Gestiona los actos jurídicos relacionados con los diferentes trámites"""
 
     nombre_acto = models.CharField(max_length=100, unique=True, verbose_name='Acto Jurídico')
 

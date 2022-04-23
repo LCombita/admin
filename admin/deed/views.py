@@ -107,7 +107,10 @@ class ActoCreateView(CheckAdmRepEscMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class ActoUpdateView(CheckAdmRepEscMixin, UpdateView):
-    """Gestiona el formulario para actualizar los datos del modelo ActoJuridico"""
+    """Gestiona el formulario para actualizar los datos del modelo ActoJuridico.
+    Esta vista solo la ejecutan los usuarios que pertenecen a los grupos administrador, reparto
+    y escrituracion, esta restricción la controla la CheckAdmRepEscMixin."""
+
     model = ActoJuridico
     form_class = ActoUpdateForm
     template_name = 'deed/acto_update_form.html'
@@ -118,12 +121,17 @@ class ActoUpdateView(CheckAdmRepEscMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')    
 class ActoListView(CheckAdmRepEscMixin, ListView):
-    """Gestiona la lista de actos jurídicos"""
+    """Gestiona la lista de actos jurídicos. Esta solo la pueden ejectuar los usuarios de los grupos 
+    administrador, reparto y escrituracion. La restricción la controla la CheckAdmRepEscMixin."""
     model=ActoJuridico
 
 
 @method_decorator(login_required, name='dispatch')
 class ActoDeleteView(CheckAdmRepEscMixin, DeleteView):
+    """Gestiona la eliminación de un acto jurídico, recibiendo un parámetro por la url
+    con el id del acto a eliminar. Esta vista solo la pueden ejecutar los usuarios de los grupos
+    administrador, reparto y escrituracion. La restricción la controla la CheckAdmRepEscMixin."""
+
     model = ActoJuridico
     success_url = reverse_lazy('deed:acto-list')
 
@@ -131,6 +139,11 @@ class ActoDeleteView(CheckAdmRepEscMixin, DeleteView):
 #IMUEBLES
 @method_decorator(login_required, name='dispatch')
 class RepartoInmuebleEditView(CheckAdmRepEscMixin, SingleObjectMixin, FormView):
+    """Gestiona creación, actualización y eliminación de inmuebles asociados a un reparto
+    específico. Se modifican los metodos get y post para capturar el reparto que se maneja 
+    en el momento, con este se hace el filtro opara añadir los inmuebles utilizando un
+    inlineformset. La vista la pueden ejecutar solo los usuarios de los grupos administrador,
+    reparto y escrituracion, la restricción la controla la CheckAdmRepEscMixin."""
 
     model = Reparto
     template_name = 'deed/reparto_inmueble_edit.html'
@@ -161,6 +174,13 @@ class RepartoInmuebleEditView(CheckAdmRepEscMixin, SingleObjectMixin, FormView):
 #OTORGANTES
 @method_decorator(login_required, name='dispatch')
 class RepartoOtorganteEditView(CheckAdmRepEscFacMixin, SingleObjectMixin, FormView):
+    """Gestiona creación, actualización y eliminación de otorgantes asociados a un reparto
+    específico. Se modifican los metodos get y post para capturar el reparto que se maneja 
+    en el momento, con este se hace el filtro opara gestionar la información relacionada entre
+    el reparto y los otorgartes que intervienen en el proceso, para esto se utiliza un
+    inlineformset. La vista la pueden ejecutar solo los usuarios de los grupos administrador,
+    reparto, escrituracion y facturación, la restricción la controla la CheckAdmRepEscMixin."""
+
 
     model = Reparto
     template_name = 'deed/reparto_otorgante_edit.html'
@@ -197,6 +217,13 @@ class RepartoOtorganteEditView(CheckAdmRepEscFacMixin, SingleObjectMixin, FormVi
 #CONFIGURACIÓN DE ETAPAS
 @method_decorator(login_required, name='dispatch')
 class RepartoEtapasEditView(CheckAdmRepMixin, SingleObjectMixin, FormView):
+    """Gestiona creación, actualización y eliminación de etapas (modelo RepartoEtapa) asociados
+    a un reparto específico. Aunque este modelo se gestiona automáticamente con una seña, esta vista
+    da la posibilidad de hacer algunos cambios en cuanto a eliminar etapas, cambiar el orden o agregar otras.
+    Se filtra con el reparto actual para gestionar la información relacionada entre
+    el reparto y las etapas (a través del modelo RepartoEtapa) que intervienen en el proceso,
+    para esto se utiliza un inlineformset. La vista la pueden ejecutar solo los usuarios de los
+    grupos administrador y reparto, la restricción la controla la CheckAdmRepMixin."""
 
     model = Reparto
     template_name = 'deed/reparto_etapas_edit.html'
