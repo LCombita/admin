@@ -13,22 +13,29 @@ from .mixin import CheckAdmRepMixin, CheckAdmRepEscAutMixin
 """El login es gestionado por el sistema de autenticación predeterminado de django, para esta
 funcionalidad solo se le pasó el template 'registration/login.html'. Para el logout, tambien se utiliza
 el  predeterminado de django, en este caso solo se pasa la url 'logout' en el template base 'base.html'"""
-#TODO: pendiente el control de acceso a las vistas para los usuarios que no tengan permisos
+
 class HomePageView(TemplateView):
-    """procesa el template 'registration/home.html' que representa el inicio del proyecto AdmIN"""
+    """Gestiona el template 'registration/home.html' que representa el inicio del proyecto AdmIN"""
+
     template_name = 'registration/home.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class NoPermisoPageView(TemplateView):
+    """Gestiona el template 'registration/no_permiso.html' para redireccionar a los usuarios que
+    intentan ejecutar una vista a la que no tienen permiso."""
+
     template_name = 'registration/no_permiso.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class CreateGrantorView(CheckAdmRepEscAutMixin, CreateView):
     """Gestiona el formulario para crear el otorgante.
-    El métoro get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
-    ya que se está estendiento el formulario UserCreationForm predeterminado de django"""
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador, reparto,
+    escrituracion y autenticaciones."""
+
     model = Grantor
     form_class = CreateGrantorForm
     template_name = 'registration/create_grantor_form.html'
@@ -60,6 +67,12 @@ class CreateGrantorView(CheckAdmRepEscAutMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateGrantorView(CheckAdmRepEscAutMixin, UpdateView):
+    """Gestiona el formulario para actualizar los datos del otorgante.
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador, reparto,
+    escrituracion y autenticaciones."""
+
     model = Grantor
     form_class = UpdateGrantorForm 
     template_name = 'registration/update_grantor_form.html'
@@ -89,15 +102,24 @@ class UpdateGrantorView(CheckAdmRepEscAutMixin, UpdateView):
 
 @method_decorator(login_required, name='dispatch')
 class DataGrantorView(CheckAdmRepEscAutMixin, UpdateView):
+    """Gestiona el formulario para actualizar los datos complementarios del otorgante. Al crear un 
+    otorgante, automáticamente se crea una instancia del modelo DataGrantor, en el cual se almacena
+    la información complementaria de los otorgantes. La vista solo la pueden ejecutar los usuarios que
+    pertenecen al grupo administrador, reparto, escrituracion y autenticaciones."""    
+
     model = DataGrantor
     form_class = DataGrantorForm
     template_name = 'registration/datagrantor_form.html'
-    success_url = reverse_lazy('registration:grantor-list') #TODO: revisar a donde debe redireccionar este
+    success_url = reverse_lazy('registration:grantor-list')
 
 
 #TODO: pendiente agregas las otras columnas al template
 @method_decorator(login_required, name='dispatch')
 class GrantorListView(CheckAdmRepEscAutMixin, ListView):
+    """Gestiona una lista de los usuarios que pertenecen al grupo otorgante, utilizando el template
+    grantor_list.html. La vista solo la pueden ejecutar los usuarios que pertenecen al grupo
+    administrador, reparto, escrituracion y autenticaciones."""
+    
     model = Grantor
     
     def get_queryset(self):
@@ -110,6 +132,11 @@ class GrantorListView(CheckAdmRepEscAutMixin, ListView):
 #TRAMITADORES
 @method_decorator(login_required, name='dispatch')
 class CreateTramitadorView(CheckAdmRepEscAutMixin, CreateView):
+    """Gestiona el formulario para crear tramitadores.
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador, reparto,
+    escrituracion y autenticaciones."""
 
     model = Tramitador
     form_class = CreateTramitadorForm
@@ -142,6 +169,10 @@ class CreateTramitadorView(CheckAdmRepEscAutMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class TramitadorListView(CheckAdmRepEscAutMixin, ListView):
+    """Gestiona una lista de los usuarios que pertenecen al grupo tramitador, utilizando el template
+    tramitador_list.html. La vista solo la pueden ejecutar los usuarios que pertenecen al grupo
+    administrador, reparto, escrituracion y autenticaciones."""
+
     model = Tramitador
     
     def get_queryset(self):
@@ -152,6 +183,12 @@ class TramitadorListView(CheckAdmRepEscAutMixin, ListView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateTramitadorView(CheckAdmRepEscAutMixin, UpdateView):
+    """Gestiona el formulario para actualizar los datos del tramitador.
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador, reparto,
+    escrituracion y autenticaciones."""
+
     model = Tramitador
     form_class = UpdateTramitadorForm 
     template_name = 'registration/update_tramitador_form.html'
@@ -182,6 +219,10 @@ class UpdateTramitadorView(CheckAdmRepEscAutMixin, UpdateView):
 #ASISTENTES DE ESCRITURACION
 @method_decorator(login_required, name='dispatch')
 class CreateEscrituracionView(CheckAdmRepMixin, CreateView):
+    """Gestiona el formulario para crear asistentes de escrituración.
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador y reparto."""
 
     model = Escrituracion
     form_class = CreateEscrituracionForm
@@ -214,6 +255,10 @@ class CreateEscrituracionView(CheckAdmRepMixin, CreateView):
 
 @method_decorator(login_required, name='dispatch')
 class EscrituracionListView(CheckAdmRepMixin, ListView):
+    """Gestiona una lista de los usuarios que pertenecen al grupo escrituracion, utilizando el template
+    escrituracion_list.html. La vista solo la pueden ejecutar los usuarios que pertenecen al grupo
+    administrador y reparto."""
+
     model = Escrituracion
     
     def get_queryset(self):
@@ -224,6 +269,11 @@ class EscrituracionListView(CheckAdmRepMixin, ListView):
 
 @method_decorator(login_required, name='dispatch')
 class UpdateEscrituracionView(CheckAdmRepMixin, UpdateView):
+    """Gestiona el formulario para actualizar los datos de un usuario del escrituracion.
+    El método get_form modifica el formulario en tiempo de ejecución para no perder las validadicones
+    ya que se está extendiendo el formulario UserCreationForm predeterminado de django. La vista
+    solo la pueden ejecutar los usuarios que pertenecen al grupo administrador y reparto."""
+
     model = Escrituracion
     form_class = UpdateEscrituracionForm 
     template_name = 'registration/update_escrituracion_form.html'
