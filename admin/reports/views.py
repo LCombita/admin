@@ -8,9 +8,20 @@ from registration.models import Grantor, Escrituracion
 from registration.mixin import CheckTraMixin, CheckAdmRepMixin, CheckAdmRepEscJurFinFacTraMixin
 
 
+"""Las lineas @method_decorator(login_required, name='dispatch'), se utlizan para que vista
+solo sea gestionada por un usuario que haya iniciado sesión en el sistema.
+Las clases *Mixin se heredan para controlar que la vista la pueda ejecutar un usuario 
+que pertenece a un grupo específico."""
+
+
 @method_decorator(login_required, name='dispatch')
 class ReportRepartosXOtorganteView(CheckAdmRepEscJurFinFacTraMixin, TemplateView):
-    
+    """Gestiona el reporte repartos por otorgante. Se modifica el metodo post para capturar
+    el número de identificación introducido para buscar los repartos asociados a este y
+    enviarlos como contexto al template dispuesto para ello. La vista la pueden ejecutar los usuarios
+    que pertenecen a los grupos administrador, reparto, escrituracion, juridica, finalizacion,
+    facturación, y tramitador."""
+
     template_name = 'reports/repartos_x_otorgante.html'
 
     def post(self, request, *args, **kwargs):
@@ -32,7 +43,11 @@ class ReportRepartosXOtorganteView(CheckAdmRepEscJurFinFacTraMixin, TemplateView
 
 @method_decorator(login_required, name='dispatch')
 class ReportRepartoTramitadorListView(CheckTraMixin, ListView):
-    """Gestiona la lista de hojas de ruta"""
+    """Gestiona el reporte repartos por tramitador. Se modifica el metodo get_queryset para
+    filtrar los repartos asociados al tramitador logueado en el sistema y enviarlos como
+    contexto al template dispuesto para ello. La vista la pueden ejecutar los usuarios
+    que pertenecen al grupo tramitador."""
+
     model=Reparto
     template_name = 'reports/repartos_x_tramitador.html'
 
@@ -46,6 +61,11 @@ class ReportRepartoTramitadorListView(CheckTraMixin, ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ReportRepartosXAsistenteEscrituracionView(CheckAdmRepMixin, TemplateView):
+    """Gestiona un reporte que muestra la cantidad de repartos por asistente de escrituración,
+    el reporte muestra los datos agrupados por asistente con la respectiva cantidad de repartos
+    asociados. Se modifica el metodo get_context_data paracrear el filtro que prepara los datos
+    y se envía como contexto al template dispuesto para ello. La vista la solo la pueden ejecutar
+    los usuarios de los grupos administrador y reparto."""
     
     template_name = 'reports/repartos_x_asistente.html'
 

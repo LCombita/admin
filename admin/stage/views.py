@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic.detail import SingleObjectMixin
 from .models import Etapa, RepartoEtapa, ObservacionEtapa, Revision, Impuesto
 from registration.models import User
+from registration.mixin import CheckAdmRepMixin, CheckEscFacJurFinMixin
 from .forms import EtapaCreateForm, EtapaUpdateForm, RepartoEtapaUpdateForm
 from .forms import RevisionInlineFormSet, ImpuestoInlineFormSet, RepartoEtapaObservacionesForm
 from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView, TemplateView
@@ -13,22 +14,17 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 
-class CheckUserAdmRepMixin(object):
-    def dispatch(self, request, *args, **kwargs):
-        grps = ['administrador', 'reparto']
-        if user_in_groups(self.request.user, grps):
-            return super(CheckUserAdmRepMixin, self).dispatch(request, *args, **kwargs)
-        return redirect(reverse_lazy('registration:no-permiso'))
+"""Las lineas @method_decorator(login_required, name='dispatch'), se utlizan para que vista
+solo sea gestionada por un usuario que haya iniciado sesión en el sistema.
+Las clases *Mixin se heredan para controlar que la vista la pueda ejecutar un usuario 
+que pertenece a un grupo específico."""
 
-class CheckUserEscFacJurFinMixin(object):
-    def dispatch(self, request, *args, **kwargs):
-        grps = ['escrituracion', 'facturacion', 'juridica', 'finalizacion']
-        if user_in_groups(self.request.user, grps):
-            return super(CheckUserEscFacJurFinMixin, self).dispatch(request, *args, **kwargs)
-        return redirect(reverse_lazy('registration:no-permiso'))
 
 @method_decorator(login_required, name='dispatch')
-class EtapaCreateView(CheckUserAdmRepMixin, CreateView):
+class EtapaCreateView(CheckAdmRepMixin, CreateView):
+    """Gestiona el formulario para crear etapas. La vista solo la pueden ejecutar los usuarios
+    que pertenecen a los grupos administrador y reparto. La restrección la controla la CheckAdmRepMixin."""
+
     model = Etapa
     form_class = EtapaCreateForm
     template_name = 'stage/etapa_create_form.html'
@@ -36,19 +32,30 @@ class EtapaCreateView(CheckUserAdmRepMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy('stage:etapa-list')
 
+
 @method_decorator(login_required, name='dispatch')
-class EtapaListView(CheckUserAdmRepMixin, ListView):
-    """Gestiona la lista proyectos"""
+class EtapaListView(CheckAdmRepMixin, ListView):
+    """Gestiona la lista de las etapas registradas en el sistema, empleando para ello el template
+    etapa_list.html. La vista solo la pueden ejecutar los usuarios que pertenecen a los grupos
+    administrador y reparto. La restrección la controla la CheckAdmRepMixin."""
+    
     model=Etapa
 
 @method_decorator(login_required, name='dispatch')
-class EtapaDeleteView(CheckUserAdmRepMixin, DeleteView):
+class EtapaDeleteView(CheckAdmRepMixin, DeleteView):
+    """Gestiona la eliminación de una etapa, empleando el template etapa_confirm_delete.html 
+    para la confirmación de la eliminación de la etapa. La vista solo pueden ejecutar los usuarios
+    que pertenecen a los grupos administrador y reparto. La restrección la controla la CheckAdmRepMixin."""
+    
     model = Etapa
     success_url = reverse_lazy('stage:etapa-list')
 
 @method_decorator(login_required, name='dispatch')
-class EtapaUpdateView(CheckUserAdmRepMixin, UpdateView):
-    """Gestiona el formulario para actualizar los datos del modelo cliente"""
+class EtapaUpdateView(CheckAdmRepMixin, UpdateView):
+    """Gestiona el formulario para actualizar los datos de las etapas. La vista solo la
+    pueden ejecutar los usuarios que pertenecen a los grupos administrador y reparto.
+    La restrección la controla la CheckAdmRepMixin."""
+
     model = Etapa
     form_class = EtapaUpdateForm
     template_name = 'stage/etapa_update_form.html'
@@ -59,7 +66,7 @@ class EtapaUpdateView(CheckUserAdmRepMixin, UpdateView):
 
 #REPARTO ETAPA
 @method_decorator(login_required, name='dispatch')
-class RepartoEtapaUpdateView(CheckUserEscFacJurFinMixin, UpdateView):
+class RepartoEtapaUpdateView(CheckEscFacJurFinMixin, UpdateView):
     model = RepartoEtapa
     form_class = RepartoEtapaUpdateForm
     template_name = 'stage/reparto-etapa_update_form.html'
@@ -89,7 +96,7 @@ class RepartoEtapaDetailView(DetailView):
 
 #OBSERVACIONES REPARTO ETAPAS
 @method_decorator(login_required, name='dispatch')
-class ObservacionCreateView(CheckUserEscFacJurFinMixin, TemplateView):
+class ObservacionCreateView(CheckEscFacJurFinMixin, TemplateView):
     """Esta vista controla la creación de observaciones desde RepartoEtapaUdate.
     Recibe por url el codigo del RepartoEtapa que se está editanto para crear la observación
     y el usuario que ha iniciado sesión"""
@@ -239,9 +246,3 @@ class ImpuestoRepartoEtapaEditView(SingleObjectMixin, FormView):
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
 
-#FUNCIONES GENERALES
-def user_in_groups(user, list_groups):
-    """Validar sin un usuario pertenece a uno o más grupos, con el fin
-    de establecer restricciones con respecto a los permisos de cada grupo"""
-    
-    return True if user.groups.filter(name__in=list_groups) else False

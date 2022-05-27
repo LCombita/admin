@@ -37,7 +37,6 @@ class CheckAdmRepEscFacMixin(object):
         return redirect(reverse_lazy('registration:no-permiso'))
 
 
-
 class CheckAdmRepMixin(object):
     def dispatch(self, request, *args, **kwargs):
         grps = [
@@ -76,6 +75,18 @@ class CheckFacMixin(object):
             'facturacion']
         if user_in_groups(self.request.user, grps):
             return super(CheckFacMixin, self).dispatch(request, *args, **kwargs)
+        return redirect(reverse_lazy('registration:no-permiso'))
+
+
+class CheckEscFacJurFinMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        grps = [
+            'escrituracion',
+            'juridica',
+            'finalizacion',
+            'facturacion']
+        if user_in_groups(self.request.user, grps):
+            return super(CheckEscFacJurFinMixin, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
 
