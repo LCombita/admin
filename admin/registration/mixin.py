@@ -33,7 +33,7 @@ class CheckAdmRepEscFacMixin(object):
             'escrituracion',
             'facturacion']
         if user_in_groups(self.request.user, grps):
-            return super(CheckAdmRepEscMixin, self).dispatch(request, *args, **kwargs)
+            return super(CheckAdmRepEscFacMixin, self).dispatch(request, *args, **kwargs)
         return redirect(reverse_lazy('registration:no-permiso'))
 
 

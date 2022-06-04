@@ -246,3 +246,9 @@ class ImpuestoRepartoEtapaEditView(SingleObjectMixin, FormView):
     def get_success_url(self):
         return reverse_lazy('stage:repartoetapa-update', args=[self.object.id])
 
+#FUNCIONES GENERALES
+def user_in_groups(user, list_groups):
+    """Validar sin un usuario pertenece a uno o más grupos, con el fin
+    de establecer restricciones con respecto a los permisos de cada grupo"""
+    
+    return True if user.groups.filter(name__in=list_groups) else False

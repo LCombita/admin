@@ -20,9 +20,9 @@ Las clases *Mixin, se heredan para controlar que la vista la pueda ejecutar un u
 que pertenece a un grupo específico."""
 
 @method_decorator(login_required, name='dispatch')
-class RepartoUpdateView(CheckAdmRepEscMixin, UpdateView):
+class RepartoUpdateView(CheckAdmRepEscFacMixin, UpdateView):
     """Gestiona el formulario para actualizar los datos del modelo reparto. Esta vista
-    solo la pueden ejecutar los usuarios de los grupos administrador, reparto y escrituracion, la 
+    solo la pueden ejecutar los usuarios de los grupos administrador, facturacion, reparto y escrituracion, la 
     restricción la controla la CheckAdmRepEscMixin."""
 
     model = Reparto
